@@ -21,14 +21,20 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout'],
+                'only' => ['logout', 'register'],
                 'rules' => [
                     [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['register'],
+                        'allow' => true,
+                        'matchCallback' => fn() => (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin)
+                    ],
                 ],
+                // 'denyCallback' => fn() => Yii::$app->response->redirect('/'),
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
@@ -133,7 +139,7 @@ class SiteController extends Controller
 
     if ($model->load(Yii::$app->request->post())) {
         if ($user = $model->register()) {
-            
+
             if (Yii::$app->user->login($user, 3600)) {
                 Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались');
                 return $this->goHome();
