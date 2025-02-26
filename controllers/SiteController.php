@@ -13,6 +13,7 @@ use app\models\User;
 
 class SiteController extends Controller
 {
+    public $layout = 'valex';
     /**
      * {@inheritdoc}
      */
