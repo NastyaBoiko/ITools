@@ -29,6 +29,7 @@ class ValexAsset extends AssetBundle
         "/valex/assets/libs/choices.js/public/assets/styles/choices.min.css",
         "/valex/assets/libs/jsvectormap/css/jsvectormap.min.css",
         "/valex/assets/icon-fonts/feather/feather.css",
+        "/css/valex.css",
     ];
     public $js = [
         // "https://kit.fontawesome.com/0cec92e36b.js",

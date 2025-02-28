@@ -9,7 +9,7 @@ use yii\bootstrap5\ActiveForm;
 ?>
 <h2 class="my-3">Регистрация нового пользователя</h2>
 
-<div class="site-register col-lg-5">
+<div class="site-register col-8">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -21,7 +21,7 @@ use yii\bootstrap5\ActiveForm;
         <?= $form->field($model, 'phone') ?>
     
         <div class="form-group">
-            <?= Html::submitButton('Зарегистрировать', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Зарегистрировать', ['class' => 'btn btn-outline-primary rounded-pill btn-wave']) ?>
         </div>
     <?php ActiveForm::end(); ?>
 
