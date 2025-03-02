@@ -79,8 +79,10 @@ class ToolController extends Controller
         $projects = Project::getEntities();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -105,12 +107,19 @@ class ToolController extends Controller
     {
         $model = $this->findModel($id);
 
+        $categories = Category::getEntities();
+        $locations = Location::getEntities();
+        $projects = Project::getEntities();
+
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'categories' => $categories,
+            'locations' => $locations,
+            'projects' => $projects,
         ]);
     }
 

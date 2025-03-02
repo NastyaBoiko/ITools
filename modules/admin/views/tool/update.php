@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Tool $model */
 
-$this->title = 'Update Tool: ' . $model->title;
+$this->title = 'Изменение инструмента: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Tools', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -16,6 +16,9 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'categories' => $categories,
+        'locations' => $locations,
+        'projects' => $projects,
     ]) ?>
 
 </div>
