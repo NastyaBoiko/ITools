@@ -55,6 +55,7 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
+            'defaultRoute' => 'tool',
         ],
     ],
     'params' => $params,

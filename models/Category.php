@@ -56,4 +56,13 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tool::class, ['category_id' => 'id']);
     }
+
+    public static function getEntities()
+    {
+        return self::find()
+                ->select('title')
+                ->indexBy('id')
+                ->column()
+                ;
+    }
 }

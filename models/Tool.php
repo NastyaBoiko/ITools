@@ -16,6 +16,7 @@ use Yii;
  * @property int $min_amount Для уведомлений, что нужно докупить
  * @property string $serial_number
  * @property int $location_id
+ * @property string|null $cell
  * @property int|null $project_id
  * @property string|null $inventory_time
  * @property int $delete_status 0 - не удален, 1 - удален
@@ -48,7 +49,7 @@ class Tool extends \yii\db\ActiveRecord
             [['created_at', 'updated_at', 'inventory_time'], 'safe'],
             [['title', 'category_id', 'amount', 'min_amount', 'serial_number', 'location_id'], 'required'],
             [['category_id', 'amount', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
-            [['title', 'serial_number', 'qr'], 'string', 'max' => 255],
+            [['title', 'serial_number', 'cell', 'qr'], 'string', 'max' => 255],
             [['title'], 'unique'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
@@ -62,19 +63,20 @@ class Tool extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'title' => 'Title',
-            'category_id' => 'Category ID',
-            'amount' => 'Amount',
-            'min_amount' => 'Min Amount',
-            'serial_number' => 'Serial Number',
-            'location_id' => 'Location ID',
-            'project_id' => 'Project ID',
-            'inventory_time' => 'Inventory Time',
+            'id' => 'Номер',
+            'created_at' => 'Дата и время создания',
+            'updated_at' => 'Дата последнего изменения',
+            'title' => 'Название',
+            'category_id' => 'Категория',
+            'amount' => 'Количество',
+            'min_amount' => 'Минимально необходимое количество',
+            'serial_number' => 'Серийный номер',
+            'location_id' => 'Месторасположение',
+            'cell' => 'Полка или ячейка',
+            'project_id' => 'Проект',
+            'inventory_time' => 'Дата и время инвентаризации',
             'delete_status' => 'Delete Status',
-            'qr' => 'Qr',
+            'qr' => 'Qr-код',
         ];
     }
 

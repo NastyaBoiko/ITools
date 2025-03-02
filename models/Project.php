@@ -67,4 +67,13 @@ class Project extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tool::class, ['project_id' => 'id']);
     }
+
+    public static function getEntities()
+    {
+        return self::find()
+                ->select('title')
+                ->indexBy('id')
+                ->column()
+                ;
+    }
 }

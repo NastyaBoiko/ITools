@@ -32,7 +32,8 @@ class ValexAsset extends AssetBundle
         "/css/valex.css",
     ];
     public $js = [
-        // "https://kit.fontawesome.com/0cec92e36b.js",
+        // font awesome
+        "https://kit.fontawesome.com/0cec92e36b.js",
         // <!-- Choices JS -->
         "/valex/assets/libs/choices.js/public/assets/scripts/choices.min.js",
         // <!-- Main Theme Js -->
