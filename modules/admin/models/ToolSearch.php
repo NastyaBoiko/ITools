@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use app\models\Tool;
 
 /**
- * ToolSearch represents the model behind the search form of `app\models\Tool`.
+ * Tool2Search represents the model behind the search form of `app\models\Tool`.
  */
 class ToolSearch extends Tool
 {
@@ -17,8 +17,9 @@ class ToolSearch extends Tool
     public function rules()
     {
         return [
-            [['id', 'category_id', 'amount', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
-            [['created_at', 'updated_at', 'title', 'serial_number', 'cell', 'inventory_time', 'qr'], 'safe'],
+            [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
+            [['created_at', 'updated_at', 'cell', 'inventory_time', 'qr'], 'safe'],
+            [['diameter', 'full_length', 'work_length'], 'number'],
         ];
     }
 
@@ -46,6 +47,14 @@ class ToolSearch extends Tool
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 8,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC, 
+                ]
+            ],
         ]);
 
         $this->load($params);
@@ -61,8 +70,12 @@ class ToolSearch extends Tool
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'tool_maker_id' => $this->tool_maker_id,
             'category_id' => $this->category_id,
-            'amount' => $this->amount,
+            'diameter' => $this->diameter,
+            'full_length' => $this->full_length,
+            'work_length' => $this->work_length,
+            'material_made_of_id' => $this->material_made_of_id,
             'min_amount' => $this->min_amount,
             'location_id' => $this->location_id,
             'project_id' => $this->project_id,
@@ -70,9 +83,7 @@ class ToolSearch extends Tool
             'delete_status' => $this->delete_status,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'serial_number', $this->serial_number])
-            ->andFilterWhere(['like', 'cell', $this->cell])
+        $query->andFilterWhere(['like', 'cell', $this->cell])
             ->andFilterWhere(['like', 'qr', $this->qr]);
 
         return $dataProvider;

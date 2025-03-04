@@ -11,24 +11,31 @@ use Yii;
  * @property string $created_at
  * @property string|null $updated_at
  * @property string $title
+ * @property int $tool_maker_id
  * @property int $category_id
  * @property int $amount
  * @property int $min_amount Для уведомлений, что нужно докупить
  * @property string $serial_number
+ * @property float $diameter
+ * @property float $full_length
+ * @property float $work_length
+ * @property int $material_made_of_id
+ * @property int|null $min_amount Для уведомлений, что нужно докупить
  * @property int $location_id
  * @property string|null $cell
  * @property int|null $project_id
- * @property string|null $inventory_time
- * @property int $delete_status 0 - не удален, 1 - удален
- * @property string|null $qr
+     
  *
  * @property Category $category
  * @property Location $location
+ * @property MaterialMadeOf $materialMadeOf 
  * @property Order[] $orders
  * @property Project $project
  * @property ToolComment[] $toolComments
  * @property ToolHistory[] $toolHistories
  * @property ToolImage[] $toolImages
+ * @property ToolMaker $toolMaker 
+ * @property ToolMaterialUseFor[] $toolMaterialUseFors 
  */
 class Tool extends \yii\db\ActiveRecord
 {
@@ -50,15 +57,20 @@ class Tool extends \yii\db\ActiveRecord
     {
         return [
             [['created_at', 'updated_at', 'inventory_time'], 'safe'],
-            [['title', 'category_id', 'amount', 'serial_number', 'location_id'], 'required'],
-            [['category_id', 'amount', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
-            [['title', 'serial_number', 'cell', 'qr'], 'string', 'max' => 255],
-            [['title'], 'unique'],
+            [['category_id', 'location_id'], 'required'],
+            [['category_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
+            [['cell', 'qr'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
-
+ 
+            [['tool_maker_id', 'category_id', 'diameter', 'full_length', 'work_length', 'material_made_of_id', 'location_id'], 'required'],
+            [['tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
+            [['diameter', 'full_length', 'work_length'], 'number'],
+            [['cell', 'qr'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
+            [['material_made_of_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialMadeOf::class, 'targetAttribute' => ['material_made_of_id' => 'id']], 
+            [['tool_maker_id'], 'exist', 'skipOnError' => true, 'targetClass' => ToolMaker::class, 'targetAttribute' => ['tool_maker_id' => 'id']], 
         ];
     }
 
@@ -71,11 +83,13 @@ class Tool extends \yii\db\ActiveRecord
             'id' => 'Номер',
             'created_at' => 'Дата и время создания',
             'updated_at' => 'Дата последнего изменения',
-            'title' => 'Название',
+            'tool_maker_id' => 'Производитель',
             'category_id' => 'Категория',
-            'amount' => 'Количество',
+            'diameter' => 'Диаметр',
+            'full_length' => 'Общая длина',
+            'work_length' => 'Рабочая длина',
+            'material_made_of_id' => 'Материал из чего',
             'min_amount' => 'Минимально необходимое количество',
-            'serial_number' => 'Серийный номер',
             'location_id' => 'Месторасположение',
             'cell' => 'Полка или ячейка',
             'project_id' => 'Проект',
@@ -95,6 +109,31 @@ class Tool extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
+
+    /** 
+    * Gets query for [[MaterialMadeOf]]. 
+    * 
+    * @return \yii\db\ActiveQuery 
+    */ 
+    public function getMaterialMadeOf() 
+    { 
+        return $this->hasOne(MaterialMadeOf::class, ['id' => 'material_made_of_id']); 
+    }
+
+    /**
+    * Gets query for [[ToolMaker]].
+    *
+    * @return \yii\db\ActiveQuery
+    */
+    public function getToolMaker()
+    {
+        return $this->hasOne(ToolMaker::class, ['id' => 'tool_maker_id']);
+	}
+
+    public function getToolMaterialUseFors()
+	{
+        return $this->hasMany(ToolMaterialUseFor::class, ['tool_id' => 'id']);
+	}
 
     /**
      * Gets query for [[Location]].

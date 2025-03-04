@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Tool;
+use yii\bootstrap5\LinkPager;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -22,18 +23,25 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3'],
-        'layout' => "{summary}<div class='row my-3'>\n{items}</div>{pager}",
-        'itemView' => function ($model, $key, $index, $widget) {
-            return $this->render('_item', [
-                'model' => $model,
-            ]);
-        },
-    ]) ?>
+    <div class="row">
+        <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    
+        <div class="col-xl-9 col-lg-8 col-md-12">
+            <?= ListView::widget([
+                'dataProvider' => $dataProvider,
+                'itemOptions' => ['class' => 'col-md-6 col-lg-6 col-xl-4 col-sm-6 mb-3'],
+                'layout' => "{summary}<div class='my-3'></div>{pager}<div class='row my-3'>\n{items}</div>{pager}",
+                'pager' => [
+                    'class' => LinkPager::class,
+                ],
+                'itemView' => function ($model, $key, $index, $widget) {
+                    return $this->render('_item', [
+                        'model' => $model,
+                    ]);
+                },
+            ]) ?>
+        </div>
+    </div>
 
     <?php Pjax::end(); ?>
 

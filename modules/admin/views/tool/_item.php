@@ -37,14 +37,41 @@ use yii\bootstrap5\Html;
     <div class="card custom-card border" style="background-color: #f8f9fa;">
         <div class="card-body p-2">
             <div class="product-info mx-2">
-                <h5 class="product-title mb-1"><?= Html::encode($model->title) ?></h5>
+                <h5 class="product-title mb-1"><?= Html::encode($model->id . '. ' . $model->toolMaker->title) ?></h5>
                 <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
             </div>
             
             <div class="product-info mt-2">
-                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-barcode"></i> Серийный номер: <strong><span class="text-primary"><?= Html::encode($model->serial_number) ?></span></strong></p>
-                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-map-marker-alt"></i> Местоположение: <strong><span class="text-success"><?= Html::encode($model->location->title) ?></span></strong></p>
-                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-project-diagram"></i> Проект: <strong><span class="text-warning"><?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong></p>
+                <p class="product-description mb-1 bg-light p-2 rounded">
+                    <i class="fas fa-cogs"></i> 
+                    Из какого материала: <strong><span class="text-primary">
+                        <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
+                </p>
+                <p class="product-description mb-1 bg-light p-2 rounded">
+                    <i class="fas fa-ruler-combined"></i> 
+                    Диаметр: <strong><span class="text-primary">
+                        <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
+                </p>
+                <p class="product-description mb-1 bg-light p-2 rounded">
+                    <i class="fas fa-ruler-horizontal"></i> 
+                    Рабочая длина: <strong><span class="text-primary">
+                        <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
+                </p>
+                <p class="product-description mb-1 bg-light p-2 rounded">
+                    <i class="fas fa-map-marker-alt"></i> 
+                    Местоположение: <strong><span class="text-success">
+                        <?= Html::encode($model->location->title) ?></span></strong>
+                </p>
+                <p class="product-description mb-1 bg-light p-2 rounded">
+                    <i class="fas fa-th"></i> 
+                    Ячейка: <strong><span class="text-danger">
+                        <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
+                </p>
+                <p class="product-description mb-1 bg-light p-2 rounded">
+                    <i class="fas fa-folder-open"></i> 
+                    Проект: <strong><span class="text-warning">
+                        <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
+                </p>
             </div>
             <?php if ($model->inventory_time): ?>
                 <p class="card-text text-muted mb-2">

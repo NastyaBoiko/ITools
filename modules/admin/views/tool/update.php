@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Tool $model */
 
-$this->title = 'Изменение инструмента: ' . $model->title;
+$this->title = 'Изменение инструмента: ' . $model->toolMaker->title;
 $this->params['breadcrumbs'][] = ['label' => 'Tools', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->toolMaker->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="tool-update">
@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = 'Update';
         'categories' => $categories,
         'locations' => $locations,
         'projects' => $projects,
+        'toolMakers' => $toolMakers,
+        'materialsMadeOf' => $materialsMadeOf,
     ]) ?>
 
 </div>

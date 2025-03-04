@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\Tool $model */
 
-$this->title = $model->title;
+$this->title = $model->id . '. ' . $model->toolMaker->title;
 $this->params['breadcrumbs'][] = ['label' => 'Tools', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -26,11 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'created_at',
             'updated_at',
-            'title',
+            'tool_maker_id',
             'category_id',
-            'amount',
+            'diameter',
+            'full_length',
+            'work_length',
+            'material_made_of_id',
             'min_amount',
-            'serial_number',
             'location_id',
             'cell',
             'project_id',
@@ -71,14 +73,55 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         <?php endif ?>
                         <div class="details col-xl-7 col-lg-12 col-md-12 mt-3 mt-xl-0">
-                            <h5 class="product-title mb-1"><?= Html::encode($model->title) ?></h5>
+                            <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
                             <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
                             
                             <div class="product-info mt-2">
-                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-barcode"></i> Серийный номер: <strong><span class="text-primary"><?= Html::encode($model->serial_number) ?></span></strong></p>
-                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-map-marker-alt"></i> Местоположение: <strong><span class="text-success"><?= Html::encode($model->location->title) ?></span></strong></p>
-                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-project-diagram"></i> Проект: <strong><span class="text-warning"><?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong></p>
-                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-cube"></i> Ячейка: <strong><span class="text-danger"><?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong></p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-cogs"></i> 
+                                    Из какого материала: <strong><span class="text-primary">
+                                        <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-ruler-combined"></i> 
+                                    Диаметр: <strong><span class="text-primary">
+                                        <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-ruler"></i> 
+                                    Общая длина: <strong><span class="text-primary">
+                                        <?= Html::encode($model->full_length) . ' мм' ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-ruler-horizontal"></i> 
+                                    Рабочая длина: <strong><span class="text-primary">
+                                        <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-map-marker-alt"></i> 
+                                    Местоположение: <strong><span class="text-success">
+                                        <?= Html::encode($model->location->title) ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-th"></i> 
+                                    Ячейка: <strong><span class="text-danger">
+                                        <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-folder-open"></i> 
+                                    Проект: <strong><span class="text-warning">
+                                        <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-sort-numeric-up"></i> 
+                                    Минимально необходимое количество: <strong><span class="text-danger">
+                                        <?= Html::encode($model->min_amount) ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-calendar-alt"></i> 
+                                    Дата и время инвентаризации: <strong><span class="text-danger">
+                                        <?= Html::encode($model->inventory_time == '' ? 'Не указана' : $model->inventory_time) ?></span></strong>
+                                </p>
                             </div>
 
                             <div class="action mt-3">

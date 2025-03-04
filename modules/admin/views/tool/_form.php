@@ -12,13 +12,17 @@ use yii\bootstrap5\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'tool_maker_id')->dropdownList($toolMakers, ['prompt' => 'Выберите производителя']) ?>
 
-    <?= $form->field($model, 'serial_number')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'diameter')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'full_length')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'work_length')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'material_made_of_id')->dropdownList($materialsMadeOf, ['prompt' => 'Выберите материал из чего']) ?>
 
     <?= $form->field($model, 'category_id')->dropdownList($categories, ['prompt' => 'Выберите категорию']) ?>
-
-    <?= $form->field($model, 'amount')->textInput() ?>
 
     <?= $form->field($model, 'min_amount')->textInput() ?>
 

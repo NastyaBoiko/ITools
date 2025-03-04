@@ -4,9 +4,11 @@ namespace app\modules\admin\controllers;
 
 use app\models\Category;
 use app\models\Location;
+use app\models\MaterialMadeOf;
 use app\models\Project;
 use app\models\Tool;
 use app\models\ToolImage;
+use app\models\ToolMaker;
 use app\modules\admin\models\ToolSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -79,6 +81,8 @@ class ToolController extends Controller
         $categories = Category::getEntities();
         $locations = Location::getEntities();
         $projects = Project::getEntities();
+        $toolMakers = ToolMaker::getEntities();
+        $materialsMadeOf = MaterialMadeOf::getEntities();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -97,6 +101,8 @@ class ToolController extends Controller
             'categories' => $categories,
             'locations' => $locations,
             'projects' => $projects,
+            'toolMakers' => $toolMakers,
+            'materialsMadeOf' => $materialsMadeOf,
         ]);
     }
 
@@ -114,6 +120,8 @@ class ToolController extends Controller
         $categories = Category::getEntities();
         $locations = Location::getEntities();
         $projects = Project::getEntities();
+        $toolMakers = ToolMaker::getEntities();
+        $materialsMadeOf = MaterialMadeOf::getEntities();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -131,6 +139,8 @@ class ToolController extends Controller
             'categories' => $categories,
             'locations' => $locations,
             'projects' => $projects,
+            'toolMakers' => $toolMakers,
+            'materialsMadeOf' => $materialsMadeOf,
         ]);
     }
 
