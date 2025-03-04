@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\modules\admin\models\ToolSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Tools';
+$this->title = 'Инструменты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tool-index">
@@ -18,17 +18,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Tool', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать инструмент', ['create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
+        'itemOptions' => ['class' => 'col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3'],
+        'layout' => "{summary}<div class='row my-3'>\n{items}</div>{pager}",
         'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->title), ['view', 'id' => $model->id]);
+            return $this->render('_item', [
+                'model' => $model,
+            ]);
         },
     ]) ?>
 

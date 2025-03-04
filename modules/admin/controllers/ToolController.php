@@ -115,7 +115,14 @@ class ToolController extends Controller
         $locations = Location::getEntities();
         $projects = Project::getEntities();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+
+                if ($model->saveToolData()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
