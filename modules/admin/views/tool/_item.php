@@ -34,22 +34,18 @@ use yii\bootstrap5\Html;
         </div>
     <?php endif ?>
 
-    
-    
-
-    
-
     <div class="card custom-card border" style="background-color: #f8f9fa;">
         <div class="card-body p-2">
-            <h6 class="card-title fw-bold text-primary" style="font-size: 1.2rem;">
-                <i class="fas fa-tag me-2"></i><?= Html::encode($model->title) ?>
-            </h6>
-            <p class="card-text text-muted mb-1">
-                <i class="fas fa-folder me-2"></i>Категория: <span class="text-secondary"><?= Html::encode($model->category->title) ?></span>
-            </p>
-            <p class="card-text fw-bold text-success mb-1">
-                <i class="fas fa-barcode me-2"></i>Серийный номер: <span><?= Html::encode($model->serial_number) ?></span>
-            </p>
+            <div class="product-info mx-2">
+                <h5 class="product-title mb-1"><?= Html::encode($model->title) ?></h5>
+                <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
+            </div>
+            
+            <div class="product-info mt-2">
+                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-barcode"></i> Серийный номер: <strong><span class="text-primary"><?= Html::encode($model->serial_number) ?></span></strong></p>
+                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-map-marker-alt"></i> Местоположение: <strong><span class="text-success"><?= Html::encode($model->location->title) ?></span></strong></p>
+                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-project-diagram"></i> Проект: <strong><span class="text-warning"><?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong></p>
+            </div>
             <?php if ($model->inventory_time): ?>
                 <p class="card-text text-muted mb-2">
                     <i class="fas fa-calendar-alt me-2"></i>Инвентаризация: <span class="text-warning"><?= Html::encode($model->inventory_time) ?></span>

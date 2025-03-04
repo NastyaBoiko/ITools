@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Создать инструмент', ['create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3']) ?>
+        <?= Html::a('<i class="fas fa-plus"></i> Создать инструмент', ['create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

@@ -17,8 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Назад', ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
-
+        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
     </p>
 
     <?php DetailView::widget([
@@ -71,27 +70,23 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
                         <?php endif ?>
-                        <div class="details col-xl-7 col-lg-12 col-md-12 mt-4 mt-xl-0">
+                        <div class="details col-xl-7 col-lg-12 col-md-12 mt-3 mt-xl-0">
                             <h5 class="product-title mb-1"><?= Html::encode($model->title) ?></h5>
-                            <p class="text-muted fs-13 mb-1"><?= Html::encode($model->category->title) ?></p>
-                            <p class="product-description mt-3 mb-1"><strong>Серийный номер:</strong> <?= Html::encode($model->serial_number) ?></p>
-                            <p class="product-description mt-3 mb-1"><strong>Местоположение:</strong> <?= Html::encode($model->location->title) ?></p>
-                            <p class="product-description mt-3 mb-1"><strong>Проект:</strong> <?= Html::encode($model->project?->title ?? 'Без проекта') ?></p>
-                            <p class="product-description mt-3 mb-1"><strong>Ячейка:</strong> <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell ) ?></p>
+                            <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
+                            
+                            <div class="product-info mt-2">
+                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-barcode"></i> Серийный номер: <strong><span class="text-primary"><?= Html::encode($model->serial_number) ?></span></strong></p>
+                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-map-marker-alt"></i> Местоположение: <strong><span class="text-success"><?= Html::encode($model->location->title) ?></span></strong></p>
+                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-project-diagram"></i> Проект: <strong><span class="text-warning"><?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong></p>
+                                <p class="product-description mb-1 bg-light p-2 rounded"><i class="fas fa-cube"></i> Ячейка: <strong><span class="text-danger"><?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong></p>
+                            </div>
 
-                            <!-- <div class="action mt-4">
-                                <a href="wish-list.html" class="add-to-cart btn btn-danger my-1 me-1">ADD TO
-                                WISHLIST</a>
-                                <a href="product-cart.html" class="add-to-cart btn btn-success">ADD TO
-                                CART</a>
-                            </div> -->
-
-                            <div class="action mt-4">
-                                <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light']) ?>
-                                <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+                            <div class="action mt-3">
+                                <?= Html::a('<i class="fas fa-edit"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light']) ?>
+                                <?= Html::a('<i class="fas fa-trash-alt"></i> Удалить', ['delete', 'id' => $model->id], [
                                     'class' => 'btn btn-outline-danger rounded-pill btn-wave waves-effect waves-light',
                                     'data' => [
-                                        'confirm' => 'Are you sure you want to delete this item?',
+                                        'confirm' => 'Вы уверены, что хотите удалить этот элемент?',
                                         'method' => 'post',
                                     ],
                                 ]) ?>

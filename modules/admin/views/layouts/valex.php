@@ -992,7 +992,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                         <li class="slide">
                             <a href="/admin/tool/create" class="side-menu__item d-flex align-items-center">
                                 <div class="side-menu__icon">
-                                    <i class="fas fa-tag"></i>
+                                    <i class="fas fa-plus"></i>
                                 </div>
                                 <span class="side-menu__label text-wrap lh-sm">Создать инструмент</span>
                             </a>
