@@ -32,6 +32,9 @@ use Yii;
  */
 class Tool extends \yii\db\ActiveRecord
 {
+
+    public $imageFiles;
+
     /**
      * {@inheritdoc}
      */
@@ -47,10 +50,12 @@ class Tool extends \yii\db\ActiveRecord
     {
         return [
             [['created_at', 'updated_at', 'inventory_time'], 'safe'],
-            [['title', 'category_id', 'amount', 'min_amount', 'serial_number', 'location_id'], 'required'],
+            [['title', 'category_id', 'amount', 'serial_number', 'location_id'], 'required'],
             [['category_id', 'amount', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
             [['title', 'serial_number', 'cell', 'qr'], 'string', 'max' => 255],
             [['title'], 'unique'],
+            [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
+
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
@@ -77,6 +82,7 @@ class Tool extends \yii\db\ActiveRecord
             'inventory_time' => 'Дата и время инвентаризации',
             'delete_status' => 'Delete Status',
             'qr' => 'Qr-код',
+            'imageFiles' => 'Изображения',
         ];
     }
 
@@ -148,5 +154,45 @@ class Tool extends \yii\db\ActiveRecord
     public function getToolImages()
     {
         return $this->hasMany(ToolImage::class, ['tool_id' => 'id']);
+    }
+
+    public function upload(): array|bool
+    {
+        $uploadFiles = [];
+        if ($this->validate()) { 
+            foreach ($this->imageFiles as $file) {
+                $fileName = 
+                            Yii::$app->user->id . '_' 
+                            .  Yii::$app->security->generateRandomString(7)
+                            . '.' . $file->extension;
+
+                $file->saveAs('uploads/' . $fileName);
+                array_push($uploadFiles, $fileName);
+            }
+            return $uploadFiles;
+        } else {
+            return false;
+        }
+    }
+
+    public function saveToolData() 
+    {
+        if ($imgUrls = $this->upload()) {
+            if ($this->save(false)) {
+                foreach($imgUrls as $imgUrl) {
+                    $toolImage = new ToolImage();
+                    $toolImage->tool_id = $this->id;
+                    $toolImage->image = $imgUrl;
+                    if (!$toolImage->save()) {
+                        return false;
+                    }
+                }
+                return true;
+            } 
+        } else {
+            if ($this->save()) {
+                return true;
+            }
+        }
     }
 }

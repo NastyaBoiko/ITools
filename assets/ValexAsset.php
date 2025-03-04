@@ -32,6 +32,7 @@ class ValexAsset extends AssetBundle
         "/css/valex.css",
     ];
     public $js = [
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
         // font awesome
         "https://kit.fontawesome.com/0cec92e36b.js",
         // <!-- Choices JS -->

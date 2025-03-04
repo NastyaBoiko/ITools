@@ -28,6 +28,8 @@ use yii\bootstrap5\ActiveForm;
 
     <?= $form->field($model, 'project_id')->dropdownList($projects, ['prompt' => 'Выберите проект']) ?>
 
+    <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
+
     <div class="form-group">
         <?= Html::submitButton(($model->id ? 'Изменить' : 'Создать'), ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
     </div>

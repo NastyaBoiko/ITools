@@ -6,10 +6,12 @@ use app\models\Category;
 use app\models\Location;
 use app\models\Project;
 use app\models\Tool;
+use app\models\ToolImage;
 use app\modules\admin\models\ToolSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ToolController implements the CRUD actions for Tool model.
@@ -80,7 +82,9 @@ class ToolController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                if ($model->save()) {
+                $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+
+                if ($model->saveToolData()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
