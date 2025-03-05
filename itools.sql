@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Мар 04 2025 г., 22:19
--- Версия сервера: 10.8.4-MariaDB
--- Версия PHP: 8.1.9
+-- Хост: localhost
+-- Время создания: Мар 05 2025 г., 05:10
+-- Версия сервера: 8.0.29-0ubuntu0.20.04.3
+-- Версия PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `itools`
+-- База данных: `asfhpsun_m2`
 --
 
 -- --------------------------------------------------------
@@ -28,19 +28,21 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `category` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `delete_status` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `category`
 --
 
-INSERT INTO `category` (`id`, `title`, `created_at`) VALUES
-(1, 'Фрезы', '2025-03-02 19:25:59'),
-(2, 'Пластины', '2025-03-02 19:25:59'),
-(3, 'Сверла', '2025-03-04 17:26:21');
+INSERT INTO `category` (`id`, `title`, `delete_status`, `created_at`) VALUES
+(1, 'Фрезы', 0, '2025-03-02 19:25:59'),
+(2, 'Пластины', 0, '2025-03-02 19:25:59'),
+(3, 'Сверла', 0, '2025-03-04 17:26:21'),
+(4, 'Метчики', 1, '2025-03-05 12:45:22');
 
 -- --------------------------------------------------------
 
@@ -49,10 +51,10 @@ INSERT INTO `category` (`id`, `title`, `created_at`) VALUES
 --
 
 CREATE TABLE `location` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `location`
@@ -69,9 +71,9 @@ INSERT INTO `location` (`id`, `title`, `created_at`) VALUES
 --
 
 CREATE TABLE `material_made_of` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `material_made_of`
@@ -87,9 +89,18 @@ INSERT INTO `material_made_of` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `material_use_for` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `delete_status` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `material_use_for`
+--
+
+INSERT INTO `material_use_for` (`id`, `title`, `delete_status`) VALUES
+(1, 'Сталь', 0),
+(2, 'Цветные металлы', 0);
 
 -- --------------------------------------------------------
 
@@ -98,17 +109,17 @@ CREATE TABLE `material_use_for` (
 --
 
 CREATE TABLE `order` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `tool_id` int(10) UNSIGNED DEFAULT NULL,
+  `id` int UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tool_id` int UNSIGNED DEFAULT NULL,
   `tool_other` varchar(255) DEFAULT NULL,
-  `amount` int(10) UNSIGNED NOT NULL,
-  `project_id` int(10) UNSIGNED DEFAULT NULL,
+  `amount` int UNSIGNED NOT NULL,
+  `project_id` int UNSIGNED DEFAULT NULL,
   `deadline_at` timestamp NOT NULL,
-  `order_status_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
+  `order_status_id` int UNSIGNED NOT NULL,
+  `user_id` int UNSIGNED NOT NULL,
   `comment_admin` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -117,9 +128,9 @@ CREATE TABLE `order` (
 --
 
 CREATE TABLE `order_status` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -128,10 +139,10 @@ CREATE TABLE `order_status` (
 --
 
 CREATE TABLE `project` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -140,9 +151,9 @@ CREATE TABLE `project` (
 --
 
 CREATE TABLE `role` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `role`
@@ -159,23 +170,23 @@ INSERT INTO `role` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `tool` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id` int UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `tool_maker_id` int(10) UNSIGNED NOT NULL,
-  `category_id` int(10) UNSIGNED NOT NULL,
+  `tool_maker_id` int UNSIGNED NOT NULL,
+  `category_id` int UNSIGNED NOT NULL,
   `diameter` decimal(10,0) UNSIGNED NOT NULL,
   `full_length` decimal(10,0) NOT NULL,
   `work_length` decimal(10,0) NOT NULL,
-  `material_made_of_id` int(10) UNSIGNED NOT NULL,
-  `min_amount` int(10) UNSIGNED DEFAULT NULL COMMENT 'Для уведомлений, что нужно докупить',
-  `location_id` int(10) UNSIGNED NOT NULL,
+  `material_made_of_id` int UNSIGNED NOT NULL,
+  `min_amount` int UNSIGNED DEFAULT NULL COMMENT 'Для уведомлений, что нужно докупить',
+  `location_id` int UNSIGNED NOT NULL,
   `cell` varchar(255) DEFAULT NULL,
-  `project_id` int(10) UNSIGNED DEFAULT NULL,
+  `project_id` int UNSIGNED DEFAULT NULL,
   `inventory_time` timestamp NULL DEFAULT NULL,
-  `delete_status` int(11) NOT NULL DEFAULT 0 COMMENT '0 - не удален, 1 - удален',
+  `delete_status` int NOT NULL DEFAULT '0' COMMENT '0 - не удален, 1 - удален',
   `qr` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `tool`
@@ -191,7 +202,16 @@ INSERT INTO `tool` (`id`, `created_at`, `updated_at`, `tool_maker_id`, `category
 (7, '2025-03-04 10:27:45', NULL, 1, 1, '0', '0', '0', 1, NULL, 1, '', NULL, NULL, 0, NULL),
 (8, '2025-03-04 11:26:38', NULL, 1, 2, '0', '0', '0', 1, NULL, 1, '', NULL, NULL, 0, NULL),
 (9, '2025-03-04 18:24:11', NULL, 1, 3, '3', '4', '3', 1, NULL, 2, '', NULL, NULL, 0, NULL),
-(10, '2025-03-04 18:25:18', NULL, 2, 3, '6', '8', '6', 1, 3, 2, '', NULL, NULL, 0, NULL);
+(10, '2025-03-04 18:25:18', NULL, 2, 3, '6', '8', '6', 1, 3, 2, '', NULL, NULL, 0, NULL),
+(11, '2025-03-05 09:28:00', NULL, 1, 2, '1', '1', '1', 1, NULL, 2, '', NULL, NULL, 0, NULL),
+(12, '2025-03-05 09:28:39', NULL, 1, 2, '1', '1', '1', 1, NULL, 2, '', NULL, NULL, 0, NULL),
+(13, '2025-03-05 09:30:58', NULL, 1, 2, '1', '1', '1', 1, NULL, 2, '', NULL, NULL, 0, NULL),
+(14, '2025-03-05 09:31:22', NULL, 1, 2, '1', '1', '1', 1, NULL, 2, '', NULL, NULL, 0, NULL),
+(15, '2025-03-05 09:56:14', NULL, 2, 2, '1', '2', '3', 1, NULL, 1, '', NULL, NULL, 0, NULL),
+(16, '2025-03-05 10:19:34', NULL, 1, 2, '1', '11', '1', 1, NULL, 1, '', NULL, NULL, 0, NULL),
+(17, '2025-03-05 10:49:09', NULL, 2, 1, '2', '3', '3', 1, NULL, 1, '', NULL, NULL, 0, NULL),
+(18, '2025-03-05 10:49:21', NULL, 2, 1, '2', '3', '3', 1, NULL, 1, '', NULL, NULL, 0, NULL),
+(19, '2025-03-05 10:50:50', NULL, 1, 2, '3', '4', '4', 1, NULL, 2, '', NULL, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -200,12 +220,12 @@ INSERT INTO `tool` (`id`, `created_at`, `updated_at`, `tool_maker_id`, `category
 --
 
 CREATE TABLE `tool_comment` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `tool_id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int UNSIGNED NOT NULL,
+  `tool_id` int UNSIGNED NOT NULL,
   `text` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -214,12 +234,12 @@ CREATE TABLE `tool_comment` (
 --
 
 CREATE TABLE `tool_history` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `tool_status_id` int(10) UNSIGNED NOT NULL,
-  `tool_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tool_status_id` int UNSIGNED NOT NULL,
+  `tool_id` int UNSIGNED NOT NULL,
+  `user_id` int UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -228,11 +248,11 @@ CREATE TABLE `tool_history` (
 --
 
 CREATE TABLE `tool_image` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `tool_id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tool_id` int UNSIGNED NOT NULL,
   `image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `tool_image`
@@ -259,9 +279,9 @@ INSERT INTO `tool_image` (`id`, `created_at`, `tool_id`, `image`) VALUES
 --
 
 CREATE TABLE `tool_maker` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `tool_maker`
@@ -278,11 +298,26 @@ INSERT INTO `tool_maker` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `tool_material_use_for` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `tool_id` int(10) UNSIGNED NOT NULL,
-  `material_use_for_id` int(10) UNSIGNED NOT NULL,
-  `delete_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int UNSIGNED NOT NULL,
+  `tool_id` int UNSIGNED NOT NULL,
+  `material_use_for_id` int UNSIGNED NOT NULL,
+  `delete_status` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `tool_material_use_for`
+--
+
+INSERT INTO `tool_material_use_for` (`id`, `tool_id`, `material_use_for_id`, `delete_status`) VALUES
+(1, 13, 1, 0),
+(2, 13, 2, 0),
+(3, 14, 1, 0),
+(4, 14, 2, 0),
+(5, 15, 2, 0),
+(15, 16, 1, 0),
+(16, 18, 1, 0),
+(17, 19, 1, 0),
+(19, 17, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -291,9 +326,9 @@ CREATE TABLE `tool_material_use_for` (
 --
 
 CREATE TABLE `tool_status` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `tool_status`
@@ -313,24 +348,25 @@ INSERT INTO `tool_status` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id` int UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
   `patronymic` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
-  `role_id` int(10) UNSIGNED NOT NULL,
+  `role_id` int UNSIGNED NOT NULL,
   `auth_key` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `user`
 --
 
 INSERT INTO `user` (`id`, `created_at`, `name`, `surname`, `patronymic`, `email`, `password`, `phone`, `role_id`, `auth_key`) VALUES
-(1, '2025-02-25 10:36:12', 'Админ', 'Админыч', '', 'adminka@mail.ru', '$2y$13$CgWqBzmIUQEwJBUsCZ7gVePKyOakVn5AijSr88IbRIriHkP1KVql6', '+79112956763', 2, 'R7fyKSVb4jD73uZN5gQHRD7JD_lICyHk');
+(1, '2025-03-05 11:33:26', 'Админ', 'Админыч', '', 'adminka@mail.ru', '$2y$13$CgWqBzmIUQEwJBUsCZ7gVePKyOakVn5AijSr88IbRIriHkP1KVql6', '+79112956763', 2, 'R7fyKSVb4jD73uZN5gQHRD7JD_lICyHk'),
+(3, '2025-03-05 11:44:16', 'Пользователь', 'Тестовый', '', 'user@mail.ru', '$2y$13$/UbhKe431isv16bjWid4Juf3vrUxnpYM2GbYAWY2pYGtZJvaXfG/m', '+79112956763', 1, '7LqKLYjxQu4QMyk4MJgVew3_1ptmoie2');
 
 --
 -- Индексы сохранённых таблиц
@@ -458,97 +494,97 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT для таблицы `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `location`
 --
 ALTER TABLE `location`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `material_made_of`
 --
 ALTER TABLE `material_made_of`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `material_use_for`
 --
 ALTER TABLE `material_use_for`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `project`
 --
 ALTER TABLE `project`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `tool`
 --
 ALTER TABLE `tool`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_comment`
 --
 ALTER TABLE `tool_comment`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_history`
 --
 ALTER TABLE `tool_history`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_image`
 --
 ALTER TABLE `tool_image`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_maker`
 --
 ALTER TABLE `tool_maker`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_material_use_for`
 --
 ALTER TABLE `tool_material_use_for`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_status`
 --
 ALTER TABLE `tool_status`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
