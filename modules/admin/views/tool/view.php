@@ -124,11 +124,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                     Проект: <strong><span class="text-warning">
                                         <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
                                 </p>
-                                <p class="product-description mb-1 bg-light p-2 rounded">
-                                    <i class="fas fa-sort-numeric-up"></i> 
-                                    Минимально необходимое количество: <strong><span class="text-danger">
-                                        <?= Html::encode($model->min_amount) ?></span></strong>
-                                </p>
+                                <?php if ($model->min_amount): ?>
+                                    <p class="product-description mb-1 bg-light p-2 rounded">
+                                        <i class="fas fa-sort-numeric-up"></i> 
+                                        Минимально необходимое количество: <strong><span class="text-danger">
+                                            <?= Html::encode($model->min_amount) ?></span></strong>
+                                    </p>
+                                <?php endif; ?>
+                                
                                 <p class="product-description mb-1 bg-light p-2 rounded">
                                     <i class="fas fa-calendar-alt"></i> 
                                     Дата и время инвентаризации: <strong><span class="text-danger">

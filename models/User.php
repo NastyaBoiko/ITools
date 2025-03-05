@@ -41,7 +41,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['created_at', 'role_id', 'auth_key'], 'safe'],
+            [['role_id', 'auth_key'], 'safe'],
             [['name', 'surname', 'email', 'password', 'phone'], 'required'],
             [['name', 'surname', 'patronymic', 'email', 'password', 'phone'], 'string', 'max' => 255],
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
@@ -59,7 +59,7 @@ class User extends ActiveRecord implements IdentityInterface
             'name' => 'Имя',
             'surname' => 'Фамилия',
             'patronymic' => 'Отчество',
-            'email' => 'Адрес электронной почты',
+            'email' => 'Почта',
             'password' => 'Пароль',
             'phone' => 'Телефон',
             'role_id' => 'Роль',

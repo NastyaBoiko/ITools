@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div style="color:#999;">
                 Администратор <strong>adminka@mail.ru/Password123</strong>
+                Пользователь <strong>user@mail.ru/123456</strong>
             </div>
 
         </div>

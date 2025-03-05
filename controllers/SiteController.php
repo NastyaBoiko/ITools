@@ -134,22 +134,22 @@ class SiteController extends Controller
     }
 
     public function actionRegister()
-{
-    $model = new User();
+    {
+        $model = new User();
 
-    if ($model->load(Yii::$app->request->post())) {
-        if ($user = $model->register()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->register()) {
 
-            if (Yii::$app->user->login($user, 3600)) {
-                Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались');
-                return $this->goHome();
+                if (Yii::$app->user->login($user, 3600)) {
+                    Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались');
+                    return $this->goHome();
+                }
+
             }
-
         }
-    }
 
-    return $this->render('register', [
-        'model' => $model,
-    ]);
-}
+        return $this->render('register', [
+            'model' => $model,
+        ]);
+    }
 }
