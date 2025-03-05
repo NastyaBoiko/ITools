@@ -53,4 +53,13 @@ class MaterialUseFor extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ToolMaterialUseFor::class, ['material_use_for_id' => 'id']);
     }
+
+    public static function getEntities()
+    {
+        return self::find()
+                ->select('title')
+                ->indexBy('id')
+                ->column()
+                ;
+    }
 }

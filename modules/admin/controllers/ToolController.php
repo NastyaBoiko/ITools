@@ -5,6 +5,8 @@ namespace app\modules\admin\controllers;
 use app\models\Category;
 use app\models\Location;
 use app\models\MaterialMadeOf;
+use app\models\MaterialUseFor;
+use app\models\ToolMaterialUseFor;
 use app\models\Project;
 use app\models\Tool;
 use app\models\ToolImage;
@@ -20,7 +22,6 @@ use yii\web\UploadedFile;
  */
 class ToolController extends Controller
 {
-    public $layout = 'valex';
 
     /**
      * @inheritDoc
@@ -83,13 +84,18 @@ class ToolController extends Controller
         $projects = Project::getEntities();
         $toolMakers = ToolMaker::getEntities();
         $materialsMadeOf = MaterialMadeOf::getEntities();
+        $materialsUseFor = MaterialUseFor::getEntities();
+        
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
                 if ($model->saveToolData()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    if ($model->addToolMaterialUseFors($model->materialsUseFor)) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
             }
         } else {
@@ -103,6 +109,7 @@ class ToolController extends Controller
             'projects' => $projects,
             'toolMakers' => $toolMakers,
             'materialsMadeOf' => $materialsMadeOf,
+            'materialsUseFor' => $materialsUseFor,
         ]);
     }
 
@@ -122,12 +129,16 @@ class ToolController extends Controller
         $projects = Project::getEntities();
         $toolMakers = ToolMaker::getEntities();
         $materialsMadeOf = MaterialMadeOf::getEntities();
+        $materialsUseFor = MaterialUseFor::getEntities();
+        $materialsUseForCurrent = $model->getMaterialsUseFors()->select(['id'])->column();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
                 if ($model->saveToolData()) {
+                    $model->updateToolMaterialUseFors($materialsUseForCurrent);
+
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
@@ -141,6 +152,8 @@ class ToolController extends Controller
             'projects' => $projects,
             'toolMakers' => $toolMakers,
             'materialsMadeOf' => $materialsMadeOf,
+            'materialsUseFor' => $materialsUseFor,
+            'materialsUseForCurrent' => $materialsUseForCurrent,
         ]);
     }
 

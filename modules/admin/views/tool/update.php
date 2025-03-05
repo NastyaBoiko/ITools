@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = 'Update';
         'projects' => $projects,
         'toolMakers' => $toolMakers,
         'materialsMadeOf' => $materialsMadeOf,
+        'materialsUseFor' => $materialsUseFor,
+        'materialsUseForCurrent' => $materialsUseForCurrent,
+
     ]) ?>
 
 </div>

@@ -6,6 +6,7 @@ use yii\bootstrap5\ActiveForm;
 /** @var yii\web\View $this */
 /** @var app\models\Tool $model */
 /** @var yii\widgets\ActiveForm $form */
+
 ?>
 
 <div class="tool-form col-8">
@@ -22,6 +23,11 @@ use yii\bootstrap5\ActiveForm;
 
     <?= $form->field($model, 'material_made_of_id')->dropdownList($materialsMadeOf, ['prompt' => 'Выберите материал из чего']) ?>
 
+    <?php if (isset($materialsUseForCurrent)): ?>
+        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor, ['value' => $materialsUseForCurrent])?>
+    <?php else: ?>
+        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor)?>
+    <?php endif ?>
     <?= $form->field($model, 'category_id')->dropdownList($categories, ['prompt' => 'Выберите категорию']) ?>
 
     <?= $form->field($model, 'min_amount')->textInput() ?>

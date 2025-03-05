@@ -39,7 +39,7 @@ use Yii;
  */
 class Tool extends \yii\db\ActiveRecord
 {
-
+    public $materialsUseFor = [];
     public $imageFiles;
 
     /**
@@ -66,6 +66,8 @@ class Tool extends \yii\db\ActiveRecord
             [['tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
             [['diameter', 'full_length', 'work_length'], 'number'],
             [['cell', 'qr'], 'string', 'max' => 255],
+            [['materialsUseFor'], 'required'],
+
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
@@ -89,6 +91,7 @@ class Tool extends \yii\db\ActiveRecord
             'full_length' => 'Общая длина',
             'work_length' => 'Рабочая длина',
             'material_made_of_id' => 'Материал из чего',
+            'materialsUseFor' => 'Материал для чего',
             'min_amount' => 'Минимально необходимое количество',
             'location_id' => 'Месторасположение',
             'cell' => 'Полка или ячейка',
@@ -98,6 +101,12 @@ class Tool extends \yii\db\ActiveRecord
             'qr' => 'Qr-код',
             'imageFiles' => 'Изображения',
         ];
+    }
+
+    public function getMaterialsUseFors()
+    {
+        return $this->hasMany(MaterialUseFor::class, ['id' => 'material_use_for_id'])
+            ->viaTable('tool_material_use_for', ['tool_id' => 'id']);
     }
 
     /**
@@ -193,6 +202,43 @@ class Tool extends \yii\db\ActiveRecord
     public function getToolImages()
     {
         return $this->hasMany(ToolImage::class, ['tool_id' => 'id']);
+    }
+
+    public function addToolMaterialUseFors($materialsToAdd)
+    {
+        foreach ($materialsToAdd as $key => $materialUseForId) {
+            $toolMaterialUseFor = new ToolMaterialUseFor();
+            $toolMaterialUseFor->tool_id = $this->id;
+            $toolMaterialUseFor->material_use_for_id = $materialUseForId;
+            if (!$toolMaterialUseFor->save()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function updateToolMaterialUseFors(array $materialsUseForCurrent)
+    {
+        // Добавлены
+        $materialsToAdd = array_diff($this->materialsUseFor, $materialsUseForCurrent);
+
+        if (!empty($materialsToAdd)) {
+            if (!$this->addToolMaterialUseFors($materialsToAdd)) {
+                return false;
+            }
+        }
+
+        // Удалены
+        $materialsToDelete = array_diff($materialsUseForCurrent, $this->materialsUseFor);
+
+        if (!empty($materialsToDelete)) {
+            ToolMaterialUseFor::deleteAll([
+                'tool_id' => $this->id,
+                'material_use_for_id' => $materialsToDelete,
+            ]);
+        }
+
+        return true;
     }
 
     public function upload(): array|bool

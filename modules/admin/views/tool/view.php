@@ -82,6 +82,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                     Из какого материала: <strong><span class="text-primary">
                                         <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
                                 </p>
+                                <?php if ($model->materialsUseFors): ?>
+                                    <p class="product-description mb-1 bg-light p-2 rounded">
+                                        <i class="fas fa-cogs"></i> 
+                                        Для какого материала: <strong>
+                                            <?php foreach ($model->materialsUseFors as $key => $materialUseFor): ?>
+                                                <span class="text-primary">
+                                                    <?= Html::encode((($key !== 0) ? ', ' : '') . $materialUseFor->title) ?>
+                                                </span>
+                                            <?php endforeach; ?>
+                                        </strong>
+                                    </p>
+                                <?php endif; ?>
                                 <p class="product-description mb-1 bg-light p-2 rounded">
                                     <i class="fas fa-ruler-combined"></i> 
                                     Диаметр: <strong><span class="text-primary">
