@@ -973,10 +973,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                                     <span class="side-menu__label text-wrap lh-sm">Регистрация нового</span>
                                 </a>
                             </li>
+                            <!-- End::slide__category -->
+                            <!-- Start::slide -->
                             <li class="slide">
                                 <a href="/admin/user" class="side-menu__item d-flex align-items-center">
                                     <div class="side-menu__icon">
-                                        <i class="fe fe-user-plus"></i>
+                                        <i class="fe fe-users"></i> <!-- Измененная иконка для списка пользователей -->
                                     </div>
                                     <span class="side-menu__label text-wrap lh-sm">Список пользователей</span>
                                 </a>
@@ -991,20 +993,39 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <li class="slide">
                                 <a href="/admin" class="side-menu__item d-flex align-items-center">
                                     <div class="side-menu__icon">
-                                        <i class="fa-solid fa-wrench"></i>
+                                        <i class="fa-solid fa-wrench"></i> <!-- Измененная иконка для списка инструментов -->
                                     </div>
                                     <span class="side-menu__label text-wrap lh-sm">Список инструментов</span>
                                 </a>
                             </li>
+                            <!-- End::slide -->
+
+                            <!-- Start::slide -->
                             <li class="slide">
                                 <a href="/admin/tool/create" class="side-menu__item d-flex align-items-center">
                                     <div class="side-menu__icon">
-                                    <i class="fas fa-plus"></i>
+                                        <i class="fas fa-plus"></i> <!-- Измененная иконка для создания инструмента -->
                                     </div>
                                     <span class="side-menu__label text-wrap lh-sm">Создать инструмент</span>
                                 </a>
                             </li>
                             <!-- End::slide -->
+
+                            <!-- Start::slide__category -->
+                            <li class="slide__category"><span class="category-name">Категории инструментов</span></li>
+                            <!-- End::slide__category -->
+
+                            <!-- Start::slide -->
+                            <li class="slide">
+                                <a href="/admin/category" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fa-solid fa-tags"></i> <!-- Измененная иконка для списка категорий -->
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">Список категорий</span>
+                                </a>
+                            </li>
+                            <!-- End::slide -->
+
                         <?php endif ?>
 
                         <!-- Start::slide оставить-->

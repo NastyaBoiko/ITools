@@ -20,28 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
     </p>
 
-    <?php DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'created_at',
-            'updated_at',
-            'tool_maker_id',
-            'category_id',
-            'diameter',
-            'full_length',
-            'work_length',
-            'material_made_of_id',
-            'min_amount',
-            'location_id',
-            'cell',
-            'project_id',
-            'inventory_time',
-            'delete_status',
-            'qr',
-        ],
-    ]) ?>
-
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
