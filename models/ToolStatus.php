@@ -53,4 +53,9 @@ class ToolStatus extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ToolHistory::class, ['tool_status_id' => 'id']);
     }
+
+    public static function getEntityId(string $title): ?int
+    {
+        return self::findOne(['title' => $title])->id;
+    }
 }

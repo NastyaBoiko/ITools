@@ -58,6 +58,12 @@ $config = [
             'defaultRoute' => 'tool',
         ],
     ],
+    'modules' => [
+        'account' => [
+            'class' => 'app\modules\account\Module',
+            'defaultRoute' => 'tool',
+        ],
+    ],
     'params' => $params,
 ];
 
