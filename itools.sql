@@ -32,7 +32,7 @@ CREATE TABLE `category` (
   `title` varchar(255) NOT NULL,
   `delete_status` int NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `category`
@@ -54,7 +54,7 @@ CREATE TABLE `location` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `location`
@@ -73,7 +73,7 @@ INSERT INTO `location` (`id`, `title`, `created_at`) VALUES
 CREATE TABLE `material_made_of` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `material_made_of`
@@ -92,7 +92,7 @@ CREATE TABLE `material_use_for` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `delete_status` int NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `material_use_for`
@@ -119,7 +119,7 @@ CREATE TABLE `order` (
   `order_status_id` int UNSIGNED NOT NULL,
   `user_id` int UNSIGNED NOT NULL,
   `comment_admin` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -130,7 +130,7 @@ CREATE TABLE `order` (
 CREATE TABLE `order_status` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -142,7 +142,7 @@ CREATE TABLE `project` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ CREATE TABLE `project` (
 CREATE TABLE `role` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `role`
@@ -186,7 +186,7 @@ CREATE TABLE `tool` (
   `inventory_time` timestamp NULL DEFAULT NULL,
   `delete_status` int NOT NULL DEFAULT '0' COMMENT '0 - не удален, 1 - удален',
   `qr` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `tool`
@@ -225,7 +225,7 @@ CREATE TABLE `tool_comment` (
   `user_id` int UNSIGNED NOT NULL,
   `tool_id` int UNSIGNED NOT NULL,
   `text` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -239,7 +239,7 @@ CREATE TABLE `tool_history` (
   `tool_status_id` int UNSIGNED NOT NULL,
   `tool_id` int UNSIGNED NOT NULL,
   `user_id` int UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -252,7 +252,7 @@ CREATE TABLE `tool_image` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tool_id` int UNSIGNED NOT NULL,
   `image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `tool_image`
@@ -281,7 +281,7 @@ INSERT INTO `tool_image` (`id`, `created_at`, `tool_id`, `image`) VALUES
 CREATE TABLE `tool_maker` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `tool_maker`
@@ -302,7 +302,7 @@ CREATE TABLE `tool_material_use_for` (
   `tool_id` int UNSIGNED NOT NULL,
   `material_use_for_id` int UNSIGNED NOT NULL,
   `delete_status` int NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `tool_material_use_for`
@@ -328,7 +328,7 @@ INSERT INTO `tool_material_use_for` (`id`, `tool_id`, `material_use_for_id`, `de
 CREATE TABLE `tool_status` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `tool_status`
@@ -358,7 +358,7 @@ CREATE TABLE `user` (
   `phone` varchar(255) NOT NULL,
   `role_id` int UNSIGNED NOT NULL,
   `auth_key` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Дамп данных таблицы `user`
