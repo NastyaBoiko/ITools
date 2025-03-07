@@ -14,3 +14,13 @@
 .table-row-sm {
     width: 42px !important;
 }
+
+@media (max-width: 767px) {
+    .main-signup-header {
+        padding: 0;
+        border: none;
+    }
+    div.card-sigin {
+        padding: 2rem;
+    }
+}

@@ -175,9 +175,9 @@ class User extends ActiveRecord implements IdentityInterface
         return $user ?? false;
     }
 
-    public static function findByEmail(string $email)
+    public static function findByEmailOrPhone(string $emailOrPhone)
     {
-        return self::findOne(['email' => $email]);
+        return self::findOne(['email' => $emailOrPhone]) ?? self::findOne(['phone' => $emailOrPhone]);
     }
 
     public function validatePassword(string $password)
