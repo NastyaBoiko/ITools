@@ -1,16 +1,17 @@
 <?php
 
+use app\models\Tool;
 use yii\bootstrap5\Html;
 
 ?>
-                     
+
 <div class="card custom-card">
-    <?php if ($model->toolImages): ?>
-        <div class="col-lg-12 col-md-12">
-            <div id="carouselExampleControls<?= $model->id ?>" class="carousel slide pointer-event" data-bs-ride="carousel">
+    <div class="col-lg-12 col-md-12">
+        <div id="carouselExampleControls<?= $model->id ?>" class="carousel slide pointer-event" data-bs-ride="carousel">
+            <?php if ($model->toolImages): ?>
                 <div class="carousel-inner">
                     <?php foreach ($model->toolImages as $key => $toolImage): ?>
-                        <div class="carousel-item <?= $key === 0 ? "active" : ''?> ">
+                        <div class="carousel-item <?= $key === 0 ? "active" : '' ?> ">
                             <?= Html::img('/uploads/' . $toolImage->image, [
                                 'alt' => 'Фото инструмента',
                                 'class' => 'd-block w-100',
@@ -30,9 +31,19 @@ use yii\bootstrap5\Html;
                         <span class="visually-hidden">Next</span>
                     </button>
                 <?php endif ?>
-            </div>
+            <?php else: ?>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <?= Html::img('/img/' . Tool::NO_IMAGE, [
+                            'alt' => 'Фото инструмента',
+                            'class' => 'd-block w-100',
+                            'style' => 'height: 240px; width: 100%; object-fit: cover;' // Задаем высоту и ширину
+                        ]) ?>
+                    </div>
+                </div>
+            <?php endif ?>
         </div>
-    <?php endif ?>
+    </div>
 
     <div class="card custom-card border" style="background-color: #f8f9fa;">
         <div class="card-body p-2">
@@ -40,50 +51,37 @@ use yii\bootstrap5\Html;
                 <h5 class="product-title mb-1"><?= Html::encode($model->id . '. ' . $model->toolMaker->title) ?></h5>
                 <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
             </div>
-            
+
             <div class="product-info mt-2">
+                <?php if ($model->toolHistories): ?>
+                    <p class="product-description mb-1 bg-light p-2 rounded">
+                        <i class="fas fa-info-circle"></i>
+                        Статус: <strong><span class="">
+                                <?= Html::encode($status = end($model->toolHistories)->toolStatus->title) ?></span></strong>
+                    </p>
+                    <p class="product-description mb-1 bg-light p-2 rounded">
+                        <i class="fas fa-user"></i>
+                        Ответственный: <strong><span class="">
+                                <?= Html::encode(end($model->toolHistories)->user->surname) ?></span></strong>
+                    </p>
+                <?php endif ?>
                 <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-cogs"></i> 
-                    Из какого материала: <strong><span class="text-primary">
-                        <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
+                    <i class="fas fa-cogs"></i>
+                    Из какого материала: <strong><span class="">
+                            <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
                 </p>
                 <?php if ($model->materialsUseFors): ?>
                     <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-cogs"></i> 
+                        <i class="fas fa-cogs"></i>
                         Для какого материала: <strong>
                             <?php foreach ($model->materialsUseFors as $key => $materialUseFor): ?>
-                                <span class="text-primary">
+                                <span class="">
                                     <?= Html::encode((($key !== 0) ? ', ' : '') . $materialUseFor->title) ?>
                                 </span>
                             <?php endforeach; ?>
                         </strong>
                     </p>
                 <?php endif; ?>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-ruler-combined"></i> 
-                    Диаметр: <strong><span class="text-primary">
-                        <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-ruler-horizontal"></i> 
-                    Рабочая длина: <strong><span class="text-primary">
-                        <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-map-marker-alt"></i> 
-                    Местоположение: <strong><span class="text-success">
-                        <?= Html::encode($model->location->title) ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-th"></i> 
-                    Ячейка: <strong><span class="text-danger">
-                        <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-folder-open"></i> 
-                    Проект: <strong><span class="text-warning">
-                        <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
-                </p>
             </div>
             <?php if ($model->inventory_time): ?>
                 <p class="card-text text-muted mb-2">

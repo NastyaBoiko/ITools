@@ -9,9 +9,12 @@ use app\models\MaterialUseFor;
 use app\models\ToolMaterialUseFor;
 use app\models\Project;
 use app\models\Tool;
+use app\models\ToolHistory;
 use app\models\ToolImage;
 use app\models\ToolMaker;
+use app\models\ToolStatus;
 use app\modules\admin\models\ToolSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -85,16 +88,22 @@ class ToolController extends Controller
         $toolMakers = ToolMaker::getEntities();
         $materialsMadeOf = MaterialMadeOf::getEntities();
         $materialsUseFor = MaterialUseFor::getEntities();
-        
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-
+                // dd($model->attributes);
                 if ($model->saveToolData()) {
-                    if ($model->addToolMaterialUseFors($model->materialsUseFor)) {
-                        return $this->redirect(['view', 'id' => $model->id]);
+                    $firstToolStatus = new ToolHistory();
+                    $firstToolStatus->tool_id = $model->id;
+                    $firstToolStatus->tool_status_id = ToolStatus::getEntityId('Доступен');
+                    $firstToolStatus->user_id = Yii::$app->user->id;
+
+                    if ($firstToolStatus->save()) {
+                        if ($model->addToolMaterialUseFors($model->materialsUseFor)) {
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        }
                     }
                 }
             }

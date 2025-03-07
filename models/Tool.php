@@ -39,6 +39,7 @@ use Yii;
  */
 class Tool extends \yii\db\ActiveRecord
 {
+    const NO_IMAGE = 'no-image.png';
     public $materialsUseFor = [];
     public $imageFiles;
 

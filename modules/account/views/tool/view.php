@@ -118,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php if ($model->min_amount): ?>
                                     <p class="product-description mb-1 bg-light p-2 rounded">
                                         <i class="fas fa-sort-numeric-up"></i> 
-                                        Минимально необходимое количество: <strong><span class="text-danger">
+                                        Минимально необходимое количество: <strong><span class="">
                                             <?= Html::encode($model->min_amount) ?></span></strong>
                                     </p>
                                 <?php endif; ?>
