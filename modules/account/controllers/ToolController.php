@@ -13,6 +13,7 @@ use app\models\ToolHistory;
 use app\models\ToolImage;
 use app\models\ToolMaker;
 use app\models\ToolStatus;
+use app\modules\account\models\MyToolSearch;
 use app\modules\account\models\ToolSearch;
 use Yii;
 use yii\web\Controller;
@@ -52,6 +53,20 @@ class ToolController extends Controller
     public function actionIndex()
     {
         $searchModel = new ToolSearch();
+
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionMy()
+    {
+        $searchModel = new MyToolSearch();
 
         $dataProvider = $searchModel->search($this->request->queryParams);
 

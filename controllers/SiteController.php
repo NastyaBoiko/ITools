@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\User;
+use yii\bootstrap5\ActiveForm;
 
 class SiteController extends Controller
 {
@@ -140,13 +141,16 @@ class SiteController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
+
+            // Ajax-валидация
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
             if ($user = $model->register()) {
-
-                if (Yii::$app->user->login($user, 3600)) {
-                    Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались');
-                    return $this->goHome();
-                }
-
+                Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировали пользователя');
+                return $this->redirect('/admin/user');
             }
         }
 

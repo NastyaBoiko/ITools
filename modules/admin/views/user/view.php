@@ -37,10 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->name . ' ' . $model->surname,
             ],
             'email:email',
-            'password',
+            // 'password',
             'phone',
-            'role_id',
-            'auth_key',
+            // 'role_id',
+            // 'auth_key',
         ],
     ]) ?>
 

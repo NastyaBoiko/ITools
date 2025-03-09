@@ -27,6 +27,9 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    const SCENARIO_REGISTER = 'register';
+    public $password_repeat = '';
+
     /**
      * {@inheritdoc}
      */
@@ -43,7 +46,22 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['role_id', 'auth_key'], 'safe'],
             [['name', 'surname', 'email', 'password', 'phone'], 'required'],
-            [['name', 'surname', 'patronymic', 'email', 'password', 'phone'], 'string', 'max' => 255],
+            [['password_repeat'], 'required', 'on' => self::SCENARIO_REGISTER],
+            [['name', 'surname', 'patronymic', 'email', 'password', 'password_repeat', 'phone'], 'string', 'max' => 255],
+            [['name', 'surname', 'patronymic'], 'match', 'pattern' => '/^[а-яё\-]+$/ui', 'message' => 'Разрешенные символы: кириллица и тире'],
+
+            ['email', 'email'],
+            [['email'], 'unique', 'message' => 'Пользователь с такой почтой уже существует'],
+
+            [['password'], 'string', 'min' => 6],
+            [['password_repeat'], 'string', 'min' => 6],
+            [['password', 'password_repeat'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры', 'on' => self::SCENARIO_REGISTER],
+            // [['password', 'password_repeat'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
+            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Пароль\' и \'Повтор пароля\' должны совпадать'],
+
+            [['phone'], 'unique', 'message' => 'Пользователь с таким номером телефона уже существует'],
+            [['phone'], 'match', 'pattern' => '/^\+7\-[\d]{3}\-[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'Формат +7-XXX-XXX-XX-XX'],
+
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
         ];
     }
@@ -61,6 +79,7 @@ class User extends ActiveRecord implements IdentityInterface
             'patronymic' => 'Отчество',
             'email' => 'Почта',
             'password' => 'Пароль',
+            'password_repeat' => 'Повтор пароля',
             'phone' => 'Телефон',
             'role_id' => 'Роль',
             'auth_key' => 'Код аутентификации',
@@ -163,12 +182,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if ($this->validate()) {
             $user = new User();
+
+            $user->scenario = self::SCENARIO_REGISTER;
+            
             $user->attributes = $this->attributes;
             $user->role_id = Role::getEntityId('user');
             $user->auth_key = Yii::$app->security->generateRandomString();
             $user->password = Yii::$app->security->generatePasswordHash($this->password);
             
-            if (!$user->save()) {
+            if (!$user->save(false)) {
                 dd($user->errors);
             }
         }

@@ -4,9 +4,11 @@ namespace app\modules\admin\controllers;
 
 use app\models\User;
 use app\modules\admin\models\UserSearch;
+use yii\bootstrap5\ActiveForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -60,27 +62,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new User();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Updates an existing User model.
@@ -93,8 +74,18 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load($this->request->post())) {
+
+            // Ajax-валидация
+            if ($this->request->isAjax) {
+                $this->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
         }
 
         return $this->render('update', [
