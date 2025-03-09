@@ -58,4 +58,25 @@ class Role extends \yii\db\ActiveRecord
     {
         return self::findOne(['title' => $title])->id;
     }
+
+    public static function getRoleTranslate(string $title): ?string
+    {
+        $roles = [
+            'admin' => 'Администратор',
+            'user' => 'Пользователь',
+        ];
+
+        return $roles[$title];
+    }
+
+    public static function getTranslatedEntities()
+    {
+        $roles = self::find()
+        ->select('title')
+        ->indexBy('id')
+        ->column()
+        ;
+
+        return array_map(fn($role) => self::getRoleTranslate($role), $roles);
+    }
 }

@@ -29,35 +29,38 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     
         <div class="col-xl-9 col-lg-8 col-md-12">
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-
-                    [
-                        'attribute' => 'id',
-                        'headerOptions' => ['class' => 'table-row-sm'],
-                    ],
-                    'created_at',
-                    [
-                        'attribute' => 'name',
-                        'value' => fn($model) => $model->name . ' ' . $model->surname,
-                    ],
-                    // 'patronymic',
-                    'email:email',
-                    //'password',
-                    'phone',
-                    //'role_id',
-                    //'auth_key',
-                    [
-                        'class' => ActionColumn::className(),
-                        'urlCreator' => function ($action, User $model, $key, $index, $column) {
-                            return Url::toRoute([$action, 'id' => $model->id]);
-                        }
-                    ],
-                ],
-            ]); ?>
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <?= GridView::widget([
+                            'dataProvider' => $dataProvider,
+                            'tableOptions' => [
+                                'class' => 'table text-nowrap table-striped-columns',
+                            ],
+                            'layout' => "{summary}\n<div class='my-3'>{items}</div>\n{pager}",
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
+                                [
+                                    'attribute' => 'id',
+                                    'headerOptions' => ['class' => 'table-row-sm'],
+                                ],
+                                [
+                                    'attribute' => 'name',
+                                    'value' => fn($model) => $model->name . ' ' . $model->surname,
+                                ],
+                                'email:email',
+                                'phone',
+                                [
+                                    'class' => ActionColumn::className(),
+                                    'urlCreator' => function ($action, User $model, $key, $index, $column) {
+                                        return Url::toRoute([$action, 'id' => $model->id]);
+                                    }
+                                ],
+                            ],
+                        ]); ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

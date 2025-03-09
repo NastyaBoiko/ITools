@@ -30,6 +30,7 @@ use yii\widgets\MaskedInput;
         ]) ?>
 
     <div class="form-group">
+        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
         <?= Html::submitButton('Изменить', ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
     </div>
 

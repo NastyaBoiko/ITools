@@ -182,8 +182,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if ($this->validate()) {
             $user = new User();
-
-            $user->scenario = self::SCENARIO_REGISTER;
             
             $user->attributes = $this->attributes;
             $user->role_id = Role::getEntityId('user');

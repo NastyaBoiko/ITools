@@ -11,6 +11,9 @@ use app\models\User;
  */
 class UserSearch extends User
 {
+    public $register_start = '';
+    public $register_end = '';
+
     /**
      * {@inheritdoc}
      */
@@ -19,6 +22,26 @@ class UserSearch extends User
         return [
             [['id', 'role_id'], 'integer'],
             [['created_at', 'name', 'surname', 'patronymic', 'email', 'password', 'phone', 'auth_key'], 'safe'],
+            [['register_start', 'register_end'], 'safe'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'Номер',
+            'created_at' => 'Дата регистрации',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
+            'patronymic' => 'Отчество',
+            'email' => 'Почта',
+            'password' => 'Пароль',
+            'password_repeat' => 'Повтор пароля',
+            'phone' => 'Телефон',
+            'role_id' => 'Роль',
+            'auth_key' => 'Код аутентификации',
+            'register_start' => 'Дата регистрации от',
+            'register_end' => 'Дата регистрации до',
         ];
     }
 
@@ -70,6 +93,28 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'password', $this->password])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key]);
+
+        // Фильтрация времени регистрации
+        if ($this->register_start && $this->register_end) {
+            $query->andFilterWhere([
+                'between',
+                'created_at',
+                $this->register_start . ' 00:00:00',
+                $this->register_end . ' 23:59:59',
+            ]);
+        } elseif ($this->register_start) {
+            $query->andFilterWhere([
+                '>',
+                'created_at',
+                $this->register_start . ' 00:00:00',
+            ]);
+        } elseif ($this->register_end) {
+            $query->andFilterWhere([
+                '<',
+                'created_at',
+                $this->register_end . ' 23:59:59',
+            ]);
+        }
 
         return $dataProvider;
     }

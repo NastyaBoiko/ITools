@@ -139,6 +139,8 @@ class SiteController extends Controller
     public function actionRegister()
     {
         $model = new User();
+        
+        $model->scenario = User::SCENARIO_REGISTER;
 
         if ($model->load(Yii::$app->request->post())) {
 
