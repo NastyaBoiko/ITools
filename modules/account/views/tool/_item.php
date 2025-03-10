@@ -5,7 +5,7 @@ use yii\bootstrap5\Html;
 // dd($model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title);
 ?>
 
-<div class="card custom-card">
+<div class="card custom-card h-100">
     <div class="col-lg-12 col-md-12">
         <div id="carouselExampleControls<?= $model->id ?>" class="carousel slide pointer-event" data-bs-ride="carousel">
             <?php if ($model->toolImages): ?>
@@ -45,74 +45,76 @@ use yii\bootstrap5\Html;
         </div>
     </div>
 
-    <div class="card custom-card border" style="background-color: #f8f9fa;">
-        <div class="card-body p-2">
-            <div class="product-info mx-2">
-                <h5 class="product-title mb-1"><?= Html::encode($model->id . '. ' . $model->toolMaker->title) ?></h5>
-                <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
-            </div>
-
-            <div class="product-info mt-2">
-                <?php if ($model->toolHistories): ?>
+    <div class="card custom-card border h-100" style="background-color: #f8f9fa;">
+        <div class="card-body p-2 d-flex flex-column justify-content-between">
+            <div class="card-description">
+                <div class="product-info mx-2">
+                    <h5 class="product-title mb-1"><?= Html::encode($model->id . '. ' . $model->toolMaker->title) ?></h5>
+                    <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
+                </div>
+    
+                <div class="product-info mt-2">
+                    <?php if ($model->toolHistories): ?>
+                        <p class="product-description mb-1 bg-light p-2 rounded">
+                            <i class="fas fa-info-circle"></i>
+                            Статус: <strong><span class="">
+                                    <?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></span></strong>
+                        </p>
+                        <p class="product-description mb-1 bg-light p-2 rounded">
+                            <i class="fas fa-user"></i>
+                            Ответственный: <strong><span class="">
+                                    <?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->user->surname) ?></span></strong>
+                        </p>
+                    <?php endif; ?>
                     <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-info-circle"></i>
-                        Статус: <strong><span class="">
-                                <?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></span></strong>
+                        <i class="fas fa-box"></i>
+                        Из какого материала: <strong><span class="">
+                                <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
+                    </p>
+                    <?php if ($model->materialsUseFors): ?>
+                        <p class="product-description mb-1 bg-light p-2 rounded">
+                            <i class="fas fa-tools"></i>
+                            Для какого материала: <strong>
+                                <?php foreach ($model->materialsUseFors as $key => $materialUseFor): ?>
+                                    <span class="">
+                                        <?= Html::encode((($key !== 0) ? ', ' : '') . $materialUseFor->title) ?>
+                                    </span>
+                                <?php endforeach; ?>
+                            </strong>
+                        </p>
+                    <?php endif; ?>
+    
+                    <p class="product-description mb-1 bg-light p-2 rounded">
+                        <i class="fas fa-ruler-combined"></i>
+                        Диаметр: <strong><span class="">
+                                <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
                     </p>
                     <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-user"></i>
-                        Ответственный: <strong><span class="">
-                                <?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->user->surname) ?></span></strong>
+                        <i class="fas fa-ruler-horizontal"></i>
+                        Рабочая длина: <strong><span class="">
+                                <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
                     </p>
-                <?php endif; ?>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-box"></i>
-                    Из какого материала: <strong><span class="">
-                            <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
-                </p>
-                <?php if ($model->materialsUseFors): ?>
                     <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-tools"></i>
-                        Для какого материала: <strong>
-                            <?php foreach ($model->materialsUseFors as $key => $materialUseFor): ?>
-                                <span class="">
-                                    <?= Html::encode((($key !== 0) ? ', ' : '') . $materialUseFor->title) ?>
-                                </span>
-                            <?php endforeach; ?>
-                        </strong>
+                        <i class="fas fa-map-marker-alt"></i>
+                        Местоположение: <strong><span class="">
+                                <?= Html::encode($model->location->title) ?></span></strong>
                     </p>
-                <?php endif; ?>
-
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-ruler-combined"></i>
-                    Диаметр: <strong><span class="">
-                            <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-ruler-horizontal"></i>
-                    Рабочая длина: <strong><span class="">
-                            <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Местоположение: <strong><span class="">
-                            <?= Html::encode($model->location->title) ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-th"></i>
-                    Ячейка: <strong><span class="">
-                            <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
-                </p>
-                <p class="product-description mb-1 bg-light p-2 rounded">
-                    <i class="fas fa-folder-open"></i>
-                    Проект: <strong><span class="">
-                            <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
-                </p>
-                <?php if ($model->inventory_time): ?>
                     <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-calendar-alt me-2"></i>Инвентаризация: <span class=""><?= Html::encode($model->inventory_time) ?></span>
+                        <i class="fas fa-th"></i>
+                        Ячейка: <strong><span class="">
+                                <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
                     </p>
-                <?php endif; ?>
+                    <p class="product-description mb-1 bg-light p-2 rounded">
+                        <i class="fas fa-folder-open"></i>
+                        Проект: <strong><span class="">
+                                <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
+                    </p>
+                    <?php if ($model->inventory_time): ?>
+                        <p class="product-description mb-1 bg-light p-2 rounded">
+                            <i class="fas fa-calendar-alt me-2"></i>Инвентаризация: <span class=""><?= Html::encode($model->inventory_time) ?></span>
+                        </p>
+                    <?php endif; ?>
+                </div>
             </div>
             <div class="d-grid gap-1">
                 <?= Html::a('<i class="fas fa-eye"></i> Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1']) ?>
