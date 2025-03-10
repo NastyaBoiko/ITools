@@ -13,6 +13,7 @@ use app\models\ToolHistory;
 use app\models\ToolImage;
 use app\models\ToolMaker;
 use app\models\ToolStatus;
+use app\models\User;
 use app\modules\account\models\MyToolSearch;
 use app\modules\account\models\ToolSearch;
 use Yii;
@@ -54,6 +55,7 @@ class ToolController extends Controller
     {
         $searchModel = new ToolSearch();
         $statuses = ToolStatus::getEntities();
+        $users = User::getEntities();
 
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -63,6 +65,7 @@ class ToolController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'statuses' => $statuses,
+            'users' => $users,
         ]);
     }
 

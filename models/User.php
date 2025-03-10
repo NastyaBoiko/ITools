@@ -173,6 +173,15 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(ToolHistory::class, ['user_id' => 'id']);
     }
 
+    public static function getEntities()
+    {
+        return self::find()
+                    ->select(['concat(name, SPACE(1), surname) as name'])
+                    ->indexBy('id')
+                    ->column()
+                    ;
+    }
+
     public function getIsAdmin()
     {
         return $this->role_id === Role::getEntityId('admin');

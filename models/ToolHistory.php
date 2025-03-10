@@ -85,4 +85,11 @@ class ToolHistory extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    public static function lastToolHistoryIds()
+    {
+        return self::find()
+                ->select('MAX(id)')
+                ->groupBy('tool_id');
+    }
 }

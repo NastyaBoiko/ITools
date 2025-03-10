@@ -37,6 +37,10 @@ use yii\widgets\ActiveForm;
                     'prompt' => 'Выберите статус',
                 ]) ?>
 
+            <?= $form->field($model, 'user_id')->dropDownList($users, [
+                    'prompt' => 'Выберите ответственного',
+                ]) ?>
+
             <?php // echo $form->field($model, 'diameter') ?>
 
             <?php // echo $form->field($model, 'full_length') ?>

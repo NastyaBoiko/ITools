@@ -13,6 +13,7 @@ use app\models\ToolHistory;
 class ToolSearch extends Tool
 {
     public $status_id;
+    public $user_id;
 
     /**
      * {@inheritdoc}
@@ -20,7 +21,7 @@ class ToolSearch extends Tool
     public function rules()
     {
         return [
-            [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status', 'status_id'], 'integer'],
+            [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status', 'status_id', 'user_id'], 'integer'],
             [['created_at', 'updated_at', 'cell', 'inventory_time', 'qr'], 'safe'],
             [['diameter', 'full_length', 'work_length'], 'number'],
         ];
@@ -42,6 +43,7 @@ class ToolSearch extends Tool
             'min_amount' => 'Минимально необходимое количество',
             'location_id' => 'Месторасположение',
             'status_id' => 'Статус',
+            'user_id' => 'Ответственный',
             'cell' => 'Полка или ячейка',
             'project_id' => 'Проект',
             'inventory_time' => 'Дата и время инвентаризации',
@@ -117,18 +119,25 @@ class ToolSearch extends Tool
             ->andFilterWhere(['like', 'qr', $this->qr]);
 
         if ($this->status_id) {
-            $lastEachToolHistoryId = ToolHistory::find()
-                                    ->select('MAX(id)')
-                                    ->groupBy('tool_id');
-
             $toolWithNeededStatusIds = ToolHistory::find()
                         ->select('tool_id')
-                        ->where(['id' => $lastEachToolHistoryId])
+                        // id in list lastToolHistoryIds
+                        ->where(['id' => ToolHistory::lastToolHistoryIds()])
                         ->andWhere(['tool_status_id' => $this->status_id]) 
                         ;
             
             $query->andFilterWhere(['id' => $toolWithNeededStatusIds]);
+        }
 
+        if ($this->user_id) {
+            $toolWithNeededUserIds = ToolHistory::find()
+                        ->select('tool_id')
+                        // id in list lastToolHistoryIds
+                        ->where(['id' => ToolHistory::lastToolHistoryIds()])
+                        ->andWhere(['user_id' => $this->user_id]) 
+                        ;
+            
+            $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
         }
 
         return $dataProvider;
