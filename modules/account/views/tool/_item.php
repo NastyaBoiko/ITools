@@ -2,7 +2,7 @@
 
 use app\models\Tool;
 use yii\bootstrap5\Html;
-// dd(end($model->toolHistories)->toolStatus->title);
+// dd($model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title);
 ?>
 
 <div class="card custom-card">
@@ -57,12 +57,12 @@ use yii\bootstrap5\Html;
                     <p class="product-description mb-1 bg-light p-2 rounded">
                         <i class="fas fa-info-circle"></i>
                         Статус: <strong><span class="">
-                                <?= Html::encode($status = end($model->toolHistories)->toolStatus->title) ?></span></strong>
+                                <?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></span></strong>
                     </p>
                     <p class="product-description mb-1 bg-light p-2 rounded">
                         <i class="fas fa-user"></i>
                         Ответственный: <strong><span class="">
-                                <?= Html::encode(end($model->toolHistories)->user->surname) ?></span></strong>
+                                <?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->user->surname) ?></span></strong>
                     </p>
                 <?php endif; ?>
                 <p class="product-description mb-1 bg-light p-2 rounded">

@@ -33,6 +33,10 @@ use yii\widgets\ActiveForm;
                     'prompt' => 'Выберите категорию',
                 ]) ?>
 
+            <?= $form->field($model, 'status_id')->dropDownList($statuses, [
+                    'prompt' => 'Выберите статус',
+                ]) ?>
+
             <?php // echo $form->field($model, 'diameter') ?>
 
             <?php // echo $form->field($model, 'full_length') ?>

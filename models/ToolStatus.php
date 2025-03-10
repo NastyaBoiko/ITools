@@ -58,4 +58,13 @@ class ToolStatus extends \yii\db\ActiveRecord
     {
         return self::findOne(['title' => $title])->id;
     }
+
+    public static function getEntities()
+    {
+        return self::find()
+                ->select('title')
+                ->indexBy('id')
+                ->column()
+                ;
+    }
 }

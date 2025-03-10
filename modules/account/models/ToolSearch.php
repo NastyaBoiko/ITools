@@ -5,21 +5,49 @@ namespace app\modules\account\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Tool;
+use app\models\ToolHistory;
 
 /**
  * ToolSearch represents the model behind the search form of `app\models\Tool`.
  */
 class ToolSearch extends Tool
 {
+    public $status_id;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
+            [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status', 'status_id'], 'integer'],
             [['created_at', 'updated_at', 'cell', 'inventory_time', 'qr'], 'safe'],
             [['diameter', 'full_length', 'work_length'], 'number'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'Номер',
+            'created_at' => 'Дата и время создания',
+            'updated_at' => 'Дата последнего изменения',
+            'tool_maker_id' => 'Производитель',
+            'category_id' => 'Категория',
+            'diameter' => 'Диаметр',
+            'full_length' => 'Общая длина',
+            'work_length' => 'Рабочая длина',
+            'material_made_of_id' => 'Материал из чего',
+            'materialsUseFor' => 'Материал для чего',
+            'min_amount' => 'Минимально необходимое количество',
+            'location_id' => 'Месторасположение',
+            'status_id' => 'Статус',
+            'cell' => 'Полка или ячейка',
+            'project_id' => 'Проект',
+            'inventory_time' => 'Дата и время инвентаризации',
+            'delete_status' => 'Delete Status',
+            'qr' => 'Qr-код',
+            'imageFiles' => 'Изображения',
         ];
     }
 
@@ -42,9 +70,8 @@ class ToolSearch extends Tool
     public function search($params)
     {
         $query = Tool::find()
-                ->with('toolHistories', 'toolHistories.toolStatus', 'toolHistories.user')
+                ->with(['toolHistories', 'toolHistories.toolStatus', 'toolHistories.user'])
                 ;
-
 
         // add conditions that should always apply here
 
@@ -88,6 +115,21 @@ class ToolSearch extends Tool
 
         $query->andFilterWhere(['like', 'cell', $this->cell])
             ->andFilterWhere(['like', 'qr', $this->qr]);
+
+        if ($this->status_id) {
+            $lastEachToolHistoryId = ToolHistory::find()
+                                    ->select('MAX(id)')
+                                    ->groupBy('tool_id');
+
+            $toolWithNeededStatusIds = ToolHistory::find()
+                        ->select('tool_id')
+                        ->where(['id' => $lastEachToolHistoryId])
+                        ->andWhere(['tool_status_id' => $this->status_id]) 
+                        ;
+            
+            $query->andFilterWhere(['id' => $toolWithNeededStatusIds]);
+
+        }
 
         return $dataProvider;
     }

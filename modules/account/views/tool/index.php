@@ -20,7 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::begin(); ?>
     <div class="row my-3">
-        <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php echo $this->render('_search', [
+            'model' => $searchModel,
+            'statuses' => $statuses,
+        ]); ?>
     
         <div class="col-xl-9 col-lg-8 col-md-12">
             <?= ListView::widget([

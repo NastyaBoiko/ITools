@@ -53,6 +53,7 @@ class ToolController extends Controller
     public function actionIndex()
     {
         $searchModel = new ToolSearch();
+        $statuses = ToolStatus::getEntities();
 
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -61,22 +62,23 @@ class ToolController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statuses' => $statuses,
         ]);
     }
 
-    public function actionMy()
-    {
-        $searchModel = new MyToolSearch();
+    // public function actionMy()
+    // {
+    //     $searchModel = new MyToolSearch();
 
-        $dataProvider = $searchModel->search($this->request->queryParams);
+    //     $dataProvider = $searchModel->search($this->request->queryParams);
 
-        // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
+    //     // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+    //     return $this->render('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
 
     /**
      * Displays a single Tool model.
