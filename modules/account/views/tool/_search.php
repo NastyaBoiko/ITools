@@ -2,8 +2,8 @@
 
 use app\models\Category;
 use app\models\ToolMaker;
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var app\modules\admin\models\Tool2Search $model */
@@ -41,7 +41,8 @@ use yii\widgets\ActiveForm;
                     'prompt' => 'Выберите ответственного',
                 ]) ?>
 
-            <?php // echo $form->field($model, 'diameter') ?>
+            <?= $form->field($model, 'diameter_start') ?>
+            <?= $form->field($model, 'diameter_end') ?>
 
             <?php // echo $form->field($model, 'full_length') ?>
 

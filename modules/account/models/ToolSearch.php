@@ -14,6 +14,8 @@ class ToolSearch extends Tool
 {
     public $status_id;
     public $user_id;
+    public $diameter_start;
+    public $diameter_end;
 
     /**
      * {@inheritdoc}
@@ -23,7 +25,7 @@ class ToolSearch extends Tool
         return [
             [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status', 'status_id', 'user_id'], 'integer'],
             [['created_at', 'updated_at', 'cell', 'inventory_time', 'qr'], 'safe'],
-            [['diameter', 'full_length', 'work_length'], 'number'],
+            [['diameter', 'diameter_start', 'diameter_end', 'full_length', 'work_length'], 'number'],
         ];
     }
 
@@ -36,6 +38,8 @@ class ToolSearch extends Tool
             'tool_maker_id' => 'Производитель',
             'category_id' => 'Категория',
             'diameter' => 'Диаметр',
+            'diameter_start' => 'Диаметр от ',
+            'diameter_end' => 'Диаметр до ',
             'full_length' => 'Общая длина',
             'work_length' => 'Рабочая длина',
             'material_made_of_id' => 'Материал из чего',
@@ -138,6 +142,22 @@ class ToolSearch extends Tool
                         ;
             
             $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
+        }
+
+        if ($this->diameter_start) {
+            $query->andFilterWhere([
+                '>',
+                'diameter',
+                $this->diameter_start
+            ]);
+        }
+
+        if ($this->diameter_end) {
+            $query->andFilterWhere([
+                '<',
+                'diameter',
+                $this->diameter_end
+            ]);
         }
 
         return $dataProvider;
