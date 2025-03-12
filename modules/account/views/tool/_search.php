@@ -21,9 +21,9 @@ use yii\bootstrap5\ActiveForm;
 
             <?= $form->field($model, 'id') ?>
 
-            <?= $form->field($model, 'created_at') ?>
+            <?php # $form->field($model, 'created_at') ?>
 
-            <?= $form->field($model, 'updated_at') ?>
+            <?php # $form->field($model, 'updated_at') ?>
 
             <?= $form->field($model, 'tool_maker_id')->dropDownList(ToolMaker::getEntities(), [
                     'prompt' => 'Выберите производителя',

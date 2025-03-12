@@ -83,37 +83,6 @@ use yii\bootstrap5\Html;
                             </strong>
                         </p>
                     <?php endif; ?>
-    
-                    <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-ruler-combined"></i>
-                        Диаметр: <strong><span class="">
-                                <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
-                    </p>
-                    <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-ruler-horizontal"></i>
-                        Рабочая длина: <strong><span class="">
-                                <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
-                    </p>
-                    <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Местоположение: <strong><span class="">
-                                <?= Html::encode($model->location->title) ?></span></strong>
-                    </p>
-                    <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-th"></i>
-                        Ячейка: <strong><span class="">
-                                <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
-                    </p>
-                    <p class="product-description mb-1 bg-light p-2 rounded">
-                        <i class="fas fa-folder-open"></i>
-                        Проект: <strong><span class="">
-                                <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
-                    </p>
-                    <?php if ($model->inventory_time): ?>
-                        <p class="product-description mb-1 bg-light p-2 rounded">
-                            <i class="fas fa-calendar-alt me-2"></i>Инвентаризация: <span class=""><?= Html::encode($model->inventory_time) ?></span>
-                        </p>
-                    <?php endif; ?>
                 </div>
             </div>
             <div class="d-grid gap-1">
