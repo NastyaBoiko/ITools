@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </p>
                                     <p class="product-description mb-1 bg-light p-2 rounded">
                                         <i class="fas fa-user"></i>
-                                        Ответственный: <strong><span class="">
+                                        Последнее использование: <strong><span class="">
                                                 <?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->user->surname) ?></span></strong>
                                     </p>
                                 <?php endif; ?>

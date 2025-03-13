@@ -47,7 +47,7 @@ class ToolSearch extends Tool
             'min_amount' => 'Минимально необходимое количество',
             'location_id' => 'Месторасположение',
             'status_id' => 'Статус',
-            'user_id' => 'Ответственный',
+            'user_id' => 'Последнее использование',
             'cell' => 'Полка или ячейка',
             'project_id' => 'Проект',
             'inventory_time' => 'Дата и время инвентаризации',
@@ -88,7 +88,7 @@ class ToolSearch extends Tool
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'created_at' => SORT_DESC, 
+                    'id' => SORT_DESC, 
                 ]
             ],
         ]);
@@ -146,7 +146,7 @@ class ToolSearch extends Tool
 
         if ($this->diameter_start) {
             $query->andFilterWhere([
-                '>',
+                '>=',
                 'diameter',
                 $this->diameter_start
             ]);
@@ -154,7 +154,7 @@ class ToolSearch extends Tool
 
         if ($this->diameter_end) {
             $query->andFilterWhere([
-                '<',
+                '<=',
                 'diameter',
                 $this->diameter_end
             ]);

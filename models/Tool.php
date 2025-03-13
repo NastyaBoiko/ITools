@@ -195,20 +195,6 @@ class Tool extends \yii\db\ActiveRecord
         return $this->hasMany(ToolHistory::class, ['tool_id' => 'id']);
     }
 
-    // public function getLatestToolHistory()
-    // {
-    //     return $this->hasMany(ToolHistory::class, ['tool_id' => 'id'])
-    //                 ->with('toolStatus', 'user')
-    //                 ->orderBy(['created_at' => SORT_DESC])
-    //                 ->limit(1);
-    // }
-
-    // public function getToolStatuses()
-    // {
-    //     return $this->hasMany(ToolStatus::class, ['id' => 'tool_status_id'])
-    //         ->via('toolHistories');
-    // }
-
     /**
      * Gets query for [[ToolImages]].
      *
@@ -217,6 +203,19 @@ class Tool extends \yii\db\ActiveRecord
     public function getToolImages()
     {
         return $this->hasMany(ToolImage::class, ['tool_id' => 'id']);
+    }
+
+    public function countSame()
+    {
+        return self::find()
+                    ->where([
+                        'diameter' => $this->diameter,
+                        'full_length' => $this->full_length,
+                        'work_length' => $this->work_length,
+                        'material_made_of_id' => $this->material_made_of_id,
+                        'category_id' => $this->category_id,
+                    ])
+                    ->count();
     }
     
 

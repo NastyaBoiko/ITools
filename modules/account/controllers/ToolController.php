@@ -69,20 +69,6 @@ class ToolController extends Controller
         ]);
     }
 
-    // public function actionMy()
-    // {
-    //     $searchModel = new MyToolSearch();
-
-    //     $dataProvider = $searchModel->search($this->request->queryParams);
-
-    //     // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
-
-    //     return $this->render('index', [
-    //         'searchModel' => $searchModel,
-    //         'dataProvider' => $dataProvider,
-    //     ]);
-    // }
-
     /**
      * Displays a single Tool model.
      * @param int $id ID
@@ -96,32 +82,42 @@ class ToolController extends Controller
         ]);
     }
 
-    public function actionWork($id, $page = 1, $perPage = 8)
+    public function actionWork($id)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
         $model->tool_status_id = ToolStatus::getEntityId('В работе');
         $model->user_id = Yii::$app->user->id;
-        $tool = $this->findModel($id);
 
         if ($model->save()) {
-            return $this->redirect(['index', 'page' => $page, 'per-page' => $perPage]);
+            return $this->redirect(['view', 'id' => $id]);
         }
     }
 
-    public function actionReturn($id, $page = 1, $perPage = 8)
+    public function actionReturn($id)
     {
-        $model = new ToolHistory();
-        $model->tool_id = $id;
-        $model->tool_status_id = ToolStatus::getEntityId('Доступен');
-        $model->user_id = Yii::$app->user->id;
+        $model = $this->findModel($id);
+        $locations = Location::getEntities();
 
-        if ($model->save()) {
-            return $this->redirect(['index', 'page' => $page, 'per-page' => $perPage]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $toolHistory = new ToolHistory();
+            $toolHistory->tool_id = $id;
+            $toolHistory->tool_status_id = ToolStatus::getEntityId('Доступен');
+            $toolHistory->user_id = Yii::$app->user->id;
+
+            if ($toolHistory->save() && $model->save(false)) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        return $this->render('return', [
+            'model' => $model,
+            'locations' => $locations,
+        ]);
     }
 
-    public function actionRepair($id, $page = 1, $perPage = 8)
+    public function actionRepair($id)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
@@ -129,11 +125,11 @@ class ToolController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         if ($model->save()) {
-            return $this->redirect(['index', 'page' => $page, 'per-page' => $perPage]);
+            return $this->redirect(['view', 'id' => $id]);
         }
     }
 
-    public function actionBroken($id, $page = 1, $perPage = 8)
+    public function actionBroken($id)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
@@ -141,11 +137,11 @@ class ToolController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         if ($model->save()) {
-            return $this->redirect(['index', 'page' => $page, 'per-page' => $perPage]);
+            return $this->redirect(['view', 'id' => $id]);
         }
     }
 
-    public function actionLoss($id, $page = 1, $perPage = 8)
+    public function actionLoss($id)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
@@ -153,7 +149,7 @@ class ToolController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         if ($model->save()) {
-            return $this->redirect(['index', 'page' => $page, 'per-page' => $perPage]);
+            return $this->redirect(['view', 'id' => $id]);
         }
     }
 
