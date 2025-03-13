@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $title
+ * @property int $delete_status
  * @property string $created_at
  *
  * @property Tool[] $tools
@@ -30,6 +31,7 @@ class Location extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
+            [['delete_status'], 'integer'],
             [['created_at'], 'safe'],
             [['title'], 'string', 'max' => 255],
         ];
@@ -41,9 +43,10 @@ class Location extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'created_at' => 'Created At',
+            'id' => 'Номер',
+            'title' => 'Название',
+            'delete_status' => 'Delete Status',
+            'created_at' => 'Дата и время создания',
         ];
     }
 

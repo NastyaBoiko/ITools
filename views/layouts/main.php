@@ -20,15 +20,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100">
+
 <head>
-    <title><?= Html::encode($this->title) ?></title> 
+    <title><?= Html::encode($this->title) ?></title>
     <link rel="icon" href="/valex/assets/images/brand-logos/favicon.ico" type="image/x-icon">
-   
+
     <?php $this->head() ?>
 </head>
 
 <body>
-<?php $this->beginBody() ?>
+    <?php $this->beginBody() ?>
 
     <div class="page">
         <!-- app-header -->
@@ -67,16 +68,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
                 <!-- Start::header-content-right -->
                 <div class="header-content-right">
-                    
+
                     <?= Yii::$app->user->isGuest
                         ? Html::a('Вход', ['/site/login'], ['class' => 'btn btn-outline-primary rounded-pill btn-wave mx-3'])
                         : Html::beginForm(['/site/logout'])
-                            . Html::submitButton(
-                                '<i class="fas fa-sign-out-alt mx-1"></i> Выход (' . Yii::$app->user->identity->surname . ')',
-                                ['class' => 'btn btn-outline-primary rounded-pill btn-wave mx-3']
-                            )
-                            . Html::endForm()
-                            ?>
+                        . Html::submitButton(
+                            '<i class="fas fa-sign-out-alt mx-1"></i> Выход (' . Yii::$app->user->identity->surname . ')',
+                            ['class' => 'btn btn-outline-primary rounded-pill btn-wave mx-3']
+                        )
+                        . Html::endForm()
+                    ?>
 
                 </div>
                 <!-- End::header-content-right -->
@@ -86,7 +87,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
         </header>
         <!-- /app-header -->
-        
+
         <!-- Start::Off-canvas sidebar-->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="header-sidebar" aria-labelledby="sidebarLabel">
             <div class="offcanvas-header rounded-0">
@@ -111,7 +112,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-primary rounded-circle avatar-md">CH</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>New Websites is Created</b>
                                 </p>
@@ -128,7 +129,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-danger rounded-circle avatar-md">N</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>Prepare For the Next Project</b>
                                 </p>
@@ -145,7 +146,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-info rounded-circle avatar-md">S</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>Decide the live Discussion</b>
                                 </p>
@@ -162,7 +163,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-warning rounded-circle avatar-md">K</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>Meeting at 3:00 pm</b>
                                 </p>
@@ -179,7 +180,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-success rounded-circle avatar-md">R</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>Prepare for Presentation</b>
                                 </p>
@@ -196,7 +197,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-pink rounded-circle avatar-md">MS</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>Prepare for Presentation</b>
                                 </p>
@@ -213,7 +214,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-purple rounded-circle avatar-md">L</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>Prepare for Presentation</b>
                                 </p>
@@ -230,7 +231,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="">
                                 <span class="avatar bg-blue rounded-circle avatar-md">U</span>
                             </div>
-                            <a class="wrapper w-100 ms-3" href="javascript:void(0);" >
+                            <a class="wrapper w-100 ms-3" href="javascript:void(0);">
                                 <p class="mb-0 d-flex ">
                                     <b>Prepare for Presentation</b>
                                 </p>
@@ -346,7 +347,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Florinda Carasco</div>
                                 </div>
                                 <div class="ms-auto">
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#chatmodel" ><i class="fab fa-facebook-messenger"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
                                 </div>
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
@@ -390,7 +391,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Mozelle Belt</div>
                                 </div>
                                 <div class="ms-auto">
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-light" ><i class="fab fa-facebook-messenger"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-light"><i class="fab fa-facebook-messenger"></i></a>
                                 </div>
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
@@ -412,7 +413,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Alina Bernier</div>
                                 </div>
                                 <div class="ms-auto">
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-light" ><i class="fab fa-facebook-messenger"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-light"><i class="fab fa-facebook-messenger"></i></a>
                                 </div>
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
@@ -423,7 +424,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Zula Mclaughin</div>
                                 </div>
                                 <div class="ms-auto">
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#chatmodel" ><i class="fab fa-facebook-messenger"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#chatmodel"><i class="fab fa-facebook-messenger"></i></a>
                                 </div>
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
@@ -434,7 +435,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Isidro Heide</div>
                                 </div>
                                 <div class="ms-auto">
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-light" ><i class="fab fa-facebook-messenger"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-light"><i class="fab fa-facebook-messenger"></i></a>
                                 </div>
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
@@ -485,7 +486,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
         <!-- End::Off-canvas sidebar-->
 
 
@@ -509,7 +510,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 <!-- Start::nav -->
                 <nav class="main-menu-container nav nav-pills flex-column sub-open">
                     <div class="slide-left" id="slide-left">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path> </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
+                        </svg>
                     </div>
                     <ul class="main-menu w-100">
                         <?php if (!Yii::$app->user->isGuest && !Yii::$app->user->identity->isAdmin): ?>
@@ -530,7 +533,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <!-- End::slide -->
 
                         <?php endif ?>
-                        
+
                         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin): ?>
                             <!-- Start::slide__category -->
                             <li class="slide__category"><span class="category-name">Пользователи</span></li>
@@ -584,16 +587,31 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <!-- End::slide -->
 
                             <!-- Start::slide__category -->
-                            <li class="slide__category"><span class="category-name">Категории инструментов</span></li>
+                            <li class="slide__category"><span class="category-name">Категории инструмента</span></li>
                             <!-- End::slide__category -->
 
                             <!-- Start::slide -->
                             <li class="slide">
                                 <a href="/admin/category" class="side-menu__item d-flex align-items-center">
                                     <div class="side-menu__icon">
-                                        <i class="fa-solid fa-tags"></i> <!-- Измененная иконка для списка категорий -->
+                                        <i class="fa-solid fa-tags"></i> 
                                     </div>
                                     <span class="side-menu__label text-wrap lh-sm">Список категорий</span>
+                                </a>
+                            </li>
+                            <!-- End::slide -->
+
+                            <!-- Start::slide__category -->
+                            <li class="slide__category"><span class="category-name">Местоположения инструмента</span></li>
+                            <!-- End::slide__category -->
+
+                            <!-- Start::slide -->
+                            <li class="slide">
+                                <a href="/admin/location" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">Список местоположений</span>
                                 </a>
                             </li>
                             <!-- End::slide -->
@@ -601,7 +619,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                         <?php endif ?>
 
                     </ul>
-                    <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path> </svg></div>
+                    <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+                        </svg></div>
                 </nav>
                 <!-- End::nav -->
 
@@ -625,14 +645,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
         <footer class="footer mt-auto py-3 bg-white text-center">
             <div class="container">
-                <span class="text-muted"> Copyright © <span id="year"></span> 
-                <a href="javascript:void(0);" class="text-dark fw-semibold">ITools</a>.
+                <span class="text-muted"> Copyright © <span id="year"></span>
+                    <a href="javascript:void(0);" class="text-dark fw-semibold">ITools</a>.
                     All rights reserved
                 </span>
             </div>
         </footer>
     </div>
-<?php $this->endBody() ?>
+    <?php $this->endBody() ?>
 </body>
+
 </html>
 <?php $this->endPage() ?>
