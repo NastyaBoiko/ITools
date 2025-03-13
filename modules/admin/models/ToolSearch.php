@@ -52,7 +52,7 @@ class ToolSearch extends Tool
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'created_at' => SORT_DESC, 
+                    'id' => SORT_DESC, 
                 ]
             ],
         ]);
