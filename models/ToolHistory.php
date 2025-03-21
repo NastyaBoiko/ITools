@@ -92,4 +92,16 @@ class ToolHistory extends \yii\db\ActiveRecord
                 ->select('MAX(id)')
                 ->groupBy('tool_id');
     }
+
+    public static function toolWithNeededParameterIds(string $parameter, string $value)
+    {
+        return self::find()
+                    ->select('tool_id')
+                    // id in list lastToolHistoryIds
+                    ->where(['id' => self::lastToolHistoryIds()])
+                    ->andWhere([$parameter => $value]) 
+                    ;
+    }
+
+    
 }

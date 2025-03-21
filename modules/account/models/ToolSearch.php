@@ -123,23 +123,13 @@ class ToolSearch extends Tool
             ->andFilterWhere(['like', 'qr', $this->qr]);
 
         if ($this->status_id) {
-            $toolWithNeededStatusIds = ToolHistory::find()
-                        ->select('tool_id')
-                        // id in list lastToolHistoryIds
-                        ->where(['id' => ToolHistory::lastToolHistoryIds()])
-                        ->andWhere(['tool_status_id' => $this->status_id]) 
-                        ;
+            $toolWithNeededStatusIds = ToolHistory::toolWithNeededParameterIds('tool_status_id', $this->status_id);
             
             $query->andFilterWhere(['id' => $toolWithNeededStatusIds]);
         }
 
         if ($this->user_id) {
-            $toolWithNeededUserIds = ToolHistory::find()
-                        ->select('tool_id')
-                        // id in list lastToolHistoryIds
-                        ->where(['id' => ToolHistory::lastToolHistoryIds()])
-                        ->andWhere(['user_id' => $this->user_id]) 
-                        ;
+            $toolWithNeededUserIds = ToolHistory::toolWithNeededParameterIds('user_id', $this->user_id);
             
             $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
         }
