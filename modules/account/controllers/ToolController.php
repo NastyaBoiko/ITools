@@ -66,6 +66,7 @@ class ToolController extends Controller
             'dataProvider' => $dataProvider,
             'statuses' => $statuses,
             'users' => $users,
+            'mySearch' => false,
         ]);
     }
 
@@ -90,6 +91,7 @@ class ToolController extends Controller
             'dataProvider' => $dataProvider,
             'statuses' => $statuses,
             'users' => $users,
+            'mySearch' => true,
         ]);
     }
 
