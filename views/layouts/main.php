@@ -532,6 +532,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             </li>
                             <!-- End::slide -->
 
+                            <!-- Start::slide -->
+                            <li class="slide">
+                                <a href="/account/tool/my-tools" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fa-solid fa-tools"></i>
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">Мои инструменты</span>
+                                </a>
+                            </li>
+                            <!-- End::slide -->
+
                         <?php endif ?>
 
                         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin): ?>
@@ -594,7 +605,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <li class="slide">
                                 <a href="/admin/category" class="side-menu__item d-flex align-items-center">
                                     <div class="side-menu__icon">
-                                        <i class="fa-solid fa-tags"></i> 
+                                        <i class="fa-solid fa-tags"></i>
                                     </div>
                                     <span class="side-menu__label text-wrap lh-sm">Список категорий</span>
                                 </a>

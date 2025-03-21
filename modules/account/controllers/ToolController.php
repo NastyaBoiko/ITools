@@ -69,6 +69,30 @@ class ToolController extends Controller
         ]);
     }
 
+
+    /**
+     * Lists all Tool models.
+     *
+     * @return string
+     */
+    public function actionMyTools()
+    {
+        $searchModel = new ToolSearch();
+        $statuses = ToolStatus::getEntities();
+        $users = User::getEntities();
+
+        $dataProvider = $searchModel->search($this->request->queryParams, true);
+
+        // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'statuses' => $statuses,
+            'users' => $users,
+        ]);
+    }
+
     /**
      * Displays a single Tool model.
      * @param int $id ID

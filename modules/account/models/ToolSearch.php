@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Tool;
 use app\models\ToolHistory;
+use Yii;
 
 /**
  * ToolSearch represents the model behind the search form of `app\models\Tool`.
@@ -73,7 +74,7 @@ class ToolSearch extends Tool
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $myTools = false)
     {
         $query = Tool::find()
                 ->with(['toolHistories', 'toolHistories.toolStatus', 'toolHistories.user'])
@@ -131,6 +132,11 @@ class ToolSearch extends Tool
         if ($this->user_id) {
             $toolWithNeededUserIds = ToolHistory::toolWithNeededParameterIds('user_id', $this->user_id);
             
+            $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
+        }
+
+        if ($myTools) {
+            $toolWithNeededUserIds = ToolHistory::toolWithNeededParameterIds('user_id', Yii::$app->user->id);
             $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
         }
 
