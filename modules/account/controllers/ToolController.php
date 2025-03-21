@@ -142,13 +142,18 @@ class ToolController extends Controller
             $toolHistory->user_id = Yii::$app->user->id;
 
             if ($toolHistory->save() && $model_return->save(false)) {
-                return $this->render('_form-modal', [
+                return $this->renderAjax('_form-modal', [
                     'model' => $model_return,
                     'locations' => $locations,
                 ]);
             }
         }
-        
+
+        return $this->renderAjax('_form-modal', [
+            'model' => $model_return,
+            'locations' => $locations,
+        ]);
+
     }
 
     public function actionRepair($id)

@@ -4,14 +4,14 @@ $(() => {
 
         $('#return-modal-form').attr('action', $(this).attr('href'));
 
-        $('#return-modal').modal('show');
-        // $('#return-modal').find('modal-body').load('/account/tool/return?id=20', function () {
-        // })
+        $('#return-modal').find('.modal-body').load($(this).attr('href'), function () {
+            $('#return-modal').modal('show');
+        })
     })
 
-    $('#form-return-pjax').on('pjax:end', () => {
-        $('#return-modal').modal('hide');
 
+    $('#return-modal').on('pjax:end', '#form-return-pjax', () => {
+        $('#return-modal').modal('hide');
         $.pjax.reload('#account-tool-pjax');
     })
 })
