@@ -98,7 +98,7 @@ use yii\bootstrap5\Html;
                         ? Html::a('<i class="fas fa-undo"></i> Вернуть на склад', [
                             'return',
                             'id' => $model->id,
-                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1'])
+                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-return-modal'])
                         : ''
                     ?>
                     <?= ($status !== 'В ремонте' && $status !== 'Сломан' && $status !== 'Утерян')
@@ -122,7 +122,6 @@ use yii\bootstrap5\Html;
                         ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1'])
                         : ''
                     ?>
-
                 </div>
             </div>
         </div>

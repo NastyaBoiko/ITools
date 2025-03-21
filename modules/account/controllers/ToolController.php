@@ -56,8 +56,15 @@ class ToolController extends Controller
         $searchModel = new ToolSearch();
         $statuses = ToolStatus::getEntities();
         $users = User::getEntities();
+        $locations = Location::getEntities();
 
         $dataProvider = $searchModel->search($this->request->queryParams);
+        
+        $model_return = null;
+
+        if ($dataProvider->count) {
+            $model_return = $dataProvider->models[0];
+        }
 
         // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
 
@@ -66,6 +73,8 @@ class ToolController extends Controller
             'dataProvider' => $dataProvider,
             'statuses' => $statuses,
             'users' => $users,
+            'model_return' => $model_return,
+            'locations' => $locations,
             'mySearch' => false,
         ]);
     }
@@ -122,25 +131,24 @@ class ToolController extends Controller
 
     public function actionReturn($id)
     {
-        $model = $this->findModel($id);
+        $model_return = $this->findModel($id);
         $locations = Location::getEntities();
 
-        if ($this->request->isPost && $model->load($this->request->post())) {
+        if ($this->request->isPost && $model_return->load($this->request->post())) {
 
             $toolHistory = new ToolHistory();
             $toolHistory->tool_id = $id;
             $toolHistory->tool_status_id = ToolStatus::getEntityId('Доступен');
             $toolHistory->user_id = Yii::$app->user->id;
 
-            if ($toolHistory->save() && $model->save(false)) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($toolHistory->save() && $model_return->save(false)) {
+                return $this->render('_form-modal', [
+                    'model' => $model_return,
+                    'locations' => $locations,
+                ]);
             }
         }
-
-        return $this->render('return', [
-            'model' => $model,
-            'locations' => $locations,
-        ]);
+        
     }
 
     public function actionRepair($id)

@@ -2,9 +2,11 @@
 
 use app\models\Tool;
 use yii\bootstrap5\LinkPager;
+use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
+use yii\web\JqueryAsset;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 /** @var yii\web\View $this */
@@ -18,7 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+        'id' => 'account-tool-pjax',
+    ]); ?>
+
     <div class="row my-3">
         <?php echo $this->render(($mySearch ? '_my-search' : '_search'), [
             'model' => $searchModel,
@@ -46,3 +51,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end(); ?>
 
 </div>
+
+<?php
+
+    if ($dataProvider->count) {
+        Modal::begin([
+            'id' => 'return-modal',
+            'title' => '<h2>Возвращение на склад</h2>',
+            // 'size' => 'modal-lg',
+        ]);
+    
+        echo $this->render('_form-modal', [
+            'model' => $model_return,
+            'locations' => $locations,
+        ]);
+    
+        Modal::end();
+        
+        $this->registerJsFile('/js/return-modal.js', ['depends' => JqueryAsset::class]);
+    }
+
+
+?>
