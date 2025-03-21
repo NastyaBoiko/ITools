@@ -90,14 +90,23 @@ class ToolController extends Controller
         $searchModel = new ToolSearch();
         $statuses = ToolStatus::getEntities();
         $users = User::getEntities();
+        $locations = Location::getEntities();
 
         $dataProvider = $searchModel->search($this->request->queryParams, true);
+
+        $model_return = null;
+
+        if ($dataProvider->count) {
+            $model_return = $dataProvider->models[0];
+        }
 
         // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model_return' => $model_return,
+            'locations' => $locations,
             'statuses' => $statuses,
             'users' => $users,
             'mySearch' => true,
