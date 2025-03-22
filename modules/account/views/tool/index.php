@@ -61,11 +61,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'size' => 'modal-lg',
         ]);
     
-        echo $this->render('_form-modal', [
-            'model' => $model_return,
-            'locations' => $locations,
-        ]);
-    
         Modal::end();
         
         $this->registerJsFile('/js/return-modal.js', ['depends' => JqueryAsset::class]);

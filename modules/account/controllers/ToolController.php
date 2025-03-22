@@ -121,8 +121,11 @@ class ToolController extends Controller
      */
     public function actionView($id)
     {
+        $locations = Location::getEntities();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'locations' => $locations,
         ]);
     }
 
