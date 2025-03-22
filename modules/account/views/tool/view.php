@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body h-100">
                     <div class="row ">
                         <?php if ($model->toolImages): ?>
-                            <div class=" col-xl-5 col-lg-12 col-md-12">
+                            <div class="col-xl-5 col-lg-12 col-md-12 mb-3">
                                 <div id="carouselExampleControls" class="carousel slide pointer-event" data-bs-ride="carousel">
                                     <div class="carousel-inner">
                                         <?php foreach ($model->toolImages as $key => $toolImage): ?>
@@ -145,7 +145,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ?  Html::a('<i class="fas fa-check"></i> Взять в работу', [
                                             'work',
                                             'id' => $model->id,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1'])
+                                            'view' => true,
+                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
                                         : ''
                                     ?>
                                     <?= $status === 'В работе' || $status === 'В ремонте' || $status === 'Сломан' || $status === 'Утерян'
@@ -159,21 +160,24 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ? Html::a('<i class="fas fa-exclamation-triangle"></i> Инструмент сломан', [
                                             'broken',
                                             'id' => $model->id,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1'])
+                                            'view' => true,
+                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
                                         : ''
                                     ?>
                                     <?= ($status !== 'В ремонте' && $status !== 'Утерян')
                                         ? Html::a('<i class="fas fa-wrench"></i> Сдать в ремонт', [
                                             'repair',
                                             'id' => $model->id,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1'])
+                                            'view' => true,
+                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
                                         : ''
                                     ?>
                                     <?= $status !== 'Утерян'
                                         ? Html::a('<i class="fas fa-ban"></i> Инструмент утерян', [
                                             'loss',
                                             'id' => $model->id,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1'])
+                                            'view' => true,
+                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
                                         : ''
                                     ?>
                                 </div>
@@ -198,6 +202,7 @@ Modal::begin([
 Modal::end();
 
 $this->registerJsFile('/js/return-modal-view.js', ['depends' => JqueryAsset::class]);
+$this->registerJsFile('/js/pjax-reload-btns.js', ['depends' => JqueryAsset::class]);
 
 
 ?>

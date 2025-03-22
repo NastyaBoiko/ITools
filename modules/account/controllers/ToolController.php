@@ -129,7 +129,7 @@ class ToolController extends Controller
         ]);
     }
 
-    public function actionWork($id)
+    public function actionWork($id, $view = false)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
@@ -137,7 +137,11 @@ class ToolController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         if ($model->save()) {
-            return $this->redirect(['view', 'id' => $id]);
+            if ($view) {
+                return $this->asJson(['status' => 'success']);
+            } else {
+                return $this->redirect(['view', 'id' => $id]);
+            }
         }
     }
 
@@ -168,7 +172,7 @@ class ToolController extends Controller
 
     }
 
-    public function actionRepair($id)
+    public function actionRepair($id, $view = false)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
@@ -176,11 +180,15 @@ class ToolController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         if ($model->save()) {
-            return $this->redirect(['view', 'id' => $id]);
+            if ($view) {
+                return $this->asJson(['status' => 'success']);
+            } else {
+                return $this->redirect(['view', 'id' => $id]);
+            }
         }
     }
 
-    public function actionBroken($id)
+    public function actionBroken($id, $view = false)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
@@ -188,11 +196,15 @@ class ToolController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         if ($model->save()) {
-            return $this->redirect(['view', 'id' => $id]);
+            if ($view) {
+                return $this->asJson(['status' => 'success']);
+            } else {
+                return $this->redirect(['view', 'id' => $id]);
+            }
         }
     }
 
-    public function actionLoss($id)
+    public function actionLoss($id, $view = false)
     {
         $model = new ToolHistory();
         $model->tool_id = $id;
@@ -200,7 +212,11 @@ class ToolController extends Controller
         $model->user_id = Yii::$app->user->id;
 
         if ($model->save()) {
-            return $this->redirect(['view', 'id' => $id]);
+            if ($view) {
+                return $this->asJson(['status' => 'success']);
+            } else {
+                return $this->redirect(['view', 'id' => $id]);
+            }
         }
     }
 

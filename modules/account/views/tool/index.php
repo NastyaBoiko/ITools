@@ -66,5 +66,6 @@ $this->params['breadcrumbs'][] = $this->title;
         $this->registerJsFile('/js/return-modal.js', ['depends' => JqueryAsset::class]);
     }
 
+    $this->registerJsFile('/js/pjax-reload-btns.js', ['depends' => JqueryAsset::class]);
 
 ?>
