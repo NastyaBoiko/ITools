@@ -2,7 +2,10 @@
 
 namespace app\models;
 
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Yii;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "tool".
@@ -277,8 +280,10 @@ class Tool extends \yii\db\ActiveRecord
 
     public function saveToolData() 
     {
+        
         if ($imgUrls = $this->upload()) {
             if ($this->save(false)) {
+                $this->generateQrCode();
                 foreach($imgUrls as $imgUrl) {
                     $toolImage = new ToolImage();
                     $toolImage->tool_id = $this->id;
@@ -291,8 +296,42 @@ class Tool extends \yii\db\ActiveRecord
             } 
         } else {
             if ($this->save()) {
+                $this->generateQrCode();
                 return true;
             }
+        }
+    }
+
+    public function generateQrCode()
+    {
+        $url = Url::to(['admin/tool/view', 'id' => $this->id], true);
+        // dd($url);
+        
+        // Создание QR-кода
+        $qrCode = QrCode::create($url)
+            // ->setData('Инструмент ' . $this->id . '. ' . $this->toolMaker->title)
+            ->setSize(300)
+            ->setMargin(10);
+
+        // Генерация изображения QR-кода
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+
+        // Имя изображения
+        $fileName = 'qrcode_' . $this->id . uniqid() . '.png';
+
+        // $filePath = 'img/qr/qrcode_' . $this->id . uniqid() . '.png';
+
+        // Сохранение изображения на диск
+        $result->saveToFile('img/qr/' . $fileName);
+
+        // Сохранение пути к изображению в базе данных
+        $this->qr = $fileName;
+
+        if ($this->save(false)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -30,6 +30,7 @@ class ValexAsset extends AssetBundle
         "/valex/assets/libs/jsvectormap/css/jsvectormap.min.css",
         "/valex/assets/icon-fonts/feather/feather.css",
         "/css/valex.css",
+        "/css/my.css",
     ];
     public $js = [
         "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",

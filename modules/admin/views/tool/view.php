@@ -24,9 +24,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body h-100">
-                    <div class="row ">
+                    <div class="row">
+                        <?php if ($model->qr): ?>
+                            <div class="qr-code">
+                                <?= Html::img('/img/qr/' . $model->qr, [
+                                    'alt' => 'Qr инструмента',
+                                    'class' => '',
+                                ]) ?>
+                            </div>
+                        <?php endif ?>
+
                         <?php if ($model->toolImages): ?>
-                            <div class=" col-xl-5 col-lg-12 col-md-12">
+                            <div class="col-xl-5 col-lg-12 col-md-12">
                                 <div id="carouselExampleControls" class="carousel slide pointer-event" data-bs-ride="carousel">
                                     <div class="carousel-inner">
                                         <?php foreach ($model->toolImages as $key => $toolImage): ?>
@@ -53,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         <?php endif ?>
                         <div class="details col-xl-7 col-lg-12 col-md-12 mt-3 mt-xl-0">
+
                             <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
                             <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
 

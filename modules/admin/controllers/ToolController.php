@@ -19,6 +19,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use yii\helpers\Url;
 
 /**
  * ToolController implements the CRUD actions for Tool model.
