@@ -151,6 +151,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'method' => 'post',
                                     ],
                                 ]) ?>
+
+                                <?= $model->qr
+                                    ? Html::a('<i class="fas fa-download"></i> Скачать qr-код в PDF', ['download-qr', 'id' => $model->id], [
+                                        'class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light',
+                                        'title' => 'Скачать qr-код',
+                                    ])
+                                    : ''; ?>
                             </div>
                         </div>
                     </div>

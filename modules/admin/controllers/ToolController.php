@@ -21,6 +21,7 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+use FPDF;
 use yii\helpers\Url;
 
 /**
@@ -196,6 +197,41 @@ class ToolController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Запрашиваемая страница не найдена');
+    }
+
+    public function actionDownloadQr($id)
+    {
+        $model = $this->findModel($id);
+
+        // Укажите путь к вашему PNG файлу
+        $imagePath = 'img/qr/' . $model->qr;
+
+        if (file_exists($imagePath)) {
+            // Создаем новый PDF документ
+            $pdf = new FPDF();
+            $pdf->AddPage();
+
+            // Получаем размеры изображения
+            list($width, $height) = getimagesize($imagePath);
+
+            // Преобразуем размеры в миллиметры (1px = 0.264583 mm)
+            $width_mm = 20;
+            $height_mm = 20;
+
+            // Добавляем текст (подпись) над изображением
+            $pdf->SetFont('Arial', 'B', 8); // Устанавливаем шрифт и размер
+            $pdf->SetXY(3, 22); // Устанавливаем позицию текста (X, Y)
+            $pdf->Cell(0, 10, $model->id . '. ' . $model->toolMaker->title, 0, 1); // Параметры: ширина, высота, текст, рамка, переход на новую строку, выравнивание
+
+            // Добавляем изображение в PDF
+            $pdf->Image($imagePath, 3, 3, $width_mm, $height_mm);
+
+            // Отправляем PDF на загрузку
+            $pdf->Output('D', $model->id . '_' . $model->toolMaker->title . '.pdf'); // D - для загрузки
+
+        } else {
+            throw new NotFoundHttpException('Файл не найден.');
+        }
     }
 }
