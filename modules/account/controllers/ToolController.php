@@ -138,7 +138,7 @@ class ToolController extends Controller
 
         if ($model->save()) {
             if ($view) {
-                return $this->asJson(['status' => 'success']);
+                return $this->asJson(['status' => true]);
             } else {
                 return $this->redirect(['view', 'id' => $id]);
             }
@@ -181,7 +181,7 @@ class ToolController extends Controller
 
         if ($model->save()) {
             if ($view) {
-                return $this->asJson(['status' => 'success']);
+                return $this->asJson(['status' => true]);
             } else {
                 return $this->redirect(['view', 'id' => $id]);
             }
@@ -197,7 +197,7 @@ class ToolController extends Controller
 
         if ($model->save()) {
             if ($view) {
-                return $this->asJson(['status' => 'success']);
+                return $this->asJson(['status' => true]);
             } else {
                 return $this->redirect(['view', 'id' => $id]);
             }
@@ -213,7 +213,7 @@ class ToolController extends Controller
 
         if ($model->save()) {
             if ($view) {
-                return $this->asJson(['status' => 'success']);
+                return $this->asJson(['status' => true]);
             } else {
                 return $this->redirect(['view', 'id' => $id]);
             }

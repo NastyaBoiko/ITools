@@ -88,7 +88,7 @@ $status = '';
                     </div>
                 </div>
                 <div class="d-grid gap-1">
-                    <?= Html::a('<i class="fas fa-eye"></i> Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1']) ?>
+                    <?= Html::a('<i class="fas fa-eye"></i> Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1', 'data-pjax' => 0]) ?>
                 </div>
             </div>
         </div>

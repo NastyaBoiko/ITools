@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\Tool $model */
 
 $this->title = $model->id . '. ' . $model->toolMaker->title;
-$this->params['breadcrumbs'][] = ['label' => 'Tools', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Инструменты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 // dd($model->toolImages);
