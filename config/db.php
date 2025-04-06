@@ -32,8 +32,8 @@
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=db;dbname=itools',
-    'username' => 'root',
-    'password' => 'root',
+    'username' => 'user',
+    'password' => 'user',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
