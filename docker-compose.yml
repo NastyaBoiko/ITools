@@ -1,9 +1,35 @@
-version: '2'
+version: '3.8'
 services:
   php:
-    image: yiisoftware/yii2-php:7.4-apache
+    image: yiisoftware/yii2-php:8.4-apache
     volumes:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./:/app:delegated
     ports:
       - '8000:80'
+
+  # Сервис для MySQL
+  db:
+    image: mysql:8.0
+    container_name: yii2-db
+    environment:
+      MYSQL_DATABASE: itools        # Имя базы данных
+      MYSQL_USER: user              # Пользователь базы данных
+      MYSQL_PASSWORD: user          # Пароль пользователя
+      MYSQL_ROOT_PASSWORD: root     # Пароль для root
+    volumes:
+      - ./mysql-data:/var/lib/mysql # Храним данные MySQL на хосте
+    ports:
+      - "3306:3306"                 # Открываем порт 3306 для MySQL
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: yii2-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
+    platform: linux/amd64 # Указываем платформу
