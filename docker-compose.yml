@@ -1,6 +1,7 @@
 services:
-  php:
+  app:
     image: yiisoftware/yii2-php:8.4-apache
+    container_name: yii2_app
     volumes:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./:/app:delegated
@@ -10,7 +11,7 @@ services:
   # Сервис для MySQL
   db:
     image: mysql:8.0
-    container_name: yii2-db
+    container_name: yii2_db
     environment:
       MYSQL_DATABASE: itools        # Имя базы данных
       MYSQL_USER: user              # Пользователь базы данных
@@ -23,7 +24,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: yii2-phpmyadmin
+    container_name: yii2_phpmyadmin
     ports:
       - "8081:80"
     environment:
@@ -32,3 +33,5 @@ services:
     depends_on:
       - db
     platform: linux/amd64 # Указываем платформу
+
+    
