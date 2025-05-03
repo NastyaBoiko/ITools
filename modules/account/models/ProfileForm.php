@@ -7,6 +7,8 @@ use app\models\UserExtras;
 use Yii;
 use yii\base\Model;
 
+use function PHPUnit\Framework\isNull;
+
 /**
  * This is the model class for profile form.
  *
@@ -37,6 +39,8 @@ class ProfileForm extends Model
     public $position;
     public $vk;
     public $telegram;
+    public $avatar;
+    public $imageFile;
 
     /**
      * @return array the validation rules.
@@ -59,7 +63,18 @@ class ProfileForm extends Model
             [['password', 'password_repeat', 'old_password'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Новый пароль\' и \'Повтор нового пароля\' должны совпадать'],
 
+            // Условное требование заполнения password_repeat
+            [
+                'password_repeat',
+                'required',
+                'when' => fn($model) => !empty($model->password),
+                'whenClient' => "() => $('#profileform-password').val() !== ''",
+                'message' => 'Необходимо повторить новый пароль'
+            ],
+
             [['phone'], 'match', 'pattern' => '/^\+7\-[\d]{3}\-[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'Формат +7-XXX-XXX-XX-XX'],
+
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
@@ -88,41 +103,66 @@ class ProfileForm extends Model
             'position' => 'Должность',
             'telegram' => 'Ссылка на Telegram',
             'vk' => 'Ссылка на Вконтакте',
+            'imageFile' => 'Аватар',
+            'avatar' => 'Аватар',
         ];
     }
 
     public function saveAll()
     {
-        if ($this->validate()) {
-            $user = User::findOne(['id' => Yii::$app->user->id]);
-            $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
+        $user = User::findOne(['id' => Yii::$app->user->id]);
+        $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
 
-            $user->load($this->attributes, '');
-            $userExtras->load($this->attributes, '');
+        $user->load($this->attributes, '');
+        $userExtras->load($this->attributes, '');
 
-            if ($this->password) {
-                $user->password = Yii::$app->security->generatePasswordHash($this->password);
-            } else {
-                $user->password = Yii::$app->user->identity->password;
-            }
-
-            if ($user->save()) {
-                if ($userExtras->save()) {
-                    return true;
-                } else {
-                    dd($userExtras->errors);
-                }
-            } else {
-                dd($user->errors);
-            }
+        if (is_null($userExtras->avatar)) {
+            $userExtras->avatar = Yii::$app->user->identity->userExtras->avatar;
         }
 
-        return false;
+        if ($this->password) {
+            $user->password = Yii::$app->security->generatePasswordHash($this->password);
+        } else {
+            $user->password = Yii::$app->user->identity->password;
+        }
 
-
-        // dump($user);
-        // dd($userExtras);
-        // if ($this->validate()) {
+        if ($user->save()) {
+            if ($userExtras->save()) {
+                return true;
+            }
+            // else {
+            //     dd($userExtras->errors);
+            // }
+        }
+        // else {
+        //     dd($user->errors);
         // }
+
+        return false;
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            // Путь к директории аватаров
+            $directory = 'avatars/';
+
+            // Удаление всех предыдущих аватаров пользователя
+            $userId = Yii::$app->user->id;
+            $files = glob($directory . $userId . '_*'); // Находим все файлы, начинающиеся с ID пользователя
+
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file); // Удаляем файл
+                }
+            }
+
+            $fileName = Yii::$app->user->id . '_' . date('U') . '_' . Yii::$app->security->generateRandomString(10) . '.' . $this->imageFile->extension;
+            $this->imageFile->saveAs('avatars/' . $fileName);
+            $this->avatar = $fileName;
+            return true;
+        } else {
+            return false;
+        }
     }
 }

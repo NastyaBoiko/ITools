@@ -26,9 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card-body">
                         <div class="ps-0">
                             <div class="main-profile-overview">
-                                <!-- <div class="main-img-user profile-user user-profile">
-                                    <img alt="" src="../assets/images/faces/6.jpg"><a class="fe fe-camera profile-edit text-primary" href="JavaScript:void(0);"></a>
-                                </div> -->
+                                <div class="main-img-user profile-user user-profile">
+                                    <img alt="Аватар" src="<?= Html::encode('/avatars/' . (Yii::$app->user->identity->userExtras->avatar ?? 'no_image.jpg')) ?>"><a class="fe fe-camera profile-edit text-primary" href="JavaScript:void(0);"></a>
+                                </div>
                                 <div class="d-flex justify-content-between mb-4">
                                     <div>
                                         <h5 class="main-profile-name"><?= Html::encode(Yii::$app->user->identity->fio) ?></h5>
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?php endif ?>
                                     <?php if (Yii::$app->user->identity->userExtras->telegram): ?>
                                         <div class="media">
-                                            <div class="media-icon bg-success-transparent text-success">
+                                            <div class="media-icon bg-info-transparent text-info">
                                                 <i class="fa-brands fa-telegram"></i>
                                             </div>
                                             <div class="media-body">
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= Yii::$app->user->identity->userExtras->about ?? 'Биография не заполнена' ?>
                             </div>
                             <div class="tab-pane border-0 p-0" id="settings" role="tabpanel">
-                                <?php $form = ActiveForm::begin(); ?>
+                                <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
                                 <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->name]) ?>
 
@@ -125,6 +125,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= $form->field($model, 'vk')->textInput(['value' => Yii::$app->user->identity->userExtras->vk]) ?>
 
                                 <?= $form->field($model, 'telegram')->textInput(['value' => Yii::$app->user->identity->userExtras->telegram]) ?>
+
+                                <?= $form->field($model, 'imageFile')->fileInput() ?>
 
                                 <div class="form-group">
                                     <?= Html::submitButton('Изменить', ['class' => 'btn btn-success']) ?>

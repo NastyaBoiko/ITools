@@ -10,6 +10,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ProfileController implements the CRUD actions for User model.
@@ -25,7 +26,7 @@ class ProfileController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -43,6 +44,7 @@ class ProfileController extends Controller
     {
         $model = new ProfileForm();
 
+        //  Если еще нет user_extras
         $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
 
         if (!$userExtras) {
@@ -53,8 +55,11 @@ class ProfileController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                if ($model->saveAll()) {
-                    return $this->redirect(['index']);
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                if (is_null($model->imageFile) || $model->upload()) {
+                    if ($model->saveAll()) {
+                        return $this->redirect(['index']);
+                    }
                 }
             }
         } else {

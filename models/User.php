@@ -226,7 +226,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getFio()
     {
-        return $this->name . ' ' . $this->surname;
+        return $this->surname . ' ' . $this->name . ' ' . $this->patronymic;
     }
 
     public function getPhoneHref()

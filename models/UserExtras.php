@@ -14,6 +14,7 @@ use Yii;
  * @property string|null $about
  * @property string|null $telegram
  * @property string|null $vk
+ * @property string|null $avatar
  *
  * @property User $user
  */
@@ -35,11 +36,11 @@ class UserExtras extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'position', 'about', 'telegram', 'vk'], 'default', 'value' => null],
+            [['status', 'position', 'about', 'telegram', 'vk', 'avatar'], 'default', 'value' => null],
             [['user_id'], 'required'],
             [['user_id'], 'integer'],
             [['about'], 'string'],
-            [['status', 'position', 'telegram', 'vk'], 'string', 'max' => 255],
+            [['status', 'position', 'telegram', 'vk', 'avatar'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -57,6 +58,7 @@ class UserExtras extends \yii\db\ActiveRecord
             'about' => 'Биография',
             'telegram' => 'Ссылка на Telegram',
             'vk' => 'Ссылка на Вконтакте',
+            'avatar' => 'Аватар',
         ];
     }
 
