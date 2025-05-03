@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <i class="fa-brands fa-telegram"></i>
                                         </div>
                                         <div class="media-body">
-                                            <span>Telegram</span> <a href="javascript:void(0);" class="text-primary"><?= Html::encode(Yii::$app->user->identity->userExtras->telegram) ?></a>
+                                            <span>Telegram</span> <a href="<?= Html::encode(Yii::$app->user->identity->userExtras->telegramHref) ?>" class="text-primary"><?= Html::encode(Yii::$app->user->identity->userExtras->telegram) ?></a>
                                         </div>
                                     </div>
                                 <?php endif ?>
@@ -126,7 +126,32 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?= $form->field($model, 'imageFile')->fileInput() ?>
 
-                            <div class="form-group">
+                            <div class="mb-2">Текущее изображение:</div>
+                            <?php if (!empty(Yii::$app->user->identity->userExtras->avatar)): ?>
+                                <div style="position: relative; display: inline-block;">
+                                    <!-- Миниатюра изображения -->
+                                    <img src="<?= Yii::getAlias('@web') . '/avatars/' . Html::encode(Yii::$app->user->identity->userExtras->avatar) ?>"
+                                        alt="Текущее изображение"
+                                        style="width: 100px; height: 100px; object-fit: cover; border-radius: 10%; border: 2px solid #ccc;">
+
+                                    <!-- Крестик для удаления -->
+                                    <?= Html::a(
+                                        '<i class="fa-solid fa-circle-xmark"></i>',
+                                        ['delete-avatar'], // Ссылка на действие для удаления аватара
+                                        [
+                                            'class' => 'delete-avatar',
+                                            'style' => 'position: absolute; top: -10px; right: -10px; color: #fff; background-color: #ff4d4d; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; text-decoration: none;',
+                                            'title' => 'Удалить изображение',
+                                            'data-confirm' => 'Вы уверены, что хотите удалить это изображение?', // Подтверждение перед удалением
+                                            'data-method' => 'post', // Метод отправки запроса
+                                        ]
+                                    ) ?>
+                                </div>
+                            <?php else: ?>
+                                <p>Изображение не загружено.</p>
+                            <?php endif; ?>
+
+                            <div class="form-group my-3">
                                 <?= Html::submitButton('Изменить', ['class' => 'btn btn-success']) ?>
                             </div>
 

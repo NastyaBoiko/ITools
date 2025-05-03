@@ -71,4 +71,9 @@ class UserExtras extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    public function getTelegramHref()
+    {
+        return 'https://t.me/' . str_replace('@', '', $this->telegram);
+    }
 }

@@ -62,13 +62,30 @@ class ProfileController extends Controller
                     }
                 }
             }
-        } else {
-            // $model->loadDefaultValues();
         }
 
         return $this->render('index', [
             'model' => $model,
         ]);
+    }
+
+    public function actionDeleteAvatar()
+    {
+        $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
+
+        if ($userExtras && !empty($userExtras->avatar)) {
+            // Удаляем файл изображения
+            $filePath = '/avatars/' . $userExtras->avatar;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            // Очищаем поле avatar в базе данных
+            $userExtras->avatar = null;
+            $userExtras->save();
+        }
+
+        return $this->redirect(['index']); // Перенаправляем на страницу профиля
     }
 
     /**
