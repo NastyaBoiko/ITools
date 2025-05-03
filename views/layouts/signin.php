@@ -42,7 +42,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 </div>
             </div>
             <!-- The content half -->
-            <div class="col-md-6 col-lg-6 col-xl-5 bg-white py-4">
+            <div class="col-md-6 col-lg-6 col-xl-5 bg-white">
                 <div class="login d-flex align-items-center py-2">
                     <!-- Demo content-->
                     <div class="container p-0">
