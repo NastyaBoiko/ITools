@@ -57,7 +57,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['password_repeat'], 'string', 'min' => 6],
             [['password', 'password_repeat'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры', 'on' => self::SCENARIO_REGISTER],
             // [['password', 'password_repeat'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
-            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Пароль\' и \'Повтор пароля\' должны совпадать'],
+            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Пароль\' и \'Повтор пароля\' должны совпадать', 'on' => self::SCENARIO_REGISTER],
 
             [['phone'], 'unique', 'message' => 'Пользователь с таким номером телефона уже существует'],
             [['phone'], 'match', 'pattern' => '/^\+7\-[\d]{3}\-[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'Формат +7-XXX-XXX-XX-XX'],
@@ -173,13 +173,23 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(ToolHistory::class, ['user_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[UserExtras]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserExtras()
+    {
+        return $this->hasOne(UserExtras::class, ['user_id' => 'id']);
+    }
+
     public static function getEntities()
     {
         return self::find()
-                    ->select(['concat(name, SPACE(1), surname) as name'])
-                    ->indexBy('id')
-                    ->column()
-                    ;
+            ->select(['concat(name, SPACE(1), surname) as name'])
+            ->indexBy('id')
+            ->column()
+        ;
     }
 
     public function getIsAdmin()
@@ -191,12 +201,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if ($this->validate()) {
             $user = new User();
-            
+
             $user->attributes = $this->attributes;
             $user->role_id = Role::getEntityId('user');
             $user->auth_key = Yii::$app->security->generateRandomString();
             $user->password = Yii::$app->security->generatePasswordHash($this->password);
-            
+
             if (!$user->save(false)) {
                 dd($user->errors);
             }
@@ -212,5 +222,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword(string $password)
     {
         return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function getFio()
+    {
+        return $this->name . ' ' . $this->surname;
+    }
+
+    public function getPhoneHref()
+    {
+        return str_replace('-', '', $this->phone);
     }
 }
