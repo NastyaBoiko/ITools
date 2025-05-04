@@ -17,6 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
+    <p>
+        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', Yii::$app->request->referrer ?? ['tool/index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
+    </p>
+
     <!-- Start::row-1 -->
     <div class="row row-sm">
         <div class="col-xl-4 py-0">

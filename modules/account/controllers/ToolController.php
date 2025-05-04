@@ -37,7 +37,7 @@ class ToolController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -59,7 +59,7 @@ class ToolController extends Controller
         $locations = Location::getEntities();
 
         $dataProvider = $searchModel->search($this->request->queryParams);
-        
+
         $model_return = null;
 
         if ($dataProvider->count) {
@@ -122,10 +122,12 @@ class ToolController extends Controller
     public function actionView($id)
     {
         $locations = Location::getEntities();
+        $lastUser = ToolHistory::getLastUser($id);
 
         return $this->render('view', [
             'model' => $this->findModel($id),
             'locations' => $locations,
+            'lastUser' => $lastUser,
         ]);
     }
 
@@ -169,7 +171,6 @@ class ToolController extends Controller
             'model' => $model_return,
             'locations' => $locations,
         ]);
-
     }
 
     public function actionRepair($id, $view = false)

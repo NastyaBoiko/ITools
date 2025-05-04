@@ -28,6 +28,10 @@
     color: darkred;
 }
 
+.text-hover-primary:hover {
+    color: #007bff; /* Цвет текста при наведении */
+}
+
 @media (max-width: 1200px) {
     .py-0 {
         padding-left: 0;

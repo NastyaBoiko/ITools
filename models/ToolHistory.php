@@ -89,19 +89,41 @@ class ToolHistory extends \yii\db\ActiveRecord
     public static function lastToolHistoryIds()
     {
         return self::find()
-                ->select('MAX(id)')
-                ->groupBy('tool_id');
+            ->select('MAX(id)')
+            ->groupBy('tool_id');
     }
 
     public static function toolWithNeededParameterIds(string $parameter, string $value)
     {
         return self::find()
-                    ->select('tool_id')
-                    // id in list lastToolHistoryIds
-                    ->where(['id' => self::lastToolHistoryIds()])
-                    ->andWhere([$parameter => $value]) 
-                    ;
+            ->select('tool_id')
+            // id in list lastToolHistoryIds
+            ->where(['id' => self::lastToolHistoryIds()])
+            ->andWhere([$parameter => $value])
+        ;
     }
 
-    
+    public static function getLastUser($toolId)
+    {
+        $toolHistory = self::find()
+            ->select('*')
+            // id in list lastToolHistoryIds
+            ->where(['id' => self::lastToolHistoryIds()])
+            ->andWhere(['tool_id' => $toolId])
+            ->one();
+
+        return $toolHistory->user;
+    }
+
+    public static function getLastStatus($toolId)
+    {
+        $toolHistory = self::find()
+            ->select('*')
+            // id in list lastToolHistoryIds
+            ->where(['id' => self::lastToolHistoryIds()])
+            ->andWhere(['tool_id' => $toolId])
+            ->one();
+
+        return $toolHistory->toolStatus;
+    }
 }

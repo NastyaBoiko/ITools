@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\Tool $model */
 
 $this->title = $model->id . '. ' . $model->toolMaker->title;
-$this->params['breadcrumbs'][] = ['label' => 'Tools', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Инструменты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -59,129 +59,135 @@ $this->params['breadcrumbs'][] = $this->title;
                             'enablePushState' => false,
                             'timeout' => 5000,
                         ]) ?>
-                            <div class="details col-xl-7 col-lg-12 col-md-12 mt-3 mt-xl-0">
-                                <div class="d-flex col-3 gap-2 align-items-center">
-                                    <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
-                                    <p class="product-title mb-1 badge rounded-pill bg-outline-success"><?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></p>
-                                </div>
-                                <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
-
-                                <div class="product-info mt-2">
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-ruler-combined"></i>
-                                        Диаметр: <strong><span class="">
-                                                <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
-                                    </p>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-ruler"></i>
-                                        Общая длина: <strong><span class="">
-                                                <?= Html::encode($model->full_length) . ' мм' ?></span></strong>
-                                    </p>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-ruler-horizontal"></i>
-                                        Рабочая длина: <strong><span class="">
-                                                <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
-                                    </p>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-box"></i>
-                                        Из какого материала: <strong><span class="">
-                                                <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
-                                    </p>
-                                    <?php if ($model->materialsUseFors): ?>
-                                        <p class="product-description mb-1 bg-light p-2 rounded">
-                                            <i class="fas fa-tools"></i>
-                                            Для какого материала: <strong>
-                                                <?php foreach ($model->materialsUseFors as $key => $materialUseFor): ?>
-                                                    <span class="">
-                                                        <?= Html::encode((($key !== 0) ? ', ' : '') . $materialUseFor->title) ?>
-                                                    </span>
-                                                <?php endforeach; ?>
-                                            </strong>
-                                        </p>
-                                    <?php endif; ?>
-
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        Местоположение: <strong><span class="">
-                                                <?= Html::encode($model->location->title) ?></span></strong>
-                                    </p>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-th"></i>
-                                        Ячейка: <strong><span class="">
-                                                <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
-                                    </p>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-folder-open"></i>
-                                        Проект: <strong><span class="">
-                                                <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
-                                    </p>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-folder-open"></i>
-                                        Количество в наличии: <strong><span class="">
-                                                <?= Html::encode($model->countSame()) ?></span></strong>
-                                    </p>
-                                    <?php if ($model->min_amount): ?>
-                                        <p class="product-description mb-1 bg-light p-2 rounded">
-                                            <i class="fas fa-sort-numeric-up"></i>
-                                            Минимально необходимое количество: <strong><span class="">
-                                                    <?= Html::encode($model->min_amount) ?></span></strong>
-                                        </p>
-                                    <?php endif; ?>
-
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        Дата и время инвентаризации: <strong><span class="">
-                                                <?= Html::encode($model->inventory_time == '' ? 'Не указана' : $model->inventory_time) ?></span></strong>
-                                    </p>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-user"></i>
-                                        Последнее использование: <strong><span class="">
-                                                <?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->user->surname) ?></span></strong>
-                                    </p>
-                                </div>
-
-                                <div class="action mt-3">
-                                    <?= $status === 'Доступен'
-                                        ?  Html::a('<i class="fas fa-check"></i> Взять в работу', [
-                                            'work',
-                                            'id' => $model->id,
-                                            'view' => true,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
-                                        : ''
-                                    ?>
-                                    <?= $status === 'В работе' || $status === 'В ремонте' || $status === 'Сломан' || $status === 'Утерян'
-                                        ? Html::a('<i class="fas fa-undo"></i> Вернуть на склад', [
-                                            'return',
-                                            'id' => $model->id,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-return-modal'])
-                                        : ''
-                                    ?>
-                                    <?= ($status !== 'В ремонте' && $status !== 'Сломан' && $status !== 'Утерян')
-                                        ? Html::a('<i class="fas fa-exclamation-triangle"></i> Инструмент сломан', [
-                                            'broken',
-                                            'id' => $model->id,
-                                            'view' => true,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
-                                        : ''
-                                    ?>
-                                    <?= ($status !== 'В ремонте' && $status !== 'Утерян')
-                                        ? Html::a('<i class="fas fa-wrench"></i> Сдать в ремонт', [
-                                            'repair',
-                                            'id' => $model->id,
-                                            'view' => true,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
-                                        : ''
-                                    ?>
-                                    <?= $status !== 'Утерян'
-                                        ? Html::a('<i class="fas fa-ban"></i> Инструмент утерян', [
-                                            'loss',
-                                            'id' => $model->id,
-                                            'view' => true,
-                                        ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
-                                        : ''
-                                    ?>
-                                </div>
+                        <div class="details col-xl-7 col-lg-12 col-md-12 mt-3 mt-xl-0">
+                            <div class="d-flex col-3 gap-2 align-items-center">
+                                <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
+                                <p class="product-title mb-1 badge rounded-pill bg-outline-success"><?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></p>
                             </div>
+                            <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
+
+                            <div class="product-info mt-2">
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    Диаметр: <strong><span class="">
+                                            <?= Html::encode($model->diameter) . ' мм' ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-ruler"></i>
+                                    Общая длина: <strong><span class="">
+                                            <?= Html::encode($model->full_length) . ' мм' ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-ruler-horizontal"></i>
+                                    Рабочая длина: <strong><span class="">
+                                            <?= Html::encode($model->work_length) . ' мм' ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-box"></i>
+                                    Из какого материала: <strong><span class="">
+                                            <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
+                                </p>
+                                <?php if ($model->materialsUseFors): ?>
+                                    <p class="product-description mb-1 bg-light p-2 rounded">
+                                        <i class="fas fa-tools"></i>
+                                        Для какого материала: <strong>
+                                            <?php foreach ($model->materialsUseFors as $key => $materialUseFor): ?>
+                                                <span class="">
+                                                    <?= Html::encode((($key !== 0) ? ', ' : '') . $materialUseFor->title) ?>
+                                                </span>
+                                            <?php endforeach; ?>
+                                        </strong>
+                                    </p>
+                                <?php endif; ?>
+
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Местоположение: <strong><span class="">
+                                            <?= Html::encode($model->location->title) ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-th"></i>
+                                    Ячейка: <strong><span class="">
+                                            <?= Html::encode($model->cell == '' ? 'Не указана' : $model->cell) ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-folder-open"></i>
+                                    Проект: <strong><span class="">
+                                            <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-folder-open"></i>
+                                    Количество в наличии: <strong><span class="">
+                                            <?= Html::encode($model->countSame()) ?></span></strong>
+                                </p>
+                                <?php if ($model->min_amount): ?>
+                                    <p class="product-description mb-1 bg-light p-2 rounded">
+                                        <i class="fas fa-sort-numeric-up"></i>
+                                        Минимально необходимое количество: <strong><span class="">
+                                                <?= Html::encode($model->min_amount) ?></span></strong>
+                                    </p>
+                                <?php endif; ?>
+
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Дата и время инвентаризации: <strong><span class="">
+                                            <?= Html::encode($model->inventory_time == '' ? 'Не указана' : $model->inventory_time) ?></span></strong>
+                                </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-user"></i>
+                                    Последнее использование:
+                                    <strong>
+                                        <?= Html::a(
+                                            Html::encode($lastUser->fio), // Текст ссылки (ФИО пользователя)
+                                            ['profile/view', 'id' => $lastUser->id], // URL для перехода
+                                            ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
+                                        ) ?>
+                                    </strong>
+                                </p>
+                            </div>
+
+                            <div class="action mt-3">
+                                <?= $status === 'Доступен'
+                                    ?  Html::a('<i class="fas fa-check"></i> Взять в работу', [
+                                        'work',
+                                        'id' => $model->id,
+                                        'view' => true,
+                                    ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
+                                    : ''
+                                ?>
+                                <?= $status === 'В работе' || $status === 'В ремонте' || $status === 'Сломан' || $status === 'Утерян'
+                                    ? Html::a('<i class="fas fa-undo"></i> Вернуть на склад', [
+                                        'return',
+                                        'id' => $model->id,
+                                    ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-return-modal'])
+                                    : ''
+                                ?>
+                                <?= ($status !== 'В ремонте' && $status !== 'Сломан' && $status !== 'Утерян')
+                                    ? Html::a('<i class="fas fa-exclamation-triangle"></i> Инструмент сломан', [
+                                        'broken',
+                                        'id' => $model->id,
+                                        'view' => true,
+                                    ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
+                                    : ''
+                                ?>
+                                <?= ($status !== 'В ремонте' && $status !== 'Утерян')
+                                    ? Html::a('<i class="fas fa-wrench"></i> Сдать в ремонт', [
+                                        'repair',
+                                        'id' => $model->id,
+                                        'view' => true,
+                                    ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
+                                    : ''
+                                ?>
+                                <?= $status !== 'Утерян'
+                                    ? Html::a('<i class="fas fa-ban"></i> Инструмент утерян', [
+                                        'loss',
+                                        'id' => $model->id,
+                                        'view' => true,
+                                    ], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1 btn-control'])
+                                    : ''
+                                ?>
+                            </div>
+                        </div>
                         <?php Pjax::end() ?>
                     </div>
                 </div>
