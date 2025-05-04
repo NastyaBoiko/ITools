@@ -69,6 +69,25 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+
+        //  Если еще нет user_extras
+        $userExtras = UserExtras::findOne(['user_id' => $id]);
+
+        if (!$userExtras) {
+            $userExtras = new UserExtras();
+            $userExtras->user_id = $id;
+            $userExtras->save();
+            $model = $this->findModel($id);
+        }
+
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionDeleteAvatar()
     {
         $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
@@ -97,7 +116,11 @@ class ProfileController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne(['id' => $id])) !== null) {
+        $model = User::find()
+            ->where(['id' => $id])
+            ->with(['userExtras'])
+            ->one();
+        if ($model !== null) {
             return $model;
         }
 

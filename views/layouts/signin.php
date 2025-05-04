@@ -50,7 +50,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
                                 <div class="card-sigin">
                                     <div class="mb-3 d-flex">
-                                        <a href="index.html" class="header-logo">
+                                        <a href="/" class="header-logo">
                                             <img src="/img/logo_itools_no-text.png" class="desktop-logo ht-40 rounded" alt="logo">
                                             <img src="/img/logo_itools_no-text.png" class="desktop-white ht-40 rounded" alt="logo">
                                         </a>
@@ -82,35 +82,3 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 </html>
 <?php $this->endPage() ?>
-
-
-<!-- <div class="card-sigin">
-    <div class="main-signup-header">
-        <h3>Добро пожаловать!</h3>
-        <h6 class="fw-medium mb-4 fs-17">Войдите, чтобы продолжить</h6>
-        <form>
-            <div class="form-group mb-3">
-                <label class="form-label">Email</label> <input class="form-control" placeholder="Enter your email" type="text">
-            </div>
-            <div class="form-group mb-3">
-                <label class="form-label">Password</label> <input class="form-control" placeholder="Enter your password" type="password">
-            </div>
-            <a href="index.html" class="btn btn-primary btn-block w-100">Sign In</a>
-            <div class="row mt-3">
-                <div class="col-sm-6">
-                    <button class="btn btn-block w-100 btn-facebook"><i class="fab fa-facebook-f me-2"></i> Signup with
-                        Facebook</button>
-                </div>
-                <div class="col-sm-6 mt-2 mt-sm-0">
-                    <button class="btn btn-info btn-block w-100"><i class="fab fa-twitter me-2"></i> Signup with
-                        Twitter</button>
-                </div>
-            </div>
-        </form>
-        <div class="main-signin-footer mt-5">
-            <p class="mb-1"><a href="forgot.html">Forgot password?</a></p>
-            <p>Don't have an account? <a href="signup.html">Create an
-                    Account</a></p>
-        </div>
-    </div>
-</div> -->

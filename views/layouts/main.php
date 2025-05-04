@@ -44,7 +44,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     <!-- Start::header-element -->
                     <div class="header-element">
                         <div class="horizontal-logo">
-                            <a href="index.html" class="header-logo">
+                            <a href="/" class="header-logo">
                                 <img src="/img/logo_itools_no-text.png" alt="logo" class="desktop-logo">
                                 <img src="/img/logo_itools_no-text.png" alt="logo" class="toggle-logo">
                                 <img src="/img/logo_itools_no-text.png" alt="logo" class="desktop-white">
@@ -93,7 +93,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
             <!-- Start::main-sidebar-header -->
             <div class="main-sidebar-header">
-                <a href="index.html" class="header-logo">
+                <a href="/" class="header-logo">
                     <img src="/img/logo_itools_no-text.png" alt="ITools" class="desktop-logo">
                     <img src="/img/logo_itools_no-text.png" alt="ITools" class="toggle-logo">
                     <img src="/img/logo_itools_no-text.png" alt="ITools" class="desktop-white">

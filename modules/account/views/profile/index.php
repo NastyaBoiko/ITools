@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-xl-8 py-0 pb-3">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body p-3">
                     <div class="tabs-menu ">
                         <!-- Tabs -->
                         <ul class="nav nav-tabs profile navtab-custom panel-tabs" role="tablist">
@@ -90,8 +90,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             </li>
                         </ul>
                     </div>
-                    <div class="tab-content border border-top-0 p-4 br-dark">
-                        <div class="tab-pane border-0 p-0  active show" id="home" role="tabpanel">
+                    <div class="tab-content border border-top-0 p-3 br-dark">
+                        <div class="tab-pane border-0 p-0 active show" id="home" role="tabpanel">
                             <h4 class="fs-15 text-uppercase mb-3">Биография</h4>
                             <?= Yii::$app->user->identity->userExtras->about ?? 'Биография не заполнена' ?>
                         </div>
@@ -152,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php endif; ?>
 
                             <div class="form-group my-3">
-                                <?= Html::submitButton('Изменить', ['class' => 'btn btn-success']) ?>
+                                <?= Html::submitButton('<i class="fas fa-edit"></i> Изменить', ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light']) ?>
                             </div>
 
                             <?php ActiveForm::end(); ?>
