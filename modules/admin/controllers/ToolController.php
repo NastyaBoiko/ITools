@@ -39,7 +39,7 @@ class ToolController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -73,8 +73,13 @@ class ToolController extends Controller
      */
     public function actionView($id)
     {
+        $lastUser = ToolHistory::getLastUser($id);
+        $lastStatus = ToolHistory::getLastStatus($id);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'lastUser' => $lastUser,
+            'lastStatus' => $lastStatus,
         ]);
     }
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace app\modules\account\controllers;
+namespace app\modules\admin\controllers;
 
 use app\models\User;
 use app\models\UserExtras;
-use app\modules\account\models\ProfileForm;
-use app\modules\account\models\ProfileSearch;
+use app\modules\admin\models\ProfileForm;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -63,6 +62,16 @@ class ProfileController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+
+        //  Если еще нет user_extras
+        // $userExtras = UserExtras::findOne(['user_id' => $id]);
+
+        // if (!$userExtras) {
+        //     $userExtras = new UserExtras();
+        //     $userExtras->user_id = $id;
+        //     $userExtras->save();
+        //     $model = $this->findModel($id);
+        // }
 
         return $this->render('view', [
             'model' => $model,

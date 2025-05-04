@@ -65,7 +65,7 @@ class Tool extends \yii\db\ActiveRecord
             [['category_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
             [['cell', 'qr'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
- 
+
             [['tool_maker_id', 'category_id', 'diameter', 'full_length', 'work_length', 'material_made_of_id', 'location_id'], 'required'],
             [['tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
             [['diameter', 'full_length', 'work_length'], 'number'],
@@ -75,8 +75,8 @@ class Tool extends \yii\db\ActiveRecord
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
-            [['material_made_of_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialMadeOf::class, 'targetAttribute' => ['material_made_of_id' => 'id']], 
-            [['tool_maker_id'], 'exist', 'skipOnError' => true, 'targetClass' => ToolMaker::class, 'targetAttribute' => ['tool_maker_id' => 'id']], 
+            [['material_made_of_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialMadeOf::class, 'targetAttribute' => ['material_made_of_id' => 'id']],
+            [['tool_maker_id'], 'exist', 'skipOnError' => true, 'targetClass' => ToolMaker::class, 'targetAttribute' => ['tool_maker_id' => 'id']],
         ];
     }
 
@@ -124,29 +124,29 @@ class Tool extends \yii\db\ActiveRecord
     }
 
     /** 
-    * Gets query for [[MaterialMadeOf]]. 
-    * 
-    * @return \yii\db\ActiveQuery 
-    */ 
-    public function getMaterialMadeOf() 
-    { 
-        return $this->hasOne(MaterialMadeOf::class, ['id' => 'material_made_of_id']); 
+     * Gets query for [[MaterialMadeOf]]. 
+     * 
+     * @return \yii\db\ActiveQuery 
+     */
+    public function getMaterialMadeOf()
+    {
+        return $this->hasOne(MaterialMadeOf::class, ['id' => 'material_made_of_id']);
     }
 
     /**
-    * Gets query for [[ToolMaker]].
-    *
-    * @return \yii\db\ActiveQuery
-    */
+     * Gets query for [[ToolMaker]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getToolMaker()
     {
         return $this->hasOne(ToolMaker::class, ['id' => 'tool_maker_id']);
-	}
+    }
 
     public function getToolMaterialUseFors()
-	{
+    {
         return $this->hasMany(ToolMaterialUseFor::class, ['tool_id' => 'id']);
-	}
+    }
 
     /**
      * Gets query for [[Location]].
@@ -211,16 +211,16 @@ class Tool extends \yii\db\ActiveRecord
     public function countSame()
     {
         return self::find()
-                    ->where([
-                        'diameter' => $this->diameter,
-                        'full_length' => $this->full_length,
-                        'work_length' => $this->work_length,
-                        'material_made_of_id' => $this->material_made_of_id,
-                        'category_id' => $this->category_id,
-                    ])
-                    ->count();
+            ->where([
+                'diameter' => $this->diameter,
+                'full_length' => $this->full_length,
+                'work_length' => $this->work_length,
+                'material_made_of_id' => $this->material_made_of_id,
+                'category_id' => $this->category_id,
+            ])
+            ->count();
     }
-    
+
 
     public function addToolMaterialUseFors($materialsToAdd)
     {
@@ -262,12 +262,12 @@ class Tool extends \yii\db\ActiveRecord
     public function upload(): array|bool
     {
         $uploadFiles = [];
-        if ($this->validate()) { 
+        if ($this->validate()) {
             foreach ($this->imageFiles as $file) {
-                $fileName = 
-                            Yii::$app->user->id . '_' 
-                            .  Yii::$app->security->generateRandomString(7)
-                            . '.' . $file->extension;
+                $fileName =
+                    Yii::$app->user->id . '_'
+                    .  Yii::$app->security->generateRandomString(7)
+                    . '.' . $file->extension;
 
                 $file->saveAs('uploads/' . $fileName);
                 array_push($uploadFiles, $fileName);
@@ -278,13 +278,12 @@ class Tool extends \yii\db\ActiveRecord
         }
     }
 
-    public function saveToolData() 
+    public function saveToolData()
     {
-        
         if ($imgUrls = $this->upload()) {
             if ($this->save(false)) {
                 $this->generateQrCode();
-                foreach($imgUrls as $imgUrl) {
+                foreach ($imgUrls as $imgUrl) {
                     $toolImage = new ToolImage();
                     $toolImage->tool_id = $this->id;
                     $toolImage->image = $imgUrl;
@@ -293,7 +292,7 @@ class Tool extends \yii\db\ActiveRecord
                     }
                 }
                 return true;
-            } 
+            }
         } else {
             if ($this->save()) {
                 $this->generateQrCode();
@@ -304,9 +303,15 @@ class Tool extends \yii\db\ActiveRecord
 
     public function generateQrCode()
     {
-        $url = Url::to(['admin/tool/view', 'id' => $this->id], true);
-        // dd($url);
-        
+        $directory = 'img/qr/';
+
+        // Если qr уже есть, не генерируем новый
+        if (!is_null($this->qr) && file_exists($directory . $this->qr)) {
+            return true;
+        }
+
+        $url = Url::to(['/account/tool/view', 'id' => $this->id], true);
+
         // Создание QR-кода
         $qrCode = QrCode::create($url)
             // ->setData('Инструмент ' . $this->id . '. ' . $this->toolMaker->title)
@@ -318,12 +323,19 @@ class Tool extends \yii\db\ActiveRecord
         $result = $writer->write($qrCode);
 
         // Имя изображения
-        $fileName = 'qrcode_' . $this->id . uniqid() . '.png';
+        $fileName = $this->id . '_qrcode_' .  uniqid() . '.png';
 
-        // $filePath = 'img/qr/qrcode_' . $this->id . uniqid() . '.png';
+        // Блок удаления предыдущих qr-кодов
+        $files = glob($directory . $this->id . '_*'); // Находим все файлы, начинающиеся с ID инструмента
+
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file); // Удаляем файл
+            }
+        }
 
         // Сохранение изображения на диск
-        $result->saveToFile('img/qr/' . $fileName);
+        $result->saveToFile($directory . $fileName);
 
         // Сохранение пути к изображению в базе данных
         $this->qr = $fileName;

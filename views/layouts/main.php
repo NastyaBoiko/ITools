@@ -234,6 +234,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             </li>
                             <!-- End::slide -->
 
+                            <li class="slide">
+                                <a href="/admin/profile" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">Профиль</span>
+                                </a>
+                            </li>
+
                         <?php endif ?>
 
                     </ul>

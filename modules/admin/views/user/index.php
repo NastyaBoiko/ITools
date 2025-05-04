@@ -9,6 +9,7 @@ use yii\grid\GridView;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use app\models\User;
+
 /** @var yii\web\View $this */
 /** @var app\modules\admin\models\ToolSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -27,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::begin(); ?>
     <div class="row">
         <?php echo $this->render('_search', ['model' => $searchModel]); ?>
-    
+
         <div class="col-xl-9 col-lg-8 col-md-12">
             <div class="card custom-card">
                 <div class="card-body">
@@ -46,12 +47,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                                 [
                                     'attribute' => 'name',
-                                    'value' => fn($model) => $model->name . ' ' . $model->surname,
+                                    'format' => 'raw', // Разрешаем вывод HTML
+                                    'value' => function ($model) {
+                                        return Html::a(
+                                            Html::encode($model->name . ' ' . $model->surname), // Текст ссылки (ФИО пользователя)
+                                            ['profile/view', 'id' => $model->id], // URL для перехода
+                                            ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
+                                        );
+                                    },
                                 ],
                                 'email:email',
                                 'phone',
                                 [
-                                    'class' => ActionColumn::className(),
+                                    'class' => ActionColumn::class,
                                     'urlCreator' => function ($action, User $model, $key, $index, $column) {
                                         return Url::toRoute([$action, 'id' => $model->id]);
                                     }

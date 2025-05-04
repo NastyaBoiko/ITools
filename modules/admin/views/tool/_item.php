@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Tool;
+use app\models\ToolHistory;
 use yii\bootstrap5\Html;
 // dd($model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title);
 $status = '';
@@ -61,12 +62,12 @@ $status = '';
                         <p class="product-description mb-1 bg-light p-2 rounded">
                             <i class="fas fa-info-circle"></i>
                             Статус: <strong><span class="">
-                                    <?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></span></strong>
+                                    <?= Html::encode($status = ToolHistory::getLastStatus($model->id)->title) ?></span></strong>
                         </p>
                         <p class="product-description mb-1 bg-light p-2 rounded">
                             <i class="fas fa-user"></i>
                             Последнее использование: <strong><span class="">
-                                    <?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->user->surname) ?></span></strong>
+                                    <?= Html::encode(ToolHistory::getLastUser($model->id)->fio) ?></span></strong>
                         </p>
                         <p class="product-description mb-1 bg-light p-2 rounded">
                             <i class="fas fa-box"></i>

@@ -209,8 +209,13 @@ class User extends ActiveRecord implements IdentityInterface
 
             if (!$user->save(false)) {
                 dd($user->errors);
+            } else {
+                $userExtras = new UserExtras();
+                $userExtras->user_id = $user->id;
+                $userExtras->save();
             }
         }
+
         return $user ?? false;
     }
 
@@ -226,7 +231,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getFio()
     {
-        return $this->surname . ' ' . $this->name . ' ' . $this->patronymic;
+        return trim($this->surname . ' ' . $this->name . ' ' . $this->patronymic);
     }
 
     public function getPhoneHref()

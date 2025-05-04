@@ -72,12 +72,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <p class="product-description mb-1 bg-light p-2 rounded">
                                         <i class="fas fa-info-circle"></i>
                                         Статус: <strong><span class="">
-                                                <?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></span></strong>
+                                                <?= Html::encode($lastStatus->title) ?></span></strong>
                                     </p>
                                     <p class="product-description mb-1 bg-light p-2 rounded">
                                         <i class="fas fa-user"></i>
-                                        Последнее использование: <strong><span class="">
-                                                <?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->user->surname) ?></span></strong>
+                                        Последнее использование:
+                                        <strong>
+                                            <?= Html::a(
+                                                Html::encode($lastUser->fio), // Текст ссылки (ФИО пользователя)
+                                                ['profile/view', 'id' => $lastUser->id], // URL для перехода
+                                                ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
+                                            ) ?>
+                                        </strong>
                                     </p>
                                 <?php endif; ?>
                                 <p class="product-description mb-1 bg-light p-2 rounded">
