@@ -140,16 +140,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                                 </a>
                             </li>
 
-                            <li class="slide">
-                                <a href="/account/profile" class="side-menu__item d-flex align-items-center">
-                                    <div class="side-menu__icon">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <span class="side-menu__label text-wrap lh-sm">Профиль</span>
-                                </a>
-                            </li>
-                            <!-- End::slide -->
-
                         <?php endif ?>
 
                         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin): ?>
@@ -234,16 +224,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             </li>
                             <!-- End::slide -->
 
-                            <li class="slide">
-                                <a href="/admin/profile" class="side-menu__item d-flex align-items-center">
-                                    <div class="side-menu__icon">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <span class="side-menu__label text-wrap lh-sm">Профиль</span>
-                                </a>
-                            </li>
-
                         <?php endif ?>
+
+                        <li class="slide">
+                            <a href="/common/profile" class="side-menu__item d-flex align-items-center">
+                                <div class="side-menu__icon">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <span class="side-menu__label text-wrap lh-sm">Профиль</span>
+                            </a>
+                        </li>
 
                     </ul>
                     <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">

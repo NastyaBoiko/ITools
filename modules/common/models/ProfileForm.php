@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\account\models;
+namespace app\modules\common\models;
 
 use app\models\User;
 use app\models\UserExtras;

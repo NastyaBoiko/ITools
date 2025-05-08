@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <strong>
                                             <?= Html::a(
                                                 Html::encode($lastUser->fio), // Текст ссылки (ФИО пользователя)
-                                                ['profile/view', 'id' => $lastUser->id], // URL для перехода
+                                                ['/common/profile/view', 'id' => $lastUser->id], // URL для перехода
                                                 ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
                                             ) ?>
                                         </strong>

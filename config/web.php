@@ -48,8 +48,7 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
     ],
     'modules' => [
@@ -60,6 +59,10 @@ $config = [
         'account' => [
             'class' => 'app\modules\account\Module',
             'defaultRoute' => 'tool',
+        ],
+        'common' => [
+            'class' => 'app\modules\common\Module',
+            'defaultRoute' => 'profile',
         ],
     ],
     'params' => $params,
