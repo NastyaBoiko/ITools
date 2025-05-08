@@ -49,15 +49,38 @@ class ProfileController extends Controller
         if ($model->load($this->request->post())) {
             // dd($model->attributes);
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if (is_null($model->imageFile) || $model->upload()) {
-                if ($model->saveAll()) {
+            if (is_null($model->imageFile)) {
+                if ($model->saveAll(true)) {
+                    return $this->redirect(['index']);
+                }
+            } elseif ($model->upload()) {
+                if ($model->saveAll(false)) {
                     return $this->redirect(['index']);
                 }
             }
+
+            return $this->render('index', [
+                'index' => false, //для открытия вкладки
+                'settings' => true, //для открытия вкладки
+                'change_password' => false, //для открытия вкладки
+                'model' => $model,
+                'changePasswordModel' => $changePasswordModel,
+            ]);
+        }
+
+        // Если значение phone пустое, заполняем его из текущего пользователя
+        if (empty($model->phone)) {
+            $model->phone = Yii::$app->user->identity->phone;
+        }
+
+        // Если значение email пустое, заполняем его из текущего пользователя
+        if (empty($model->email)) {
+            $model->email = Yii::$app->user->identity->email;
         }
 
         return $this->render('index', [
             'index' => true, //для открытия вкладки
+            'settings' => false, //для открытия вкладки
             'change_password' => false, //для открытия вкладки
             'model' => $model,
             'changePasswordModel' => $changePasswordModel,
@@ -79,6 +102,7 @@ class ProfileController extends Controller
 
         return $this->render('index', [
             'index' => false, //для открытия вкладки
+            'settings' => false, //для открытия вкладки
             'change_password' => true, //для открытия вкладки
             'model' => $model,
             'changePasswordModel' => $changePasswordModel,

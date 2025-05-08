@@ -69,6 +69,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <span>Телефон</span> <a href="tel:<?= Html::encode(Yii::$app->user->identity->phoneHref) ?>" class="text-primary"><?= Html::encode(Yii::$app->user->identity->phone) ?></a>
                                     </div>
                                 </div>
+                                <div class="media">
+                                    <div class="media-icon bg-warning-transparent text-warning">
+                                        <i class="fa-solid fa-square-envelope"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Почта</span> <a href="mailto:<?= Html::encode(Yii::$app->user->identity->email) ?>" class="text-primary"><?= Html::encode(Yii::$app->user->identity->email) ?></a>
+                                    </div>
+                                </div>
                             </div>
                         </div><!-- main-profile-overview -->
                     </div>
@@ -85,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="#home" data-bs-toggle="tab" aria-expanded="<?= $index ?>" aria-selected="<?= $index ?>" role="tab" class="<?= $index ? 'active' : '' ?>"> <span class="visible-xs"><i class="las la-user-circle fs-16 me-1"></i></span> <span class="hidden-xs">Обо мне</span> </a>
                             </li>
                             <li class="">
-                                <a href="#settings" data-bs-toggle="tab" aria-expanded="false" aria-selected="false" role="tab" class="" tabindex="-1"> <span class="visible-xs"><i class="las la-cog fs-16 me-1"></i></span>
+                                <a href="#settings" data-bs-toggle="tab" aria-expanded="<?= $settings ?>" aria-selected="<?= $settings ?>" role="tab" class="<?= $settings ? 'active' : '' ?>" tabindex="-1"> <span class="visible-xs"><i class="las la-cog fs-16 me-1"></i></span>
                                     <span class="hidden-xs">Настройки</span> </a>
                             </li>
                             <li class="">
@@ -99,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <h4 class="fs-15 text-uppercase mb-3">Биография</h4>
                             <?= Yii::$app->user->identity->userExtras->about ?? 'Биография не заполнена' ?>
                         </div>
-                        <div class="tab-pane border-0 p-0" id="settings" role="tabpanel">
+                        <div class="tab-pane border-0 p-0 <?= $settings ? 'active show' : '' ?>" id="settings" role="tabpanel">
                             <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
                             <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->name]) ?>
@@ -108,9 +116,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->patronymic]) ?>
 
-                            <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->email]) ?>
+                            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-                            <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->phone]) ?>
+                            <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
                             <?= $form->field($model, 'status')->textInput(['value' => Yii::$app->user->identity->userExtras->status]) ?>
 

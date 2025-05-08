@@ -51,7 +51,14 @@ class User extends ActiveRecord implements IdentityInterface
             [['name', 'surname', 'patronymic'], 'match', 'pattern' => '/^[а-яё\-]+$/ui', 'message' => 'Разрешенные символы: кириллица и тире'],
 
             ['email', 'email'],
-            [['email'], 'unique', 'message' => 'Пользователь с такой почтой уже существует'],
+            [
+                ['email'],
+                'unique',
+                'message' => 'Пользователь с такой почтой уже существует',
+                'filter' => function ($query) {
+                    $query->andWhere(['not', ['id' => $this->id]]); //не учитывать текущего пользователя
+                }
+            ],
 
             [['password'], 'string', 'min' => 6],
             [['password_repeat'], 'string', 'min' => 6],
@@ -59,7 +66,16 @@ class User extends ActiveRecord implements IdentityInterface
             // [['password', 'password_repeat'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Пароль\' и \'Повтор пароля\' должны совпадать', 'on' => self::SCENARIO_REGISTER],
 
-            [['phone'], 'unique', 'message' => 'Пользователь с таким номером телефона уже существует'],
+            [
+                ['phone'],
+                'unique',
+                'targetClass' => User::class,
+                'message' => 'Пользователь с таким номером телефона уже существует',
+                'filter' => function ($query) {
+                    $query->andWhere(['not', ['id' => $this->id]]); //не учитывать текущего пользователя
+                }
+            ],
+
             [['phone'], 'match', 'pattern' => '/^\+7\-[\d]{3}\-[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'Формат +7-XXX-XXX-XX-XX'],
 
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],

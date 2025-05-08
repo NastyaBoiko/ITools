@@ -49,8 +49,29 @@ class ProfileForm extends Model
 
             [['phone'], 'match', 'pattern' => '/^\+7\-[\d]{3}\-[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'Формат +7-XXX-XXX-XX-XX'],
 
+            [['phone'], 'validateUniquePhone'],
+            [['email'], 'validateUniqueEmail'],
+
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
+    }
+
+    public function validateUniquePhone($attribute, $params)
+    {
+        $user = User::findOne(['phone' => $this->phone]);
+
+        if (!is_null($user) && ($user->id !== Yii::$app->user->id)) {
+            $this->addError($attribute, 'Номер телефона уже используется');
+        }
+    }
+
+    public function validateUniqueEmail($attribute, $params)
+    {
+        $user = User::findOne(['email' => $this->email]);
+
+        if (!is_null($user) && ($user->id !== Yii::$app->user->id)) {
+            $this->addError($attribute, 'Почта уже используется');
+        }
     }
 
     public function attributeLabels()
@@ -71,33 +92,35 @@ class ProfileForm extends Model
         ];
     }
 
-    public function saveAll()
+    public function saveAll(bool $needValidation)
     {
-        if ($this->validate()) {
-            $user = User::findOne(['id' => Yii::$app->user->id]);
-            $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
+        if ($needValidation) {
+            $this->validate();
+        }
 
-            $user->load($this->attributes, '');
-            $userExtras->load($this->attributes, '');
+        $user = User::findOne(['id' => Yii::$app->user->id]);
+        $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
 
-            if (is_null($userExtras->avatar)) {
-                $userExtras->avatar = Yii::$app->user->identity->userExtras->avatar;
-            }
+        $user->load($this->attributes, '');
+        $userExtras->load($this->attributes, '');
 
-            if ($user->save()) {
-                if ($userExtras->save()) {
-                    return true;
-                }
-                // else {
-                //     dd($userExtras->errors);
-                // }
+        if (is_null($userExtras->avatar)) {
+            $userExtras->avatar = Yii::$app->user->identity->userExtras->avatar;
+        }
+
+        if ($user->save()) {
+            if ($userExtras->save()) {
+                return true;
             }
             // else {
-            //     dd($user->errors);
+            //     dd($userExtras->errors);
             // }
-
-            return false;
         }
+        // else {
+        //     dd($user->errors);
+        // }
+
+        return false;
     }
 
     public function upload()
