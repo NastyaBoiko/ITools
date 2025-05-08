@@ -73,6 +73,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <span>Телефон</span> <a href="tel:<?= Html::encode($model->phoneHref) ?>" class="text-primary"><?= Html::encode($model->phone) ?></a>
                                     </div>
                                 </div>
+                                <div class="media">
+                                    <div class="media-icon bg-warning-transparent text-warning">
+                                        <i class="fa-solid fa-square-envelope"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Почта</span> <a href="mailto:<?= Html::encode(Yii::$app->user->identity->email) ?>" class="text-primary"><?= Html::encode(Yii::$app->user->identity->email) ?></a>
+                                    </div>
+                                </div>
                             </div>
                         </div><!-- main-profile-overview -->
                     </div>

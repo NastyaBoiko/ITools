@@ -4,6 +4,7 @@ namespace app\modules\admin\controllers;
 
 use app\models\User;
 use app\models\UserExtras;
+use app\modules\admin\models\ChangePasswordForm;
 use app\modules\admin\models\ProfileForm;
 use Yii;
 use yii\web\Controller;
@@ -42,36 +43,78 @@ class ProfileController extends Controller
     public function actionIndex()
     {
         $model = new ProfileForm();
+        $changePasswordModel = new ChangePasswordForm();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                if (is_null($model->imageFile) || $model->upload()) {
-                    if ($model->saveAll()) {
-                        return $this->redirect(['index']);
-                    }
+        if ($model->load($this->request->post())) {
+            // dd($model->attributes);
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if (is_null($model->imageFile)) {
+                if ($model->saveAll(true)) {
+                    Yii::$app->session->setFlash('success', 'Профиль успешно изменен');
+
+                    return $this->redirect(['index']);
                 }
+            } elseif ($model->upload()) {
+                if ($model->saveAll(false)) {
+                    Yii::$app->session->setFlash('success', 'Профиль успешно изменен');
+
+                    return $this->redirect(['index']);
+                }
+            }
+
+            return $this->render('index', [
+                'index' => false, //для открытия вкладки
+                'settings' => true, //для открытия вкладки
+                'change_password' => false, //для открытия вкладки
+                'model' => $model,
+                'changePasswordModel' => $changePasswordModel,
+            ]);
+        }
+
+        // Если значение phone пустое, заполняем его из текущего пользователя
+        if (empty($model->phone)) {
+            $model->phone = Yii::$app->user->identity->phone;
+        }
+
+        // Если значение email пустое, заполняем его из текущего пользователя
+        if (empty($model->email)) {
+            $model->email = Yii::$app->user->identity->email;
+        }
+
+        return $this->render('index', [
+            'index' => true, //для открытия вкладки
+            'settings' => false, //для открытия вкладки
+            'change_password' => false, //для открытия вкладки
+            'model' => $model,
+            'changePasswordModel' => $changePasswordModel,
+        ]);
+    }
+
+    public function actionChangePassword()
+    {
+        $model = new ProfileForm();
+        $changePasswordModel = new ChangePasswordForm();
+
+        if ($changePasswordModel->load($this->request->post())) {
+            if ($changePasswordModel->updatePassword()) {
+                Yii::$app->session->setFlash('success', 'Пароль успешно изменен');
+
+                return $this->redirect(['index']);
             }
         }
 
         return $this->render('index', [
+            'index' => false, //для открытия вкладки
+            'settings' => false, //для открытия вкладки
+            'change_password' => true, //для открытия вкладки
             'model' => $model,
+            'changePasswordModel' => $changePasswordModel,
         ]);
     }
 
     public function actionView($id)
     {
         $model = $this->findModel($id);
-
-        //  Если еще нет user_extras
-        // $userExtras = UserExtras::findOne(['user_id' => $id]);
-
-        // if (!$userExtras) {
-        //     $userExtras = new UserExtras();
-        //     $userExtras->user_id = $id;
-        //     $userExtras->save();
-        //     $model = $this->findModel($id);
-        // }
 
         return $this->render('view', [
             'model' => $model,

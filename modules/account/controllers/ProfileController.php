@@ -51,10 +51,14 @@ class ProfileController extends Controller
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             if (is_null($model->imageFile)) {
                 if ($model->saveAll(true)) {
+                    Yii::$app->session->setFlash('success', 'Профиль успешно изменен');
+
                     return $this->redirect(['index']);
                 }
             } elseif ($model->upload()) {
                 if ($model->saveAll(false)) {
+                    Yii::$app->session->setFlash('success', 'Профиль успешно изменен');
+
                     return $this->redirect(['index']);
                 }
             }

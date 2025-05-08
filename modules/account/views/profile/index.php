@@ -169,11 +169,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'method' => 'post', // Метод отправки (POST по умолчанию)
                             ]); ?>
 
-                            <?= $form->field($changePasswordModel, 'old_password')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($changePasswordModel, 'old_password')->passwordInput(['maxlength' => true]) ?>
 
-                            <?= $form->field($changePasswordModel, 'password')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($changePasswordModel, 'password')->passwordInput(['maxlength' => true]) ?>
 
-                            <?= $form->field($changePasswordModel, 'password_repeat')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($changePasswordModel, 'password_repeat')->passwordInput(['maxlength' => true]) ?>
 
                             <div class="form-group my-3">
                                 <?= Html::submitButton('<i class="fas fa-edit"></i> Изменить пароль', ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light']) ?>

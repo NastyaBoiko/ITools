@@ -15,9 +15,6 @@ use yii\base\Model;
  * @property string $surname
  * @property string|null $patronymic
  * @property string $email
- * @property string $old_password
- * @property string $password
- * @property string $password_repeat
  * @property string $phone
  * @property string $about
  *
@@ -28,9 +25,6 @@ class ProfileForm extends Model
     public $surname;
     public $patronymic;
     public $email;
-    public $old_password;
-    public $password;
-    public $password_repeat;
     public $phone;
     public $about;
     public $status;
@@ -47,52 +41,36 @@ class ProfileForm extends Model
     {
         return [
             [['name', 'surname', 'email', 'phone'], 'required'],
-            [['name', 'surname', 'patronymic', 'email', 'password', 'password_repeat', 'phone', 'status', 'position', 'telegram', 'vk'], 'string', 'max' => 255],
+            [['name', 'surname', 'patronymic', 'email', 'phone', 'status', 'position', 'telegram', 'vk'], 'string', 'max' => 255],
             [['about'], 'string'],
             [['name', 'surname', 'patronymic'], 'match', 'pattern' => '/^[а-яё\-]+$/ui', 'message' => 'Разрешенные символы: кириллица и тире'],
 
             ['email', 'email'],
 
-            [['old_password'], 'string', 'min' => 6],
-            [['password', 'password_repeat', 'old_password'], 'validateOldPassword'],
-
-            [['password'], 'string', 'min' => 6],
-            [['password_repeat'], 'string', 'min' => 6],
-            [['password', 'password_repeat', 'old_password'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
-            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Новый пароль\' и \'Повтор нового пароля\' должны совпадать'],
-
-            // Условное требование заполнения old_password
-            [
-                'old_password',
-                'required',
-                'when' => fn($model) => !empty($model->password),
-                'whenClient' => "() => $('#profileform-password').val() !== ''",
-                'message' => 'Необходимо заполнить старый пароль'
-            ],
-
-            // Условное требование заполнения password_repeat
-            [
-                'password_repeat',
-                'required',
-                'when' => fn($model) => !empty($model->password),
-                'whenClient' => "() => $('#profileform-password').val() !== ''",
-                'message' => 'Необходимо повторить новый пароль'
-            ],
-
-
-
             [['phone'], 'match', 'pattern' => '/^\+7\-[\d]{3}\-[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'Формат +7-XXX-XXX-XX-XX'],
+
+            [['phone'], 'validateUniquePhone'],
+            [['email'], 'validateUniqueEmail'],
 
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
-    public function validateOldPassword($attribute, $params)
+    public function validateUniquePhone($attribute, $params)
     {
-        if ($this->old_password == '') {
-            $this->addError($attribute, 'Необходимо заполнить текущий пароль');
-        } elseif (!Yii::$app->security->validatePassword($this->old_password, Yii::$app->user->identity->password)) {
-            $this->addError($attribute, 'Некорректный текущий пароль');
+        $user = User::findOne(['phone' => $this->phone]);
+
+        if (!is_null($user) && ($user->id !== Yii::$app->user->id)) {
+            $this->addError($attribute, 'Номер телефона уже используется');
+        }
+    }
+
+    public function validateUniqueEmail($attribute, $params)
+    {
+        $user = User::findOne(['email' => $this->email]);
+
+        if (!is_null($user) && ($user->id !== Yii::$app->user->id)) {
+            $this->addError($attribute, 'Почта уже используется');
         }
     }
 
@@ -103,9 +81,6 @@ class ProfileForm extends Model
             'surname' => 'Фамилия',
             'patronymic' => 'Отчество',
             'email' => 'Почта',
-            'old_password' => 'Текущий пароль',
-            'password' => 'Новый пароль',
-            'password_repeat' => 'Повтор нового пароля',
             'phone' => 'Телефон',
             'status' => 'Статус',
             'about' => 'Биография',
@@ -117,8 +92,12 @@ class ProfileForm extends Model
         ];
     }
 
-    public function saveAll()
+    public function saveAll(bool $needValidation)
     {
+        if ($needValidation) {
+            $this->validate();
+        }
+
         $user = User::findOne(['id' => Yii::$app->user->id]);
         $userExtras = UserExtras::findOne(['user_id' => Yii::$app->user->id]);
 
@@ -127,12 +106,6 @@ class ProfileForm extends Model
 
         if (is_null($userExtras->avatar)) {
             $userExtras->avatar = Yii::$app->user->identity->userExtras->avatar;
-        }
-
-        if ($this->password) {
-            $user->password = Yii::$app->security->generatePasswordHash($this->password);
-        } else {
-            $user->password = Yii::$app->user->identity->password;
         }
 
         if ($user->save()) {
