@@ -7,9 +7,11 @@ use app\models\UserExtras;
 use app\modules\admin\models\ChangePasswordForm;
 use app\modules\admin\models\ProfileForm;
 use Yii;
+use yii\bootstrap5\ActiveForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -45,8 +47,15 @@ class ProfileController extends Controller
         $model = new ProfileForm();
         $changePasswordModel = new ChangePasswordForm();
 
+
         if ($model->load($this->request->post())) {
-            // dd($model->attributes);
+
+            // Ajax-валидация
+            if ($this->request->isAjax) {
+                $this->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             if (is_null($model->imageFile)) {
                 if ($model->saveAll(true)) {
@@ -96,6 +105,13 @@ class ProfileController extends Controller
         $changePasswordModel = new ChangePasswordForm();
 
         if ($changePasswordModel->load($this->request->post())) {
+
+            // Ajax-валидация
+            if ($this->request->isAjax) {
+                $this->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($changePasswordModel);
+            }
+
             if ($changePasswordModel->updatePassword()) {
                 Yii::$app->session->setFlash('success', 'Пароль успешно изменен');
 

@@ -116,9 +116,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->patronymic]) ?>
 
-                            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'email', ['enableAjaxValidation' => true])->textInput(['maxlength' => true]) ?>
 
-                            <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'phone', ['enableAjaxValidation' => true])->textInput(['maxlength' => true]) ?>
 
                             <?= $form->field($model, 'status')->textInput(['value' => Yii::$app->user->identity->userExtras->status]) ?>
 
@@ -169,7 +169,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'method' => 'post', // Метод отправки (POST по умолчанию)
                             ]); ?>
 
-                            <?= $form->field($changePasswordModel, 'old_password')->passwordInput(['maxlength' => true]) ?>
+                            <?= $form->field($changePasswordModel, 'old_password', ['enableAjaxValidation' => true])->passwordInput(['maxlength' => true]) ?>
 
                             <?= $form->field($changePasswordModel, 'password')->passwordInput(['maxlength' => true]) ?>
 
