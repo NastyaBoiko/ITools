@@ -4,6 +4,7 @@ namespace app\modules\account\controllers;
 
 use app\models\User;
 use app\models\UserExtras;
+use app\modules\account\models\ChangePasswordForm;
 use app\modules\account\models\ProfileForm;
 use app\modules\account\models\ProfileSearch;
 use Yii;
@@ -43,20 +44,44 @@ class ProfileController extends Controller
     public function actionIndex()
     {
         $model = new ProfileForm();
+        $changePasswordModel = new ChangePasswordForm();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                if (is_null($model->imageFile) || $model->upload()) {
-                    if ($model->saveAll()) {
-                        return $this->redirect(['index']);
-                    }
+        if ($model->load($this->request->post())) {
+            // dd($model->attributes);
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if (is_null($model->imageFile) || $model->upload()) {
+                if ($model->saveAll()) {
+                    return $this->redirect(['index']);
                 }
             }
         }
 
         return $this->render('index', [
+            'index' => true, //для открытия вкладки
+            'change_password' => false, //для открытия вкладки
             'model' => $model,
+            'changePasswordModel' => $changePasswordModel,
+        ]);
+    }
+
+    public function actionChangePassword()
+    {
+        $model = new ProfileForm();
+        $changePasswordModel = new ChangePasswordForm();
+
+        if ($changePasswordModel->load($this->request->post())) {
+            if ($changePasswordModel->updatePassword()) {
+                Yii::$app->session->setFlash('success', 'Пароль успешно изменен');
+
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('index', [
+            'index' => false, //для открытия вкладки
+            'change_password' => true, //для открытия вкладки
+            'model' => $model,
+            'changePasswordModel' => $changePasswordModel,
         ]);
     }
 

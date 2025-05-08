@@ -61,6 +61,15 @@ class ProfileForm extends Model
             [['password', 'password_repeat', 'old_password'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Новый пароль\' и \'Повтор нового пароля\' должны совпадать'],
 
+            // Условное требование заполнения old_password
+            [
+                'old_password',
+                'required',
+                'when' => fn($model) => !empty($model->password),
+                'whenClient' => "() => $('#profileform-password').val() !== ''",
+                'message' => 'Необходимо заполнить старый пароль'
+            ],
+
             // Условное требование заполнения password_repeat
             [
                 'password_repeat',
@@ -69,6 +78,8 @@ class ProfileForm extends Model
                 'whenClient' => "() => $('#profileform-password').val() !== ''",
                 'message' => 'Необходимо повторить новый пароль'
             ],
+
+
 
             [['phone'], 'match', 'pattern' => '/^\+7\-[\d]{3}\-[\d]{3}\-[\d]{2}\-[\d]{2}$/', 'message' => 'Формат +7-XXX-XXX-XX-XX'],
 

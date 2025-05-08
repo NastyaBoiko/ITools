@@ -82,16 +82,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         <!-- Tabs -->
                         <ul class="nav nav-tabs profile navtab-custom panel-tabs" role="tablist">
                             <li class="">
-                                <a href="#home" data-bs-toggle="tab" aria-expanded="true" aria-selected="true" role="tab" class="active"> <span class="visible-xs"><i class="las la-user-circle fs-16 me-1"></i></span> <span class="hidden-xs">Обо мне</span> </a>
+                                <a href="#home" data-bs-toggle="tab" aria-expanded="<?= $index ?>" aria-selected="<?= $index ?>" role="tab" class="<?= $index ? 'active' : '' ?>"> <span class="visible-xs"><i class="las la-user-circle fs-16 me-1"></i></span> <span class="hidden-xs">Обо мне</span> </a>
                             </li>
                             <li class="">
                                 <a href="#settings" data-bs-toggle="tab" aria-expanded="false" aria-selected="false" role="tab" class="" tabindex="-1"> <span class="visible-xs"><i class="las la-cog fs-16 me-1"></i></span>
                                     <span class="hidden-xs">Настройки</span> </a>
                             </li>
+                            <li class="">
+                                <a href="#change_password" data-bs-toggle="tab" aria-expanded="<?= $change_password ?>" aria-selected="<?= $change_password ?>" role="tab" class="<?= $change_password ? 'active' : '' ?>" tabindex="-1"> <span class="visible-xs"><i class="las la-cog fs-16 me-1"></i></span>
+                                    <span class="hidden-xs">Смена пароля</span> </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="tab-content border border-top-0 p-3 br-dark">
-                        <div class="tab-pane border-0 p-0 active show" id="home" role="tabpanel">
+                        <div class="tab-pane border-0 p-0 <?= $index ? 'active show' : '' ?>" id="home" role="tabpanel">
                             <h4 class="fs-15 text-uppercase mb-3">Биография</h4>
                             <?= Yii::$app->user->identity->userExtras->about ?? 'Биография не заполнена' ?>
                         </div>
@@ -105,12 +109,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->patronymic]) ?>
 
                             <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->email]) ?>
-
-                            <?= $form->field($model, 'old_password')->passwordInput(['maxlength' => true, 'value' => '']) ?>
-
-                            <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
-
-                            <?= $form->field($model, 'password_repeat')->passwordInput(['maxlength' => true]) ?>
 
                             <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'value' => Yii::$app->user->identity->phone]) ?>
 
@@ -153,6 +151,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <div class="form-group my-3">
                                 <?= Html::submitButton('<i class="fas fa-edit"></i> Изменить', ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light']) ?>
+                            </div>
+
+                            <?php ActiveForm::end(); ?>
+                        </div>
+                        <div class="tab-pane border-0 p-0 <?= $change_password ? 'active show' : '' ?>" id="change_password" role="tabpanel">
+                            <?php $form = ActiveForm::begin([
+                                'action' => ['profile/change-password'], // Указываем действие контроллера
+                                'method' => 'post', // Метод отправки (POST по умолчанию)
+                            ]); ?>
+
+                            <?= $form->field($changePasswordModel, 'old_password')->textInput(['maxlength' => true]) ?>
+
+                            <?= $form->field($changePasswordModel, 'password')->textInput(['maxlength' => true]) ?>
+
+                            <?= $form->field($changePasswordModel, 'password_repeat')->textInput(['maxlength' => true]) ?>
+
+                            <div class="form-group my-3">
+                                <?= Html::submitButton('<i class="fas fa-edit"></i> Изменить пароль', ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light']) ?>
                             </div>
 
                             <?php ActiveForm::end(); ?>
