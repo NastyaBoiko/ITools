@@ -1,12 +1,11 @@
 <?php
 
-namespace app\modules\account\controllers;
+namespace app\modules\common\controllers;
 
 use app\models\User;
 use app\models\UserExtras;
-use app\modules\account\models\ChangePasswordForm;
-use app\modules\account\models\ProfileForm;
-use app\modules\account\models\ProfileSearch;
+use app\modules\common\models\ChangePasswordForm;
+use app\modules\common\models\ProfileForm;
 use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\web\Controller;
