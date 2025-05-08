@@ -133,6 +133,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     Проект: <strong><span class="">
                                             <?= Html::encode($model->project?->title ?? 'Без проекта') ?></span></strong>
                                 </p>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fa-solid fa-shield"></i>
+                                    Количество в наличии с такими же характеристиками: <strong><span class="">
+                                            <?= Html::encode($model->countSame()) ?></span></strong>
+                                </p>
+
                                 <?php if ($model->min_amount): ?>
                                     <p class="product-description mb-1 bg-light p-2 rounded">
                                         <i class="fas fa-sort-numeric-up"></i>
