@@ -102,7 +102,7 @@ class ToolController extends Controller
             if ($model->load($this->request->post())) {
 
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-                // dd($model->attributes);
+
                 if ($model->saveToolData()) {
                     $firstToolStatus = new ToolHistory();
                     $firstToolStatus->tool_id = $model->id;
@@ -187,6 +187,22 @@ class ToolController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDeleteToolImage($id, $filename)
+    {
+        $imageModel = ToolImage::findOne(['tool_id' => $id, 'image' => $filename]);
+
+        if (!is_null($imageModel)) {
+            $imageModel->delete();
+            // Удаляем файл изображения
+            $fileToDeletePath = Tool::IMG_PATH . $filename;
+            if (file_exists($fileToDeletePath)) {
+                unlink($fileToDeletePath);
+            }
+        }
+
+        return $this->redirect(['update', 'id' => $id]);
     }
 
     /**

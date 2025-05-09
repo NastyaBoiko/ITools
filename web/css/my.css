@@ -14,7 +14,7 @@
     height: 100px;
 }
 
-.delete-avatar {
+.delete-image {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -24,7 +24,7 @@
     cursor: pointer;
 }
 
-.delete-avatar:hover {
+.delete-image:hover {
     color: darkred;
 }
 

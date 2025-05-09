@@ -14,6 +14,10 @@ $this->params['breadcrumbs'][] = 'Изменение';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p>
+        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
+    </p>
+
     <?= $this->render('_form', [
         'model' => $model,
         'categories' => $categories,

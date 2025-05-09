@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <div class="carousel-inner">
                                         <?php foreach ($model->toolImages as $key => $toolImage): ?>
                                             <div class="carousel-item <?= $key === 0 ? "active" : '' ?> ">
-                                                <?= Html::img('/uploads/' . $toolImage->image, [
+                                                <?= Html::img('/' . $model::IMG_PATH . $toolImage->image, [
                                                     'alt' => 'Фото инструмента',
                                                     'class' => 'd-block w-100',
                                                     'style' => 'height: 300px; width: 100%; object-fit: cover;' // Задаем высоту и ширину
@@ -155,7 +155,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <div class="action mt-3">
-                                <?= Html::a('<i class="fas fa-edit"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light']) ?>
+                                <?= Html::a('<i class="fas fa-edit"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light']) ?>
                                 <?= Html::a('<i class="fas fa-trash-alt"></i> Удалить', ['delete', 'id' => $model->id], [
                                     'class' => 'btn btn-outline-danger rounded-pill btn-wave waves-effect waves-light',
                                     'data' => [
@@ -166,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 <?= $model->qr
                                     ? Html::a('<i class="fas fa-download"></i> Скачать qr-код в PDF', ['download-qr', 'id' => $model->id], [
-                                        'class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light',
+                                        'class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light',
                                         'title' => 'Скачать qr-код',
                                     ])
                                     : ''; ?>

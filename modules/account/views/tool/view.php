@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <div class="carousel-inner">
                                         <?php foreach ($model->toolImages as $key => $toolImage): ?>
                                             <div class="carousel-item <?= $key === 0 ? "active" : '' ?> ">
-                                                <?= Html::img('/uploads/' . $toolImage->image, [
+                                                <?= Html::img('/' . $model::IMG_PATH . $toolImage->image, [
                                                     'alt' => 'Фото инструмента',
                                                     'class' => 'd-block w-100',
                                                     'style' => 'height: 300px; width: 100%; object-fit: cover;' // Задаем высоту и ширину
@@ -54,12 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
                         <?php endif ?>
-                        <?php Pjax::begin([
-                            'id' => 'card-return-pjax',
-                            'enablePushState' => false,
-                            'timeout' => 5000,
-                        ]) ?>
                         <div class="details col-xl-7 col-lg-12 col-md-12 mt-3 mt-xl-0">
+
+                            <?php Pjax::begin([
+                                'id' => 'card-return-pjax',
+                                'enablePushState' => false,
+                                'timeout' => 5000,
+                            ]) ?>
                             <div class="d-flex col-3 gap-2 align-items-center">
                                 <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
                                 <p class="product-title mb-1 badge rounded-pill bg-outline-success"><?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></p>
@@ -187,8 +188,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     : ''
                                 ?>
                             </div>
+                            <?php Pjax::end() ?>
                         </div>
-                        <?php Pjax::end() ?>
                     </div>
                 </div>
             </div>

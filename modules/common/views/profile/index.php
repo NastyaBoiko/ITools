@@ -146,8 +146,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         '<i class="fa-solid fa-circle-xmark"></i>',
                                         ['delete-avatar'], // Ссылка на действие для удаления аватара
                                         [
-                                            'class' => 'delete-avatar',
-                                            'style' => 'position: absolute; top: -10px; right: -10px; color: #fff; background-color: #ff4d4d; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; text-decoration: none;',
+                                            'class' => 'delete-image',
+                                            'style' => 'position: absolute; top: 5px; right: 5px; color: #fff; background-color: #ff4d4d; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; text-decoration: none;',
                                             'title' => 'Удалить изображение',
                                             'data-confirm' => 'Вы уверены, что хотите удалить это изображение?', // Подтверждение перед удалением
                                             'data-method' => 'post', // Метод отправки запроса
