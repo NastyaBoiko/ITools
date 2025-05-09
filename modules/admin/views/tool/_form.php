@@ -24,10 +24,11 @@ use yii\bootstrap5\ActiveForm;
     <?= $form->field($model, 'material_made_of_id')->dropdownList($materialsMadeOf, ['prompt' => 'Выберите материал из чего']) ?>
 
     <?php if (isset($materialsUseForCurrent)): ?>
-        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor, ['value' => $materialsUseForCurrent])?>
+        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor, ['value' => $materialsUseForCurrent]) ?>
     <?php else: ?>
-        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor)?>
+        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor) ?>
     <?php endif ?>
+
     <?= $form->field($model, 'category_id')->dropdownList($categories, ['prompt' => 'Выберите категорию']) ?>
 
     <?= $form->field($model, 'min_amount')->textInput() ?>
@@ -40,8 +41,37 @@ use yii\bootstrap5\ActiveForm;
 
     <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
 
+    <div class="mb-2">Загруженные файлы:</div>
+    <?php if (!empty($model->toolImages)): ?>
+        <div class="d-flex gap-2 flex-wrap">
+            <?php foreach ($model->toolImages as $toolImageModel): ?>
+                <div style="position: relative; display: inline-block;">
+                    <!-- Миниатюра изображения -->
+                    <img src="<?= Yii::getAlias('@web') . '/' . $model::IMG_PATH . Html::encode($toolImageModel->image) ?>"
+                        alt="Текущее изображение"
+                        style="width: 100px; height: 100px; object-fit: cover; border-radius: 10%; border: 2px solid #ccc;">
+
+                    <!-- Крестик для удаления -->
+                    <?= Html::a(
+                        '<i class="fa-solid fa-circle-xmark"></i>',
+                        ['delete-tool-image', 'id' => $model->id, 'filename' => $toolImageModel->image], // Ссылка на действие для удаления изображения 
+                        [
+                            'class' => 'delete-image',
+                            'style' => 'position: absolute; top: 5px; right: 5px; color: #fff; background-color: #ff4d4d; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; text-decoration: none;',
+                            'title' => 'Удалить изображение',
+                            'data-confirm' => 'Вы уверены, что хотите удалить это изображение?', // Подтверждение перед удалением
+                            'data-method' => 'post', // Метод отправки запроса
+                        ]
+                    ) ?>
+                </div>
+            <?php endforeach ?>
+        </div>
+    <?php else: ?>
+        <p>Файлы не загружены.</p>
+    <?php endif; ?>
+
     <div class="form-group">
-        <?= Html::submitButton(($model->id ? 'Изменить' : 'Создать'), ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
+        <?= Html::submitButton(($model->id ? '<i class="fas fa-edit"></i> Изменить' : '<i class="fas fa-plus"></i> Создать'), ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

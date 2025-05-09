@@ -42,6 +42,7 @@ use yii\helpers\Url;
  */
 class Tool extends \yii\db\ActiveRecord
 {
+    const IMG_PATH = 'img/tool/';
     const NO_IMAGE = 'no-image.png';
     public $materialsUseFor = [];
     public $imageFiles;
@@ -64,7 +65,7 @@ class Tool extends \yii\db\ActiveRecord
             [['category_id', 'location_id'], 'required'],
             [['category_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
             [['cell', 'qr'], 'string', 'max' => 255],
-            [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 4],
+            [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, webp', 'maxFiles' => 4],
 
             [['tool_maker_id', 'category_id', 'diameter', 'full_length', 'work_length', 'material_made_of_id', 'location_id'], 'required'],
             [['tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
@@ -265,11 +266,11 @@ class Tool extends \yii\db\ActiveRecord
         if ($this->validate()) {
             foreach ($this->imageFiles as $file) {
                 $fileName =
-                    Yii::$app->user->id . '_'
-                    .  Yii::$app->security->generateRandomString(7)
+                    $this->id . '_' . Yii::$app->user->id . '_' . date('U') . '_'
+                    .  Yii::$app->security->generateRandomString(10)
                     . '.' . $file->extension;
 
-                $file->saveAs('uploads/' . $fileName);
+                $file->saveAs(self::IMG_PATH . $fileName);
                 array_push($uploadFiles, $fileName);
             }
             return $uploadFiles;

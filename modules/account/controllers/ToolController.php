@@ -75,7 +75,7 @@ class ToolController extends Controller
             'users' => $users,
             'model_return' => $model_return,
             'locations' => $locations,
-            'mySearch' => false,
+            'myTools' => false,
         ]);
     }
 
@@ -100,8 +100,6 @@ class ToolController extends Controller
             $model_return = $dataProvider->models[0];
         }
 
-        // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -109,7 +107,7 @@ class ToolController extends Controller
             'locations' => $locations,
             'statuses' => $statuses,
             'users' => $users,
-            'mySearch' => true,
+            'myTools' => true,
         ]);
     }
 

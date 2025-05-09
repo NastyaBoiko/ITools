@@ -32,7 +32,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['created_at'], 'safe'],
-            [['delete_status'], 'integer'], 
+            [['delete_status'], 'integer'],
             [['title'], 'string', 'max' => 255],
         ];
     }
@@ -63,9 +63,10 @@ class Category extends \yii\db\ActiveRecord
     public static function getEntities()
     {
         return self::find()
-                ->select('title')
-                ->indexBy('id')
-                ->column()
-                ;
+            ->where(['delete_status' => 0])
+            ->select('title')
+            ->indexBy('id')
+            ->column()
+        ;
     }
 }

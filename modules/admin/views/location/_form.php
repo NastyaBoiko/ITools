@@ -15,7 +15,7 @@ use yii\bootstrap5\ActiveForm;
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(($model->id ? 'Изменить' : 'Создать'), ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
+        <?= Html::submitButton(($model->id ? '<i class="fas fa-edit"></i> Изменить' : '<i class="fas fa-plus"></i> Создать'), ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -16,7 +16,7 @@ $status = '';
                     <div class="carousel-inner">
                         <?php foreach ($model->toolImages as $key => $toolImage): ?>
                             <div class="carousel-item <?= $key === 0 ? "active" : '' ?> ">
-                                <?= Html::img('/uploads/' . $toolImage->image, [
+                                <?= Html::img('/' . $model::IMG_PATH . $toolImage->image, [
                                     'alt' => 'Фото инструмента',
                                     'class' => 'd-block w-100',
                                     'style' => 'height: 240px; width: 100%; object-fit: cover;' // Задаем высоту и ширину

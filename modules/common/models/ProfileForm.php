@@ -7,18 +7,6 @@ use app\models\UserExtras;
 use Yii;
 use yii\base\Model;
 
-/**
- * This is the model class for profile form.
- *
- * @property int $id
- * @property string $name
- * @property string $surname
- * @property string|null $patronymic
- * @property string $email
- * @property string $phone
- * @property string $about
- *
- */
 class ProfileForm extends Model
 {
     public $name;
@@ -51,6 +39,9 @@ class ProfileForm extends Model
 
             [['phone'], 'validateUniquePhone'],
             [['email'], 'validateUniqueEmail'],
+
+            [['telegram'], 'match', 'pattern' => '/^@.+$/', 'message' => 'Имя пользователя должно начинаться с @'],
+            [['telegram'], 'match', 'pattern' => '/^[@a-z\d_]+$/', 'message' => 'Допустимые символы: латиница, цифры и нижнее подчеркивание'],
 
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
@@ -85,7 +76,7 @@ class ProfileForm extends Model
             'status' => 'Статус',
             'about' => 'Биография',
             'position' => 'Должность',
-            'telegram' => 'Ссылка на Telegram',
+            'telegram' => 'Имя пользователя Telegram',
             'vk' => 'Ссылка на Вконтакте',
             'imageFile' => 'Аватар',
             'avatar' => 'Аватар',
