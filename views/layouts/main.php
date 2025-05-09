@@ -250,7 +250,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
         <!-- Start::app-content -->
         <main class="main-content app-content">
-            <div class="container-fluid pt-3">
+            <div class="container-fluid py-3">
                 <?php if (!empty($this->params['breadcrumbs'])): ?>
                     <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
                 <?php endif ?>

@@ -25,7 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="ps-0">
                         <div class="main-profile-overview">
                             <div class="main-img-user profile-user user-profile">
-                                <img alt="Аватар" src="<?= Html::encode('/avatars/' . (Yii::$app->user->identity->userExtras->avatar ?? 'no_image.jpg')) ?>"><a class="fe fe-camera profile-edit text-primary" href="JavaScript:void(0);"></a>
+                                <img alt="Аватар" src="<?= Html::encode('/avatars/' . (Yii::$app->user->identity->userExtras->avatar ?? 'no_image.jpg')) ?>">
+                                <!-- <a class="fe fe-camera profile-edit text-primary" href="JavaScript:void(0);"></a> -->
                             </div>
                             <div class="d-flex justify-content-between mb-4">
                                 <div>

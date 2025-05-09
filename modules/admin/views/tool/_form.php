@@ -24,9 +24,9 @@ use yii\bootstrap5\ActiveForm;
     <?= $form->field($model, 'material_made_of_id')->dropdownList($materialsMadeOf, ['prompt' => 'Выберите материал из чего']) ?>
 
     <?php if (isset($materialsUseForCurrent)): ?>
-        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor, ['value' => $materialsUseForCurrent])?>
+        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor, ['value' => $materialsUseForCurrent]) ?>
     <?php else: ?>
-        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor)?>
+        <?= $form->field($model, 'materialsUseFor')->checkboxList($materialsUseFor) ?>
     <?php endif ?>
     <?= $form->field($model, 'category_id')->dropdownList($categories, ['prompt' => 'Выберите категорию']) ?>
 
@@ -41,7 +41,7 @@ use yii\bootstrap5\ActiveForm;
     <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(($model->id ? 'Изменить' : 'Создать'), ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
+        <?= Html::submitButton(($model->id ? '<i class="fas fa-edit"></i> Изменить' : '<i class="fas fa-plus"></i> Создать'), ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
