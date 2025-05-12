@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\widgets\ListView;
+use yii\widgets\MaskedInput;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -119,7 +120,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?= $form->field($model, 'email', ['enableAjaxValidation' => true])->textInput(['maxlength' => true]) ?>
 
-                            <?= $form->field($model, 'phone', ['enableAjaxValidation' => true])->textInput(['maxlength' => true]) ?>
+                            <?= $form->field($model, 'phone', ['enableAjaxValidation' => true])->widget(MaskedInput::class, [
+                                'mask' => '+7-999-999-99-99'
+                            ]) ?>
 
                             <?= $form->field($model, 'status')->textInput(['value' => Yii::$app->user->identity->userExtras->status]) ?>
 

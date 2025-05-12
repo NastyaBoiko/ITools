@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -68,10 +69,10 @@ class ValexAsset extends AssetBundle
         // "/valex/assets/js/custom-switcher.min.js",
         // <!-- Custom JS -->
         // "/valex/assets/js/custom.js",
+        "/js/main.js",
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset'
     ];
 }
-
