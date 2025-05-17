@@ -70,6 +70,7 @@ class ValexAsset extends AssetBundle
         // <!-- Custom JS -->
         // "/valex/assets/js/custom.js",
         "/js/main.js",
+        "/js/alert-fade-out.js",
     ];
     public $depends = [
         'yii\web\YiiAsset',

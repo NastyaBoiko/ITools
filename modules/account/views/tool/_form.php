@@ -18,7 +18,7 @@ use yii\bootstrap5\ActiveForm;
     <?= $form->field($model, 'cell')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Вернуть на склад', ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
+        <?= Html::submitButton('<i class="fa-solid fa-square-check"></i> Применить', ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

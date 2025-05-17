@@ -66,8 +66,6 @@ class ToolController extends Controller
             $model_return = $dataProvider->models[0];
         }
 
-        // dd(end($dataProvider->getModels()[0]->toolHistories)->toolStatus->title);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

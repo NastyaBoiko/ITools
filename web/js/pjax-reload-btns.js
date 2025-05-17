@@ -11,7 +11,7 @@ $(() => {
                 // Перезагружаем pjax-контейнер после успешного запроса
                 if (response.status) {
                     $.pjax.reload({
-                        container: '#card-return-pjax', // Укажите ваш pjax-контейнер
+                        container: '#card-return-pjax', 
                         push: false, // Не добавляем в историю браузера
                         timeout: 5000,
                     });
@@ -24,3 +24,4 @@ $(() => {
         });
     })
 })
+
