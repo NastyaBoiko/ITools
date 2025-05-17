@@ -74,7 +74,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                         : Html::beginForm(['/site/logout'])
                         . Html::submitButton(
                             '<i class="fas fa-sign-out-alt mx-1"></i> Выход (' . Yii::$app->user->identity->fio . ')',
-                            ['class' => 'btn btn-outline-primary rounded-pill btn-wave mx-3']
+                            ['class' => 'btn btn-outline-primary rounded-pill btn-wave mx-3 btn-exit']
                         )
                         . Html::endForm()
                     ?>

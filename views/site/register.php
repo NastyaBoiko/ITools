@@ -14,19 +14,19 @@ use yii\widgets\MaskedInput;
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'name') ?>
-        <?= $form->field($model, 'surname') ?>
-        <?= $form->field($model, 'patronymic') ?>
-        <?= $form->field($model, 'email', ['enableAjaxValidation' => true]) ?>
-        <?= $form->field($model, 'password')->passwordInput() ?>
-        <?= $form->field($model, 'password_repeat')->passwordInput() ?>
-        <?= $form->field($model, 'phone', ['enableAjaxValidation' => true])->widget(MaskedInput::class, [
-            'mask' => '+7-999-999-99-99'
-        ]) ?>
-    
-        <div class="form-group">
-            <?= Html::submitButton('Зарегистрировать', ['class' => 'btn btn-outline-primary rounded-pill btn-wave']) ?>
-        </div>
+    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'surname') ?>
+    <?= $form->field($model, 'patronymic') ?>
+    <?= $form->field($model, 'email', ['enableAjaxValidation' => true]) ?>
+    <?= $form->field($model, 'password')->passwordInput() ?>
+    <?= $form->field($model, 'password_repeat')->passwordInput() ?>
+    <?= $form->field($model, 'phone', ['enableAjaxValidation' => true])->widget(MaskedInput::class, [
+        'mask' => '+7-999-999-99-99'
+    ]) ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('<i class="fa-solid fa-address-card"></i> Зарегистрировать', ['class' => 'btn btn-outline-primary rounded-pill btn-wave']) ?>
+    </div>
     <?php ActiveForm::end(); ?>
 
 </div><!-- site-register -->
