@@ -50,9 +50,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'format' => 'raw', // Разрешаем вывод HTML
                                     'value' => function ($model) {
                                         return Html::a(
-                                            Html::encode($model->name . ' ' . $model->surname), // Текст ссылки (ФИО пользователя)
-                                            ['profile/view', 'id' => $model->id], // URL для перехода
-                                            ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
+                                            Html::encode($model->name . ' ' . $model->surname), 
+                                            ['/common/profile/view', 'id' => $model->id],
+                                            ['class' => 'text-decoration-none text-hover-primary']
                                         );
                                     },
                                 ],

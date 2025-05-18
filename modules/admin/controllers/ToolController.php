@@ -91,12 +91,6 @@ class ToolController extends Controller
     public function actionCreate()
     {
         $model = new Tool();
-        $categories = Category::getEntities();
-        $locations = Location::getEntities();
-        $projects = Project::getEntities();
-        $toolMakers = ToolMaker::getEntities();
-        $materialsMadeOf = MaterialMadeOf::getEntities();
-        $materialsUseFor = MaterialUseFor::getEntities();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -122,12 +116,12 @@ class ToolController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'categories' => $categories,
-            'locations' => $locations,
-            'projects' => $projects,
-            'toolMakers' => $toolMakers,
-            'materialsMadeOf' => $materialsMadeOf,
-            'materialsUseFor' => $materialsUseFor,
+            'categories' => Category::getEntities(),
+            'locations' => Location::getEntities(),
+            'projects' => Project::getEntities(),
+            'toolMakers' => ToolMaker::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
+            'materialsUseFor' => MaterialUseFor::getEntities(),
         ]);
     }
 
@@ -142,12 +136,6 @@ class ToolController extends Controller
     {
         $model = $this->findModel($id);
 
-        $categories = Category::getEntities();
-        $locations = Location::getEntities();
-        $projects = Project::getEntities();
-        $toolMakers = ToolMaker::getEntities();
-        $materialsMadeOf = MaterialMadeOf::getEntities();
-        $materialsUseFor = MaterialUseFor::getEntities();
         $materialsUseForCurrent = $model->getMaterialsUseFors()->select(['id'])->column();
 
         if ($this->request->isPost) {
@@ -165,12 +153,12 @@ class ToolController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'categories' => $categories,
-            'locations' => $locations,
-            'projects' => $projects,
-            'toolMakers' => $toolMakers,
-            'materialsMadeOf' => $materialsMadeOf,
-            'materialsUseFor' => $materialsUseFor,
+            'categories' => Category::getEntities(),
+            'locations' => Location::getEntities(),
+            'projects' => Project::getEntities(),
+            'toolMakers' => ToolMaker::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
+            'materialsUseFor' => MaterialUseFor::getEntities(),
             'materialsUseForCurrent' => $materialsUseForCurrent,
         ]);
     }
