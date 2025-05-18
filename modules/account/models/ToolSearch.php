@@ -123,6 +123,12 @@ class ToolSearch extends Tool
         $query->andFilterWhere(['like', 'cell', $this->cell])
             ->andFilterWhere(['like', 'qr', $this->qr]);
 
+        
+        if ($myTools) {
+            $toolWithNeededUserIds = ToolHistory::toolWithNeededParameterIds('user_id', Yii::$app->user->id);
+            $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
+        }
+
         if ($this->status_id) {
             $toolWithNeededStatusIds = ToolHistory::toolWithNeededParameterIds('tool_status_id', $this->status_id);
             
@@ -135,10 +141,6 @@ class ToolSearch extends Tool
             $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
         }
 
-        if ($myTools) {
-            $toolWithNeededUserIds = ToolHistory::toolWithNeededParameterIds('user_id', Yii::$app->user->id);
-            $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
-        }
 
         if ($this->diameter_start) {
             $query->andFilterWhere([

@@ -25,8 +25,11 @@ use yii\widgets\MaskedInput;
     ]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('<i class="fa-solid fa-address-card"></i> Зарегистрировать', ['class' => 'btn btn-outline-primary rounded-pill btn-wave']) ?>
+        <?= Html::submitButton(
+            '<i class="fa-solid fa-address-card"></i> Зарегистрировать', 
+            ['class' => 'btn btn-outline-primary rounded-pill btn-wave']
+        ) ?>
     </div>
     <?php ActiveForm::end(); ?>
 
-</div><!-- site-register -->
+</div>
