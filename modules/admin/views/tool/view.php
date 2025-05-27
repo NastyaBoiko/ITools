@@ -205,7 +205,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <th scope="row">
                                             <div class="d-flex align-items-center">
                                                 <span class="avatar avatar-xs me-2 avatar-rounded">
-                                                    <img src="<?= Html::encode('/avatars/' . $toolHistory->user->userExtras->avatar) ?>" alt="img">
+                                                    <img src="<?= Html::encode('/avatars/' . ($toolHistory->user->userExtras->avatar ?? 'no_image.jpg')) ?>" alt="img">
                                                 </span><a href="/common/profile/view?id=<?= $toolHistory->user->id ?>" class="text-decoration-none text-hover-primary"><?= Html::encode($toolHistory->user->fio) ?></a>
                                             </div>
                                         </th>
