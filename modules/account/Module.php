@@ -25,7 +25,21 @@ class Module extends \yii\base\Module
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'matchCallback' => fn() => !Yii::$app->user->identity->isAdmin,
+                        'matchCallback' => function ($rule, $action) {
+                            // Если пользователь НЕ админ — пускаем дальше (например, на frontend)
+                            if (!Yii::$app->user->identity->isAdmin) {
+                                return true;
+                            }
+
+                            // Если это просмотр инструмента — извлекаем id
+                            $id = Yii::$app->request->get('id');
+
+                            // Перенаправляем админа на /admin/tool/view с тем же id
+                            if ($id && Yii::$app->controller->route === 'account/tool/view') {
+                                Yii::$app->response->redirect(['/admin/tool/view', 'id' => $id]);
+                                Yii::$app->end();
+                            }
+                        }
                     ],
                 ],
                 // 'denyCallback' => fn() => Yii::$app->response->redirect('/site/login'),
