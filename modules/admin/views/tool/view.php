@@ -152,10 +152,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </p>
                             </div>
 
-                            <div class="action mt-3">
-                                <?= Html::a('<i class="fas fa-edit"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light']) ?>
+                            <div class="action mt-2">
+                                <?= Html::a('<i class="fas fa-edit"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light mt-2']) ?>
                                 <?= Html::a('<i class="fas fa-trash-alt"></i> Удалить', ['delete', 'id' => $model->id], [
-                                    'class' => 'btn btn-outline-danger rounded-pill btn-wave waves-effect waves-light',
+                                    'class' => 'btn btn-outline-danger rounded-pill btn-wave waves-effect waves-light mt-2',
                                     'data' => [
                                         'confirm' => 'Вы уверены, что хотите удалить этот элемент?',
                                         'method' => 'post',
@@ -164,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 <?= $model->qr
                                     ? Html::a('<i class="fas fa-download"></i> Скачать qr-код в PDF', ['download-qr', 'id' => $model->id], [
-                                        'class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light',
+                                        'class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light mt-2',
                                         'title' => 'Скачать qr-код',
                                     ])
                                     : ''; ?>
