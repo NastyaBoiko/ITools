@@ -3,7 +3,6 @@
 use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
-use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -61,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'enablePushState' => false,
                                 'timeout' => 5000,
                             ]) ?>
-                            <div class="d-flex col-3 gap-2 align-items-center">
+                            <div class="d-flex gap-2 align-items-center">
                                 <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
                                 <p class="product-title mb-1 badge rounded-pill bg-outline-<?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->getStatusColor()) ?>"><?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></p>
                             </div>

@@ -85,7 +85,7 @@ class ToolSearch extends Tool
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 8,
+                'pageSize' => 9,
             ],
             'sort' => [
                 'defaultOrder' => [

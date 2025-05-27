@@ -6,7 +6,6 @@ use app\models\Category;
 use app\models\Location;
 use app\models\MaterialMadeOf;
 use app\models\MaterialUseFor;
-use app\models\ToolMaterialUseFor;
 use app\models\Project;
 use app\models\Tool;
 use app\models\ToolHistory;
@@ -19,10 +18,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
 use FPDF;
-use yii\helpers\Url;
 
 /**
  * ToolController implements the CRUD actions for Tool model.
@@ -82,8 +78,6 @@ class ToolController extends Controller
             ->orderBy(['created_at' => SORT_DESC])
             ->all();
 
-        // dd($toolHistories);
-
         return $this->render('view', [
             'model' => $this->findModel($id),
             'lastUser' => $lastUser,
@@ -103,6 +97,12 @@ class ToolController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+
+                if ($model->tool_maker_id == -1) {
+                    $model->tool_maker_id = $model->addNewToolMaker();
+                }
+
+                // dd($model->attributes);
 
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
@@ -149,6 +149,11 @@ class ToolController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+
+                if ($model->tool_maker_id == -1) {
+                    $model->tool_maker_id = $model->addNewToolMaker();
+                }
+
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
                 if ($model->saveToolData()) {

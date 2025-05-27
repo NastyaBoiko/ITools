@@ -2,6 +2,7 @@
 
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
+use yii\web\JqueryAsset;
 
 /** @var yii\web\View $this */
 /** @var app\models\Tool $model */
@@ -13,7 +14,11 @@ use yii\bootstrap5\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'tool_maker_id')->dropdownList($toolMakers, ['prompt' => 'Выберите производителя']) ?>
+    <?= $form->field($model, 'tool_maker_id')->dropdownList($toolMakers + [-1 => 'Добавить...'], ['prompt' => 'Выберите производителя']) ?>
+
+    <?= $form->field($model, 'new_tool_maker', [
+        'options' => ['style' => 'display: none;']
+    ])->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'diameter')->textInput(['maxlength' => true]) ?>
 
@@ -31,7 +36,7 @@ use yii\bootstrap5\ActiveForm;
 
     <?= $form->field($model, 'category_id')->dropdownList($categories, ['prompt' => 'Выберите категорию']) ?>
 
-    <?= $form->field($model, 'min_amount')->textInput() ?>
+    <?php $form->field($model, 'min_amount')->textInput() ?>
 
     <?= $form->field($model, 'location_id')->dropdownList($locations, ['prompt' => 'Выберите местоположение']) ?>
 
@@ -79,3 +84,7 @@ use yii\bootstrap5\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+$this->registerJsFile('/js/tool.js', ['depends' => JqueryAsset::class]);
+?>

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
+        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', Yii::$app->request->referrer ?: ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
     </p>
 
     <div class="row">
@@ -63,17 +63,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php endif ?>
                         <div class="details col-xl-7 col-lg-12 col-md-12 mt-3 mt-xl-0">
 
-                            <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
+                            <div class="d-flex gap-2 align-items-center">
+                                <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
+                                <p class="product-title mb-1 badge rounded-pill bg-outline-<?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->getStatusColor()) ?>"><?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></p>
+                            </div>
                             <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
 
                             <div class="product-info mt-2">
 
                                 <?php if ($model->toolHistories): ?>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-info-circle"></i>
-                                        Статус: <strong><span class="">
-                                                <?= Html::encode($lastStatus->title) ?></span></strong>
-                                    </p>
                                     <p class="product-description mb-1 bg-light p-2 rounded">
                                         <i class="fas fa-user"></i>
                                         Последнее использование:
