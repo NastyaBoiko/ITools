@@ -14,6 +14,14 @@ use Yii;
  */
 class ToolStatus extends \yii\db\ActiveRecord
 {
+    public array $colors = [
+        'В работе'  => 'primary',
+        'Сломан'    => 'danger',
+        'Доступен'  => 'success',
+        'В ремонте' => 'info',
+        'Утерян'    => 'warning',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -62,9 +70,14 @@ class ToolStatus extends \yii\db\ActiveRecord
     public static function getEntities()
     {
         return self::find()
-                ->select('title')
-                ->indexBy('id')
-                ->column()
-                ;
+            ->select('title')
+            ->indexBy('id')
+            ->column()
+        ;
+    }
+
+    public function getStatusColor(): string
+    {
+        return $this->colors[$this->title];
     }
 }

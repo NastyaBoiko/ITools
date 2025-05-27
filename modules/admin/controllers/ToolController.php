@@ -6,7 +6,6 @@ use app\models\Category;
 use app\models\Location;
 use app\models\MaterialMadeOf;
 use app\models\MaterialUseFor;
-use app\models\ToolMaterialUseFor;
 use app\models\Project;
 use app\models\Tool;
 use app\models\ToolHistory;
@@ -19,10 +18,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
 use FPDF;
-use yii\helpers\Url;
 
 /**
  * ToolController implements the CRUD actions for Tool model.
@@ -76,10 +72,17 @@ class ToolController extends Controller
         $lastUser = ToolHistory::getLastUser($id);
         $lastStatus = ToolHistory::getLastStatus($id);
 
+        $toolHistories = ToolHistory::find()
+            ->where(['tool_id' => $id])
+            ->with(['user', 'toolStatus'])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
             'lastUser' => $lastUser,
             'lastStatus' => $lastStatus,
+            'toolHistories' => $toolHistories,
         ]);
     }
 
@@ -91,15 +94,15 @@ class ToolController extends Controller
     public function actionCreate()
     {
         $model = new Tool();
-        $categories = Category::getEntities();
-        $locations = Location::getEntities();
-        $projects = Project::getEntities();
-        $toolMakers = ToolMaker::getEntities();
-        $materialsMadeOf = MaterialMadeOf::getEntities();
-        $materialsUseFor = MaterialUseFor::getEntities();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+
+                if ($model->tool_maker_id == -1) {
+                    $model->tool_maker_id = $model->addNewToolMaker();
+                }
+
+                // dd($model->attributes);
 
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
@@ -122,12 +125,12 @@ class ToolController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'categories' => $categories,
-            'locations' => $locations,
-            'projects' => $projects,
-            'toolMakers' => $toolMakers,
-            'materialsMadeOf' => $materialsMadeOf,
-            'materialsUseFor' => $materialsUseFor,
+            'categories' => Category::getEntities(),
+            'locations' => Location::getEntities(),
+            'projects' => Project::getEntities(),
+            'toolMakers' => ToolMaker::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
+            'materialsUseFor' => MaterialUseFor::getEntities(),
         ]);
     }
 
@@ -142,16 +145,15 @@ class ToolController extends Controller
     {
         $model = $this->findModel($id);
 
-        $categories = Category::getEntities();
-        $locations = Location::getEntities();
-        $projects = Project::getEntities();
-        $toolMakers = ToolMaker::getEntities();
-        $materialsMadeOf = MaterialMadeOf::getEntities();
-        $materialsUseFor = MaterialUseFor::getEntities();
         $materialsUseForCurrent = $model->getMaterialsUseFors()->select(['id'])->column();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+
+                if ($model->tool_maker_id == -1) {
+                    $model->tool_maker_id = $model->addNewToolMaker();
+                }
+
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
                 if ($model->saveToolData()) {
@@ -165,12 +167,12 @@ class ToolController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'categories' => $categories,
-            'locations' => $locations,
-            'projects' => $projects,
-            'toolMakers' => $toolMakers,
-            'materialsMadeOf' => $materialsMadeOf,
-            'materialsUseFor' => $materialsUseFor,
+            'categories' => Category::getEntities(),
+            'locations' => Location::getEntities(),
+            'projects' => Project::getEntities(),
+            'toolMakers' => ToolMaker::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
+            'materialsUseFor' => MaterialUseFor::getEntities(),
             'materialsUseForCurrent' => $materialsUseForCurrent,
         ]);
     }

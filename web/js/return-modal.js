@@ -15,3 +15,4 @@ $(() => {
         $.pjax.reload('#account-tool-pjax');
     })
 })
+

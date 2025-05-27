@@ -70,9 +70,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->redirect(Yii::$app->user->identity->isAdmin
-                ? '/admin'
-                : '/account')
-                ;
+            ? '/admin'
+            : '/account');
     }
 
     /**
@@ -90,6 +89,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->session->setFlash('success', 'Вы успешно зашли в систему');
             return $this->goBack();
         }
 
@@ -111,38 +111,11 @@ class SiteController extends Controller
         return $this->redirect('/site/login');
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    // public function actionContact()
-    // {
-    //     $model = new ContactForm();
-    //     if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-    //         Yii::$app->session->setFlash('contactFormSubmitted');
-
-    //         return $this->refresh();
-    //     }
-    //     return $this->render('contact', [
-    //         'model' => $model,
-    //     ]);
-    // }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    // public function actionAbout()
-    // {
-    //     return $this->render('about');
-    // }
 
     public function actionRegister()
     {
         $model = new User();
-        
+
         $model->scenario = User::SCENARIO_REGISTER;
 
         if ($model->load(Yii::$app->request->post())) {
@@ -164,3 +137,4 @@ class SiteController extends Controller
         ]);
     }
 }
+

@@ -17,22 +17,22 @@ use yii\widgets\Pjax;
         'timeout' => 5000,
     ]) ?>
 
-        <?php $form = ActiveForm::begin([
-            'id' => 'return-modal-form',
-            'options' => [
-                'data-pjax' => true,
-            ]
-        ]); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'return-modal-form',
+        'options' => [
+            'data-pjax' => true,
+        ]
+    ]); ?>
 
-        <?= $form->field($model, 'location_id')->dropdownList($locations, ['prompt' => 'Выберите местоположение']) ?>
+    <?= $form->field($model, 'location_id')->dropdownList($locations, ['prompt' => 'Выберите местоположение']) ?>
 
-        <?= $form->field($model, 'cell')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'cell')->textInput(['maxlength' => true]) ?>
 
-        <div class="form-group">
-            <?= Html::submitButton('Вернуть на склад', ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
-        </div>
+    <div class="form-group mb-0">
+        <?= Html::submitButton('<i class="fa-solid fa-square-check"></i> Применить', ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
+    </div>
 
-        <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
     <?php Pjax::end(); ?>
 

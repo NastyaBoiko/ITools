@@ -44,6 +44,8 @@ class Tool extends \yii\db\ActiveRecord
 {
     const IMG_PATH = 'img/tool/';
     const NO_IMAGE = 'no-image.png';
+
+    public $new_tool_maker = '';
     public $materialsUseFor = [];
     public $imageFiles;
 
@@ -73,11 +75,19 @@ class Tool extends \yii\db\ActiveRecord
             [['cell', 'qr'], 'string', 'max' => 255],
             [['materialsUseFor'], 'required'],
 
+            [['new_tool_maker'], 'string', 'max' => 255],
+            [
+                ['new_tool_maker'],
+                'required',
+                'when' => fn($model) => $model->tool_maker_id == -1,
+                'whenClient' => "() => $('#tool-tool_maker_id').val() == -1",
+            ],
+
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['location_id'], 'exist', 'skipOnError' => true, 'targetClass' => Location::class, 'targetAttribute' => ['location_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
             [['material_made_of_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialMadeOf::class, 'targetAttribute' => ['material_made_of_id' => 'id']],
-            [['tool_maker_id'], 'exist', 'skipOnError' => true, 'targetClass' => ToolMaker::class, 'targetAttribute' => ['tool_maker_id' => 'id']],
+            // [['tool_maker_id'], 'exist', 'skipOnError' => true, 'targetClass' => ToolMaker::class, 'targetAttribute' => ['tool_maker_id' => 'id']],
         ];
     }
 
@@ -91,6 +101,7 @@ class Tool extends \yii\db\ActiveRecord
             'created_at' => 'Дата и время создания',
             'updated_at' => 'Дата последнего изменения',
             'tool_maker_id' => 'Производитель',
+            'new_tool_maker' => 'Новый производитель',
             'category_id' => 'Категория',
             'diameter' => 'Диаметр',
             'full_length' => 'Общая длина',
@@ -219,7 +230,7 @@ class Tool extends \yii\db\ActiveRecord
                 'material_made_of_id' => $this->material_made_of_id,
                 'category_id' => $this->category_id,
             ])
-            ->count();
+            ->count() - 1;
     }
 
 
@@ -346,5 +357,21 @@ class Tool extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function addNewToolMaker(): int|bool
+    {
+        if ($exhistingToolMaker = ToolMaker::findOne(['title' => $this->new_tool_maker])) {
+            return $exhistingToolMaker->id;
+        }
+
+        $toolMaker = new ToolMaker();
+
+        $toolMaker->title = $this->new_tool_maker;
+        if (!$toolMaker->save()) {
+            return false;
+        }
+
+        return $toolMaker->id;
     }
 }
