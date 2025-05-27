@@ -76,10 +76,19 @@ class ToolController extends Controller
         $lastUser = ToolHistory::getLastUser($id);
         $lastStatus = ToolHistory::getLastStatus($id);
 
+        $toolHistories = ToolHistory::find()
+            ->where(['tool_id' => $id])
+            ->with(['user', 'toolStatus'])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
+        // dd($toolHistories);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
             'lastUser' => $lastUser,
             'lastStatus' => $lastStatus,
+            'toolHistories' => $toolHistories,
         ]);
     }
 
