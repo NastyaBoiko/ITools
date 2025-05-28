@@ -37,3 +37,6 @@ error.log
 
 /mysql-data/
 /web/valex/
+
+.cache
+.vscode-server
