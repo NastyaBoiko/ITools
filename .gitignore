@@ -36,3 +36,4 @@ access.log
 error.log
 
 /mysql-data/
+/web/valex/
