@@ -35,6 +35,8 @@ tests/_support/_generated
 access.log
 error.log
 
+.bash_history
+
 /mysql-data/
 /web/valex/
 
