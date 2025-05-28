@@ -40,3 +40,5 @@ error.log
 
 .cache
 .vscode-server
+
+/web/img

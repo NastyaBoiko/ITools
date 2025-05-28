@@ -1,5 +1,14 @@
 <?php
 
+// beget
+// return [
+//     'class' => 'yii\db\Connection',
+//     'dsn' => 'mysql:host=localhost;dbname=nmikha6h_itools',
+//     'username' => 'nmikha6h_itools',
+//     'password' => 'root123456!',
+//     'charset' => 'utf8',
+// ];
+
 // OpenServer
 // return [
 //     'class' => 'yii\db\Connection',
@@ -36,8 +45,3 @@ return [
     'password' => 'user',
     'charset' => 'utf8',
 ];
-
-// 'attributes' => [
-//         PDO::ATTR_PERSISTENT => true,
-//         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"'
-//     ],

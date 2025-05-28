@@ -292,25 +292,47 @@ class Tool extends \yii\db\ActiveRecord
 
     public function saveToolData()
     {
-        if ($imgUrls = $this->upload()) {
-            if ($this->save(false)) {
-                $this->generateQrCode();
-                foreach ($imgUrls as $imgUrl) {
-                    $toolImage = new ToolImage();
-                    $toolImage->tool_id = $this->id;
-                    $toolImage->image = $imgUrl;
-                    if (!$toolImage->save()) {
-                        return false;
-                    }
+        $validation = $this->imageFiles ? false : true;
+
+        if ($this->save($validation)) {
+            $imgUrls = [];
+
+            if ($this->imageFiles) {
+                $imgUrls = $this->upload();
+            }
+
+            if (!$this->saveFirstStatus()) {
+                return false;
+            }
+
+            $this->generateQrCode();
+
+            foreach ($imgUrls as $imgUrl) {
+                $toolImage = new ToolImage();
+                $toolImage->tool_id = $this->id;
+                $toolImage->image = $imgUrl;
+                if (!$toolImage->save()) {
+                    return false;
                 }
-                return true;
             }
-        } else {
-            if ($this->save()) {
-                $this->generateQrCode();
-                return true;
-            }
+            return true;
         }
+
+        return false;
+    }
+
+    public function saveFirstStatus()
+    {
+        $firstToolStatus = new ToolHistory();
+        $firstToolStatus->tool_id = $this->id;
+        $firstToolStatus->tool_status_id = ToolStatus::getEntityId('Доступен');
+        $firstToolStatus->user_id = Yii::$app->user->id;
+
+        if ($firstToolStatus->save()) {
+            return true;
+        }
+
+        return false;
     }
 
     public function generateQrCode()

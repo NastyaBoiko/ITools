@@ -102,22 +102,16 @@ class ToolController extends Controller
                     $model->tool_maker_id = $model->addNewToolMaker();
                 }
 
-                // dd($model->attributes);
-
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
+                $transaction = Yii::$app->db->beginTransaction();
                 if ($model->saveToolData()) {
-                    $firstToolStatus = new ToolHistory();
-                    $firstToolStatus->tool_id = $model->id;
-                    $firstToolStatus->tool_status_id = ToolStatus::getEntityId('Доступен');
-                    $firstToolStatus->user_id = Yii::$app->user->id;
-
-                    if ($firstToolStatus->save()) {
-                        if ($model->addToolMaterialUseFors($model->materialsUseFor)) {
-                            return $this->redirect(['view', 'id' => $model->id]);
-                        }
+                    if ($model->addToolMaterialUseFors($model->materialsUseFor)) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
                     }
                 }
+                $transaction->rollback();
             }
         } else {
             $model->loadDefaultValues();
