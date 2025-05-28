@@ -1,13 +1,13 @@
 <?php
 
 // beget
-// return [
-//     'class' => 'yii\db\Connection',
-//     'dsn' => 'mysql:host=localhost;dbname=nmikha6h_itools',
-//     'username' => 'nmikha6h_itools',
-//     'password' => 'root123456!',
-//     'charset' => 'utf8',
-// ];
+return [
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=localhost;dbname=nmikha6h_itools',
+    'username' => 'nmikha6h_itools',
+    'password' => 'root123456!',
+    'charset' => 'utf8',
+];
 
 // OpenServer
 // return [
@@ -38,10 +38,10 @@
 // ];
 
 // Docker
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=db;dbname=itools',
-    'username' => 'user',
-    'password' => 'user',
-    'charset' => 'utf8',
-];
+// return [
+//     'class' => 'yii\db\Connection',
+//     'dsn' => 'mysql:host=db;dbname=itools',
+//     'username' => 'user',
+//     'password' => 'user',
+//     'charset' => 'utf8',
+// ];
