@@ -5,10 +5,11 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Location $model */
 
-$this->title = 'Create Location';
+$this->title = 'Создание нового местоположения';
 $this->params['breadcrumbs'][] = ['label' => 'Locations', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="location-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
