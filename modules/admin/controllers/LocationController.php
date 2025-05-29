@@ -41,9 +41,12 @@ class LocationController extends Controller
         $searchModel = new LocationSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
+        $modelLocation = new Location();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'modelLocation' => $modelLocation,
         ]);
     }
 
@@ -71,7 +74,7 @@ class LocationController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,10 +97,19 @@ class LocationController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect($this->request->referrer ?: ['index']);
         }
 
         return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionUpdateAjax($id)
+    {
+        $model = $this->findModel($id);
+
+        return $this->renderAjax('modal-update', [
             'model' => $model,
         ]);
     }

@@ -40,7 +40,8 @@ class LocationSearch extends Location
      */
     public function search($params)
     {
-        $query = Location::find();
+        $query = Location::find()
+            ->where(['delete_status' => 0]);
 
         // add conditions that should always apply here
 
