@@ -16,7 +16,7 @@ use yii\bootstrap5\Html;
                 </p>
             </div>
             <div class="d-flex gap-3 justify-content-between mt-3">
-                <?= Html::a('<i class="fas fa-edit"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light']) ?>
+                <?= Html::a('<i class="fas fa-edit"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-outline-success rounded-pill btn-wave waves-effect waves-light edit-location-button', 'data-id' => $model->id]) ?>
                 <?= Html::a('<i class="fas fa-trash-alt"></i> Удалить', ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-outline-danger rounded-pill btn-wave waves-effect waves-light',
                     'data' => [
@@ -27,5 +27,4 @@ use yii\bootstrap5\Html;
             </div>
         </div>
     </div>
-
 </div>

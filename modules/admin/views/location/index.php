@@ -17,7 +17,7 @@ use yii\widgets\Pjax;
 $this->title = 'Местоположения';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="category-index">
+<div class="location-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -59,6 +59,21 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
 
     $this->registerJsFile('/js/location.js', ['depends' => JqueryAsset::class]);
+    ?>
+
+    <?php
+    Modal::begin([
+        'id' => 'location-modal-update',
+        'title' => '<h2>Изменение местоположения</h2>',
+    ]);
+
+    echo $this->render('modal-update', [
+        'model' => $modelLocation,
+    ]);
+
+    Modal::end();
+
+    $this->registerJsFile('/js/location-update.js', ['depends' => JqueryAsset::class]);
     ?>
 
     <?php Pjax::end(); ?>

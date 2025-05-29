@@ -1,5 +1,5 @@
 $(() => {
-    $('.category-index').on('click', '.open-location-modal', function (e) {
+    $('.location-index').on('click', '.open-location-modal', function (e) {
         e.preventDefault();
 
         $('#location-title').val('');
@@ -7,7 +7,7 @@ $(() => {
         $('#location-modal').modal('show');
     })
 
-    $('.category-index').on('click', '.close-location-modal', function (e) {
+    $('.location-index').on('click', '.close-location-modal', function (e) {
         e.preventDefault();
         $('#location-modal').modal('hide');
     })
