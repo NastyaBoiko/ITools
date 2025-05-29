@@ -1,0 +1,14 @@
+$(() => {
+    $('.category-index').on('click', '.open-location-modal', function (e) {
+        e.preventDefault();
+
+        $('#location-title').val('');
+        $('#location-title').removeClass('is-valid is-invalid');
+        $('#location-modal').modal('show');
+    })
+
+    $('.category-index').on('click', '.close-location-modal', function (e) {
+        e.preventDefault();
+        $('#location-modal').modal('hide');
+    })
+})
