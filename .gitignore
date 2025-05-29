@@ -43,6 +43,5 @@ error.log
 .cache
 .vscode-server
 
-/config/db.php
-
 /web/img
+config/db.php

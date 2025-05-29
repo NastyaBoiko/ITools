@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: db
--- Время создания: Май 27 2025 г., 16:20
+-- Время создания: Май 29 2025 г., 18:21
 -- Версия сервера: 8.0.42
 -- Версия PHP: 8.2.27
 
@@ -54,6 +54,7 @@ INSERT INTO `category` (`id`, `title`, `delete_status`, `created_at`) VALUES
 CREATE TABLE `location` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `delete_status` int NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -61,9 +62,9 @@ CREATE TABLE `location` (
 -- Дамп данных таблицы `location`
 --
 
-INSERT INTO `location` (`id`, `title`, `created_at`) VALUES
-(1, 'Шкаф 1', '2025-03-02 19:31:11'),
-(2, 'Шкаф 2', '2025-03-02 19:31:11');
+INSERT INTO `location` (`id`, `title`, `delete_status`, `created_at`) VALUES
+(1, 'Шкаф 11', 0, '2025-03-02 19:31:11'),
+(2, 'Шкаф 2', 0, '2025-03-02 19:31:11');
 
 -- --------------------------------------------------------
 
@@ -150,6 +151,14 @@ CREATE TABLE `project` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Дамп данных таблицы `project`
+--
+
+INSERT INTO `project` (`id`, `title`, `created_at`) VALUES
+(1, 'НПФ Начало', '2025-05-27 16:25:46'),
+(2, 'ОАО Красный треугольник', '2025-05-27 16:25:46');
+
 -- --------------------------------------------------------
 
 --
@@ -203,14 +212,14 @@ INSERT INTO `tool` (`id`, `created_at`, `updated_at`, `tool_maker_id`, `category
 (2, '2025-03-04 09:46:40', NULL, 1, 1, 0, 0, 0, 1, NULL, 1, '2', NULL, NULL, 0, '2_qrcode_68177a3bb0d7f.png'),
 (3, '2025-03-04 10:20:17', NULL, 1, 1, 0, 0, 0, 1, NULL, 2, '', NULL, NULL, 0, '3_qrcode_68177aea46928.png'),
 (4, '2025-03-04 10:25:02', NULL, 1, 5, 0, 0, 0, 1, 5, 1, '123', NULL, NULL, 0, '4_qrcode_681777a540276.png'),
-(20, '2025-03-07 21:13:10', NULL, 2, 2, 15, 10, 9, 1, NULL, 1, '33', NULL, NULL, 0, '20_qrcode_681777b8e4740.png'),
 (26, '2025-05-09 12:02:31', NULL, 1, 5, 100, 100, 100, 1, NULL, 1, '21', NULL, NULL, 0, '26_qrcode_681deed716eb5.png'),
-(28, '2025-05-27 15:21:27', NULL, 7, 3, 15, 10, 1, 1, NULL, 1, '', NULL, NULL, 0, '28_qrcode_6835d8772b711.png'),
-(29, '2025-05-27 15:24:21', NULL, 7, 5, 15, 100, 9, 1, NULL, 2, '', NULL, NULL, 0, '29_qrcode_6835d9250bcad.png'),
-(30, '2025-05-27 15:25:45', NULL, 8, 5, 1, 5, 4, 1, NULL, 2, '', NULL, NULL, 0, '30_qrcode_6835d979be45e.png'),
 (31, '2025-05-27 15:26:30', NULL, 8, 2, 3, 7, 4, 1, 5, 2, '', NULL, NULL, 0, '31_qrcode_6835d9a652c5e.png'),
-(32, '2025-05-27 15:45:56', NULL, 9, 1, 15, 19, 14, 1, NULL, 1, '', NULL, NULL, 0, '32_qrcode_6835de34ce0d9.png'),
-(33, '2025-05-27 16:03:19', NULL, 9, 5, 10, 19, 14, 2, NULL, 2, '', NULL, NULL, 0, '33_qrcode_6835e247ef599.png');
+(39, '2025-05-28 15:24:55', NULL, 2, 2, 12, 11, 11, 1, NULL, 2, '', NULL, NULL, 0, '39_qrcode_68372ac779dd3.png'),
+(40, '2025-05-28 15:25:24', NULL, 3, 3, 1, 1, 1, 2, NULL, 2, '', 2, NULL, 0, '40_qrcode_68372ae40da91.png'),
+(45, '2025-05-28 15:32:50', NULL, 2, 3, 1, 1, 1, 4, NULL, 2, '', 2, NULL, 0, '45_qrcode_68372ca23b7e0.png'),
+(47, '2025-05-28 15:44:57', NULL, 3, 3, 1, 1, 1, 4, NULL, 2, '', NULL, NULL, 0, '47_qrcode_68372f793c95c.png'),
+(48, '2025-05-28 15:45:26', NULL, 1, 5, 1, 1, 1, 2, NULL, 2, '', 1, NULL, 0, '48_qrcode_68372f96edb8a.png'),
+(49, '2025-05-28 15:45:45', NULL, 8, 5, 1, 1, 1, 5, NULL, 2, '', 1, NULL, 0, '49_qrcode_68372fa9df622.png');
 
 -- --------------------------------------------------------
 
@@ -257,21 +266,18 @@ INSERT INTO `tool_history` (`id`, `created_at`, `tool_status_id`, `tool_id`, `us
 (95, '2025-05-03 13:19:37', 3, 4, 3),
 (96, '2025-05-03 13:19:47', 1, 4, 3),
 (97, '2025-05-03 21:07:04', 4, 4, 10),
-(98, '2025-04-06 18:54:27', 3, 20, 9),
 (108, '2025-05-09 11:39:28', 3, 2, 3),
 (109, '2025-05-09 12:02:31', 1, 26, 1),
 (110, '2025-05-09 13:13:50', 3, 26, 3),
 (111, '2025-05-09 13:14:02', 1, 26, 3),
-(113, '2025-05-27 15:21:27', 1, 28, 1),
-(114, '2025-05-27 15:24:21', 1, 29, 1),
-(115, '2025-05-27 15:25:45', 1, 30, 1),
 (116, '2025-05-27 15:26:30', 1, 31, 1),
-(117, '2025-05-27 15:45:56', 1, 32, 1),
-(118, '2025-05-27 15:56:27', 3, 32, 3),
 (119, '2025-05-27 15:56:32', 4, 31, 3),
-(120, '2025-05-27 15:56:37', 5, 30, 3),
-(121, '2025-05-27 15:56:43', 2, 28, 3),
-(122, '2025-05-27 16:03:19', 1, 33, 1);
+(128, '2025-05-28 15:24:55', 1, 39, 1),
+(129, '2025-05-28 15:25:24', 1, 40, 1),
+(133, '2025-05-28 15:32:50', 1, 45, 1),
+(134, '2025-05-28 15:44:57', 1, 47, 1),
+(135, '2025-05-28 15:45:26', 1, 48, 1),
+(136, '2025-05-28 15:45:45', 1, 49, 1);
 
 -- --------------------------------------------------------
 
@@ -299,17 +305,16 @@ INSERT INTO `tool_image` (`id`, `created_at`, `tool_id`, `image`) VALUES
 (23, '2025-05-09 13:18:56', 1, '1_1_1746796736_bXpj3UGEYl.jpg'),
 (24, '2025-05-09 13:18:56', 1, '1_1_1746796736_9O0mpttqNB.png'),
 (25, '2025-05-09 13:18:56', 1, '1_1_1746796736_-bsHzf3197.webp'),
-(26, '2025-05-09 13:19:20', 20, '20_1_1746796760_YjXdLNA0eI.png'),
 (27, '2025-05-09 13:20:16', 4, '4_1_1746796816_y7zmiDIpF9.webp'),
 (28, '2025-05-09 13:20:16', 4, '4_1_1746796816_9P5BG3SPQ1.webp'),
-(29, '2025-05-27 15:21:27', 28, '_1_1748359287_8zpb9_VZ8J.webp'),
-(30, '2025-05-27 15:24:21', 29, '_1_1748359461_zsPZLQT95v.webp'),
-(31, '2025-05-27 15:24:21', 29, '_1_1748359461_y3vtoFxBwc.jpg'),
-(32, '2025-05-27 15:25:45', 30, '_1_1748359545_CZxbfLqkdB.webp'),
 (33, '2025-05-27 15:26:54', 31, '31_1_1748359614_m06OoljU6N.webp'),
-(34, '2025-05-27 15:45:56', 32, '_1_1748360756_wca1OuUUu4.webp'),
-(35, '2025-05-27 15:45:56', 32, '_1_1748360756_h9nfqA1f3e.webp'),
-(36, '2025-05-27 16:03:19', 33, '_1_1748361799_0mnwkCx4iX.webp');
+(38, '2025-05-28 15:24:55', 39, '_1_1748445895_P8A3z0nPnj.jpg'),
+(39, '2025-05-28 15:32:50', 45, '_1_1748446370_XPCbmp0u8Y.jpg'),
+(40, '2025-05-28 15:44:57', 47, '47_1_1748447097_04jK0AmDex.webp'),
+(41, '2025-05-28 15:44:57', 47, '47_1_1748447097_1dqoa0qSHs.webp'),
+(42, '2025-05-28 15:45:26', 48, '48_1_1748447126_PvHisrziNx.webp'),
+(43, '2025-05-28 15:45:26', 48, '48_1_1748447126_MPLwFbw6Nx.webp'),
+(44, '2025-05-28 15:45:26', 48, '48_1_1748447126_m6o2tywoMk.jpg');
 
 -- --------------------------------------------------------
 
@@ -352,8 +357,6 @@ CREATE TABLE `tool_material_use_for` (
 --
 
 INSERT INTO `tool_material_use_for` (`id`, `tool_id`, `material_use_for_id`, `delete_status`) VALUES
-(20, 20, 1, 0),
-(21, 20, 2, 0),
 (22, 4, 1, 0),
 (23, 3, 1, 0),
 (24, 3, 2, 0),
@@ -362,14 +365,20 @@ INSERT INTO `tool_material_use_for` (`id`, `tool_id`, `material_use_for_id`, `de
 (27, 1, 1, 0),
 (28, 2, 2, 0),
 (29, 26, 2, 0),
-(32, 28, 2, 0),
-(33, 29, 2, 0),
-(34, 30, 1, 0),
 (35, 31, 1, 0),
 (36, 31, 3, 0),
-(37, 32, 1, 0),
-(38, 32, 3, 0),
-(39, 33, 1, 0);
+(44, 39, 1, 0),
+(45, 39, 2, 0),
+(46, 40, 1, 0),
+(47, 40, 2, 0),
+(48, 45, 1, 0),
+(49, 45, 2, 0),
+(50, 47, 1, 0),
+(51, 47, 2, 0),
+(52, 48, 1, 0),
+(53, 48, 2, 0),
+(54, 49, 1, 0),
+(55, 49, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -628,7 +637,7 @@ ALTER TABLE `order_status`
 -- AUTO_INCREMENT для таблицы `project`
 --
 ALTER TABLE `project`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `role`
@@ -640,7 +649,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT для таблицы `tool`
 --
 ALTER TABLE `tool`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_comment`
@@ -652,13 +661,13 @@ ALTER TABLE `tool_comment`
 -- AUTO_INCREMENT для таблицы `tool_history`
 --
 ALTER TABLE `tool_history`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_image`
 --
 ALTER TABLE `tool_image`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_maker`
@@ -670,7 +679,7 @@ ALTER TABLE `tool_maker`
 -- AUTO_INCREMENT для таблицы `tool_material_use_for`
 --
 ALTER TABLE `tool_material_use_for`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT для таблицы `tool_status`
