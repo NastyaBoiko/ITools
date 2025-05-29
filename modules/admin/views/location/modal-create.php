@@ -4,11 +4,11 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\Category $model */
+/** @var app\models\Location $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="category-form">
+<div class="location-form">
 
     <?php $form = ActiveForm::begin(['action' => ['create']]); ?>
 
