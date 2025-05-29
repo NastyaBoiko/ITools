@@ -4,6 +4,7 @@ namespace app\modules\admin\controllers;
 
 use app\models\Location;
 use app\modules\admin\models\LocationSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -94,10 +95,11 @@ class LocationController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', 'Вы успешно изменили название местоположения');
+            return $this->redirect($this->request->referrer ?: ['index']);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('modal-update', [
             'model' => $model,
         ]);
     }
