@@ -2,25 +2,16 @@
 
 namespace app\modules\account\controllers;
 
-use app\models\Category;
 use app\models\Location;
-use app\models\MaterialMadeOf;
-use app\models\MaterialUseFor;
-use app\models\ToolMaterialUseFor;
-use app\models\Project;
 use app\models\Tool;
 use app\models\ToolHistory;
-use app\models\ToolImage;
-use app\models\ToolMaker;
 use app\models\ToolStatus;
 use app\models\User;
-use app\modules\account\models\MyToolSearch;
 use app\modules\account\models\ToolSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * ToolController implements the CRUD actions for Tool model.
@@ -117,11 +108,13 @@ class ToolController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
         $locations = Location::getEntities();
         $lastUser = ToolHistory::getLastUser($id);
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
             'locations' => $locations,
             'lastUser' => $lastUser,
         ]);
