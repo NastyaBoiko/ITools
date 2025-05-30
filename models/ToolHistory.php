@@ -112,7 +112,7 @@ class ToolHistory extends \yii\db\ActiveRecord
             ->andWhere(['tool_id' => $toolId])
             ->one();
 
-        return $toolHistory->user;
+        return $toolHistory?->user ?? null;
     }
 
     public static function getLastStatus($toolId)
@@ -124,6 +124,6 @@ class ToolHistory extends \yii\db\ActiveRecord
             ->andWhere(['tool_id' => $toolId])
             ->one();
 
-        return $toolHistory->toolStatus;
+        return $toolHistory?->toolStatus ?? null;
     }
 }

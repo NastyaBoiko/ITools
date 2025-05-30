@@ -9,7 +9,9 @@ use yii\bootstrap5\Html;
 <a href="/account/tool/view?id=<?= $model->id ?>">
     <div class="card custom-card h-100">
         <div class="col-lg-12 col-md-12">
-            <div class="status-badge mb-1 badge rounded-pill bg-outline-<?= Html::encode(ToolHistory::getLastStatus($model->id)->getStatusColor()) ?>"><?= Html::encode($status = ToolHistory::getLastStatus($model->id)->title) ?></div>
+            <div class="status-badge mb-1 badge rounded-pill bg-outline-<?= Html::encode(ToolHistory::getLastStatus($model->id)?->getStatusColor()) ?>">
+                <?= Html::encode($status = ToolHistory::getLastStatus($model->id)?->title) ?>
+            </div>
             <div id="carouselExampleControls<?= $model->id ?>" class="carousel slide pointer-event" data-bs-ride="carousel">
                 <?php if ($model->toolImages): ?>
                     <div class="carousel-inner">
@@ -60,7 +62,7 @@ use yii\bootstrap5\Html;
                     <div class="product-info mt-2">
                         <p class="product-description mb-1 bg-light p-2 rounded">
                             <i class="fas fa-user"></i><strong><span class="">
-                                    <?= Html::encode(ToolHistory::getLastUser($model->id)->fio) ?></span></strong>
+                                    <?= Html::encode(ToolHistory::getLastUser($model->id)?->fio ?? "Неизвестно") ?></span></strong>
                         </p>
                         <p class="product-description mb-1 bg-light p-2 rounded">
                             <i class="fas fa-box"></i>
@@ -83,7 +85,7 @@ use yii\bootstrap5\Html;
                 </div>
                 <div class="d-grid gap-1">
                     <?= Html::a('<i class="fas fa-eye"></i> Просмотр', ['view', 'id' => $model->id], ['class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light my-1']) ?>
-                    <?= $status === 'Доступен'
+                    <?= $status === 'Доступен' || is_null($status)
                         ?  Html::a('<i class="fas fa-check"></i> Взять в работу', [
                             'work',
                             'id' => $model->id,
