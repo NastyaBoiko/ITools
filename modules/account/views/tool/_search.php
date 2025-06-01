@@ -39,6 +39,10 @@ use yii\bootstrap5\ActiveForm;
             'prompt' => 'Выберите статус',
         ]) ?>
 
+        <?= $form->field($model, 'location_id')->dropDownList($locations, [
+            'prompt' => 'Выберите местоположение',
+        ]) ?>
+
         <?= $form->field($model, 'user_id')->dropDownList($users, [
             'prompt' => 'Выберите ответственного',
         ]) ?>

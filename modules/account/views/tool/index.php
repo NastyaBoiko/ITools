@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $searchModel,
             'statuses' => $statuses,
             'users' => $users,
+            'locations' => $locations,
         ]); ?>
 
         <div class="col-xl-9 col-lg-8 col-md-12">
