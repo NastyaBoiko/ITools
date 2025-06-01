@@ -34,7 +34,7 @@ class ChangePasswordForm extends Model
 
             [['old_password'], 'validateOldPassword'],
 
-            [['password', 'password_repeat', 'old_password'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
+            [['password', 'password_repeat', 'old_password'], 'match', 'pattern' => '/^(?=.*[0-9])(?=.*[a-zа-яё])(?=.*[A-ZА-ЯЁ]).+$/u', 'message' => 'Минимум одна цифра, одна строчная и одна заглавная буква'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Новый пароль\' и \'Повтор нового пароля\' должны совпадать'],
         ];
     }

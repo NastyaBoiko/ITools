@@ -1,5 +1,6 @@
 <?php
 
+use app\models\ToolHistory;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -65,25 +66,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <div class="d-flex gap-2 align-items-center">
                                 <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
-                                <p class="product-title mb-1 badge rounded-pill bg-outline-<?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->getStatusColor()) ?>"><?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></p>
+                                <p class="product-title mb-1 badge rounded-pill 
+                                        bg-outline-<?= Html::encode(ToolHistory::getLastStatus($model->id)?->getStatusColor()) ?>">
+                                    <?= Html::encode($status = ToolHistory::getLastStatus($model->id)?->title) ?>
+                                </p>
                             </div>
                             <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
 
                             <div class="product-info mt-2">
 
-                                <?php if ($model->toolHistories): ?>
-                                    <p class="product-description mb-1 bg-light p-2 rounded">
-                                        <i class="fas fa-user"></i>
-                                        Последнее использование:
-                                        <strong>
+                                <p class="product-description mb-1 bg-light p-2 rounded">
+                                    <i class="fas fa-user"></i>
+                                    Последнее использование:
+                                    <strong>
+                                        <?php if ($lastUser): ?>
                                             <?= Html::a(
-                                                Html::encode($lastUser->fio), // Текст ссылки (ФИО пользователя)
-                                                ['/common/profile/view', 'id' => $lastUser->id], // URL для перехода
+                                                Html::encode($lastUser?->fio), // Текст ссылки (ФИО пользователя)
+                                                ['/common/profile/view', 'id' => $lastUser?->id], // URL для перехода
                                                 ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
                                             ) ?>
-                                        </strong>
-                                    </p>
-                                <?php endif; ?>
+                                        <?php else: ?>
+                                            Неизвестно
+                                        <?php endif ?>
+                                    </strong>
+                                </p>
                                 <p class="product-description mb-1 bg-light p-2 rounded">
                                     <i class="fas fa-box"></i>
                                     Из какого материала: <strong><span class="">
@@ -176,11 +182,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <div class="row my-3">
-        <h3 class="mt-4 mb-3 text-center">История использования</h3>
-        <div class="col-12">
-            <div class="card custom-card">
-                <!-- <div class="card-header justify-content-between">
+    <?php if ($model->toolHistories): ?>
+        <div class="row my-3">
+            <h3 class="mt-4 mb-3 text-center">История использования</h3>
+            <div class="col-12">
+                <div class="card custom-card">
+                    <!-- <div class="card-header justify-content-between">
                     <div class="card-title">
                         Table Without Borders
                     </div>
@@ -188,40 +195,40 @@ $this->params['breadcrumbs'][] = $this->title;
                         <button class="btn btn-sm btn-primary-light">Show Code<i class="ri-code-line ms-2 d-inline-block align-middle"></i></button>
                     </div>
                 </div> -->
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table text-nowrap">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Пользователь</th>
-                                    <!-- <th scope="col">Transaction Id</th> -->
-                                    <th scope="col">Дата</th>
-                                    <th scope="col">Статус</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($toolHistories as $toolHistory): ?>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table text-nowrap">
+                                <thead>
                                     <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center">
-                                                <span class="avatar avatar-xs me-2 avatar-rounded">
-                                                    <img src="<?= Html::encode('/avatars/' . ($toolHistory->user->userExtras->avatar ?? 'no_image.jpg')) ?>" alt="img">
-                                                </span><a href="/common/profile/view?id=<?= $toolHistory->user->id ?>" class="text-decoration-none text-hover-primary"><?= Html::encode($toolHistory->user->fio) ?></a>
-                                            </div>
-                                        </th>
-                                        <!-- <th scope="row"></th> -->
-                                        <!-- <td>#5182-3467</td> -->
-                                        <td><?= date('d.m.Y H:i', strtotime($toolHistory->created_at)) ?></td>
-                                        <td><span class="badge bg-<?= Html::encode($toolHistory->toolStatus->getStatusColor()) ?>"><?= Html::encode($toolHistory->toolStatus->title) ?></span></td>
+                                        <th scope="col">Пользователь</th>
+                                        <!-- <th scope="col">Transaction Id</th> -->
+                                        <th scope="col">Дата</th>
+                                        <th scope="col">Статус</th>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($toolHistories as $toolHistory): ?>
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="avatar avatar-xs me-2 avatar-rounded">
+                                                        <img src="<?= Html::encode('/avatars/' . ($toolHistory->user->userExtras->avatar ?? 'no_image.jpg')) ?>" alt="img">
+                                                    </span><a href="/common/profile/view?id=<?= $toolHistory->user->id ?>" class="text-decoration-none text-hover-primary"><?= Html::encode($toolHistory->user->fio) ?></a>
+                                                </div>
+                                            </th>
+                                            <!-- <th scope="row"></th> -->
+                                            <!-- <td>#5182-3467</td> -->
+                                            <td><?= date('d.m.Y H:i', strtotime($toolHistory->created_at)) ?></td>
+                                            <td><span class="badge bg-<?= Html::encode($toolHistory->toolStatus->getStatusColor()) ?>"><?= Html::encode($toolHistory->toolStatus->title) ?></span></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer d-none border-top-0">
-                    <!-- Prism Code -->
-                    <pre class="language-html" tabindex="0"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>table-responsive<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                    <div class="card-footer d-none border-top-0">
+                        <!-- Prism Code -->
+                        <pre class="language-html" tabindex="0"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>table-responsive<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
                         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>table text-nowrap table-borderless<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
                             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>thead</span><span class="token punctuation">&gt;</span></span>
                                 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
@@ -259,10 +266,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tbody</span><span class="token punctuation">&gt;</span></span>
                         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">&gt;</span></span>
                     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
-                    <!-- Prism Code -->
+                        <!-- Prism Code -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php endif ?>
 
 </div>

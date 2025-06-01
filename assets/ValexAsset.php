@@ -32,12 +32,12 @@ class ValexAsset extends AssetBundle
         "/valex/assets/icon-fonts/feather/feather.css",
         "/css/valex.css",
         "/css/my.css",
-        // "/fontawesome/css/fontawesome.min.css",
+        "/fontawesome/css/all.css",
     ];
     public $js = [
         "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
         // font awesome
-        "https://kit.fontawesome.com/0cec92e36b.js",
+        // "https://kit.fontawesome.com/0cec92e36b.js",
         // <!-- Choices JS -->
         "/valex/assets/libs/choices.js/public/assets/scripts/choices.min.js",
         // <!-- Main Theme Js -->

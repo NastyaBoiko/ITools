@@ -11,7 +11,7 @@ use app\models\Tool;
 use app\models\ToolHistory;
 use app\models\ToolImage;
 use app\models\ToolMaker;
-use app\models\ToolStatus;
+use app\models\User;
 use app\modules\admin\models\ToolSearch;
 use Yii;
 use yii\web\Controller;
@@ -55,6 +55,16 @@ class ToolController extends Controller
 
         $dataProvider = $searchModel->search($this->request->queryParams);
 
+        // $users = User::find()->all();
+
+        // foreach ($users as $user) {
+        //     if ($user->role_id == 2) {
+        //         continue;
+        //     }
+        //     $user->password = Yii::$app->security->generatePasswordHash('123456qQ');
+        //     $user->save();
+        // }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -69,6 +79,8 @@ class ToolController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
         $lastUser = ToolHistory::getLastUser($id);
         $lastStatus = ToolHistory::getLastStatus($id);
 
@@ -79,7 +91,7 @@ class ToolController extends Controller
             ->all();
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
             'lastUser' => $lastUser,
             'lastStatus' => $lastStatus,
             'toolHistories' => $toolHistories,

@@ -15,17 +15,12 @@ use yii\bootstrap5\ActiveForm;
     <div class="card p-3 mb-3">
 
         <?php $form = ActiveForm::begin([
+            'id' => 'tool-search-form',
             'action' => ['my-tools'],
             'method' => 'get',
         ]); ?>
 
         <?= $form->field($model, 'id') ?>
-
-        <?php # $form->field($model, 'created_at') 
-        ?>
-
-        <?php # $form->field($model, 'updated_at') 
-        ?>
 
         <?= $form->field($model, 'tool_maker_id')->dropDownList(ToolMaker::getEntities(), [
             'prompt' => 'Выберите производителя',
@@ -37,6 +32,18 @@ use yii\bootstrap5\ActiveForm;
 
         <?= $form->field($model, 'status_id')->dropDownList($statuses, [
             'prompt' => 'Выберите статус',
+        ]) ?>
+
+        <?= $form->field($model, 'location_id')->dropDownList($locations, [
+            'prompt' => 'Выберите местоположение',
+        ]) ?>
+
+        <?= $form->field($model, 'material_made_of_id')->dropDownList($materialsMadeOf, [
+            'prompt' => 'Из какого материала',
+        ]) ?>
+
+        <?= $form->field($model, 'user_id')->dropDownList($users, [
+            'prompt' => 'Выберите ответственного',
         ]) ?>
 
         <?= $form->field($model, 'diameter_start') ?>
@@ -73,9 +80,6 @@ use yii\bootstrap5\ActiveForm;
         ?>
 
         <div class="form-group d-flex flex-column gap-2">
-            <?= Html::submitButton('<i class="fas fa-search"></i> Поиск', [
-                'class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light',
-            ]) ?>
             <?= Html::a('<i class="fas fa-undo"></i> Сбросить', ['my-tools'], [
                 'class' => 'btn btn-outline-secondary rounded-pill btn-wave waves-effect waves-light',
             ]) ?>

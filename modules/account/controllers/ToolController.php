@@ -2,25 +2,18 @@
 
 namespace app\modules\account\controllers;
 
-use app\models\Category;
 use app\models\Location;
 use app\models\MaterialMadeOf;
 use app\models\MaterialUseFor;
-use app\models\ToolMaterialUseFor;
-use app\models\Project;
 use app\models\Tool;
 use app\models\ToolHistory;
-use app\models\ToolImage;
-use app\models\ToolMaker;
 use app\models\ToolStatus;
 use app\models\User;
-use app\modules\account\models\MyToolSearch;
 use app\modules\account\models\ToolSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * ToolController implements the CRUD actions for Tool model.
@@ -54,10 +47,6 @@ class ToolController extends Controller
     public function actionIndex()
     {
         $searchModel = new ToolSearch();
-        $statuses = ToolStatus::getEntities();
-        $users = User::getEntities();
-        $locations = Location::getEntities();
-
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         $model_return = null;
@@ -69,10 +58,11 @@ class ToolController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'statuses' => $statuses,
-            'users' => $users,
+            'statuses' => ToolStatus::getEntities(),
+            'users' => User::getEntities(),
+            'locations' => Location::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
             'model_return' => $model_return,
-            'locations' => $locations,
             'myTools' => false,
         ]);
     }
@@ -86,10 +76,6 @@ class ToolController extends Controller
     public function actionMyTools()
     {
         $searchModel = new ToolSearch();
-        $statuses = ToolStatus::getEntities();
-        $users = User::getEntities();
-        $locations = Location::getEntities();
-
         $dataProvider = $searchModel->search($this->request->queryParams, true);
 
         $model_return = null;
@@ -101,10 +87,11 @@ class ToolController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'locations' => Location::getEntities(),
+            'statuses' => ToolStatus::getEntities(),
+            'users' => User::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
             'model_return' => $model_return,
-            'locations' => $locations,
-            'statuses' => $statuses,
-            'users' => $users,
             'myTools' => true,
         ]);
     }
@@ -117,13 +104,12 @@ class ToolController extends Controller
      */
     public function actionView($id)
     {
-        $locations = Location::getEntities();
-        $lastUser = ToolHistory::getLastUser($id);
+        $model = $this->findModel($id);
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
-            'locations' => $locations,
-            'lastUser' => $lastUser,
+            'model' => $model,
+            'locations' => Location::getEntities(),
+            'lastUser' => ToolHistory::getLastUser($id),
         ]);
     }
 

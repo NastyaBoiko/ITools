@@ -11,7 +11,9 @@ $status = '';
 <a href="/admin/tool/view?id=<?= $model->id ?>">
     <div class="card custom-card h-100">
         <div class="col-lg-12 col-md-12">
-            <div class="status-badge mb-1 badge rounded-pill bg-outline-<?= Html::encode(ToolHistory::getLastStatus($model->id)->getStatusColor()) ?>"><?= Html::encode($status = ToolHistory::getLastStatus($model->id)->title) ?></div>
+            <div class="status-badge mb-1 badge rounded-pill bg-outline-<?= Html::encode(ToolHistory::getLastStatus($model->id)?->getStatusColor()) ?>">
+                <?= Html::encode($status = ToolHistory::getLastStatus($model->id)?->title) ?>
+            </div>
             <div id="carouselExampleControls<?= $model->id ?>" class="carousel slide pointer-event" data-bs-ride="carousel">
                 <?php if ($model->toolImages): ?>
                     <div class="carousel-inner">
@@ -61,8 +63,8 @@ $status = '';
 
                     <div class="product-info mt-2">
                         <p class="product-description mb-1 bg-light p-2 rounded">
-                            <i class="fas fa-user"></i>
-                            <strong><span class=""><?= Html::encode(ToolHistory::getLastUser($model->id)->fio) ?></span></strong>
+                            <i class="fas fa-user"></i><strong><span class="">
+                                    <?= Html::encode(ToolHistory::getLastUser($model->id)?->fio ?? "Неизвестно") ?></span></strong>
                         </p>
                         <p class="product-description mb-1 bg-light p-2 rounded">
                             <i class="fas fa-box"></i>

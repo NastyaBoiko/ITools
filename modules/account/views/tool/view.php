@@ -1,5 +1,6 @@
 <?php
 
+use app\models\ToolHistory;
 use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use yii\web\JqueryAsset;
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
+        <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', Yii::$app->request->referrer ?: ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
     </p>
 
     <div class="row">
@@ -61,8 +62,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'timeout' => 5000,
                             ]) ?>
                             <div class="d-flex gap-2 align-items-center">
-                                <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker->title) ?></h5>
-                                <p class="product-title mb-1 badge rounded-pill bg-outline-<?= Html::encode($model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->getStatusColor()) ?>"><?= Html::encode($status = $model->toolHistories[array_key_last($model->toolHistories)]->toolStatus->title) ?></p>
+                                <h5 class="product-title mb-1"><?= Html::encode($model->toolMaker?->title) ?></h5>
+                                <p class="product-title mb-1 badge rounded-pill 
+                                        bg-outline-<?= Html::encode(ToolHistory::getLastStatus($model->id)?->getStatusColor()) ?>">
+                                    <?= Html::encode($status = ToolHistory::getLastStatus($model->id)?->title) ?>
+                                </p>
                             </div>
                             <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
 
@@ -137,17 +141,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <i class="fas fa-user"></i>
                                     Последнее использование:
                                     <strong>
-                                        <?= Html::a(
-                                            Html::encode($lastUser->fio), // Текст ссылки (ФИО пользователя)
-                                            ['/common/profile/view', 'id' => $lastUser->id], // URL для перехода
-                                            ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
-                                        ) ?>
+                                        <?php if ($lastUser): ?>
+                                            <?= Html::a(
+                                                Html::encode($lastUser?->fio), // Текст ссылки (ФИО пользователя)
+                                                ['/common/profile/view', 'id' => $lastUser?->id], // URL для перехода
+                                                ['class' => 'text-decoration-none text-hover-primary'] // Дополнительные атрибуты (стиль ссылки)
+                                            ) ?>
+                                        <?php else: ?>
+                                            Неизвестно
+                                        <?php endif ?>
                                     </strong>
                                 </p>
                             </div>
 
                             <div class="action mt-3">
-                                <?= $status === 'Доступен'
+                                <?= $status === 'Доступен' || is_null($status)
                                     ?  Html::a('<i class="fas fa-check"></i> Взять в работу', [
                                         'work',
                                         'id' => $model->id,

@@ -30,6 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $searchModel,
             'statuses' => $statuses,
             'users' => $users,
+            'locations' => $locations,
+            'materialsMadeOf' => $materialsMadeOf,
         ]); ?>
 
         <div class="col-xl-9 col-lg-8 col-md-12">
@@ -50,7 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php Pjax::end(); ?>
-
 </div>
 
 <?php
@@ -68,5 +69,7 @@ if ($dataProvider->count) {
 }
 
 $this->registerJsFile('/js/pjax-reload-btns.js', ['depends' => JqueryAsset::class]);
+
+$this->registerJsFile('/js/tool-search.js', ['depends' => JqueryAsset::class]);
 
 ?>
