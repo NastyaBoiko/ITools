@@ -62,7 +62,7 @@ class User extends ActiveRecord implements IdentityInterface
 
             [['password'], 'string', 'min' => 6],
             [['password_repeat'], 'string', 'min' => 6],
-            [['password', 'password_repeat'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры', 'on' => self::SCENARIO_REGISTER],
+            [['password', 'password_repeat'], 'match', 'pattern' => '/^(?=.*[0-9])(?=.*[a-zа-яё])(?=.*[A-ZА-ЯЁ]).+$/u', 'message' => 'Минимум одна цифра, одна строчная и одна заглавная буква', 'on' => self::SCENARIO_REGISTER],
             // [['password', 'password_repeat'], 'match', 'pattern' => '/^[а-яёa-z\d]+$/ui', 'message' => 'Разрешенные символы: кириллица, латиница, цифры'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Поля \'Пароль\' и \'Повтор пароля\' должны совпадать', 'on' => self::SCENARIO_REGISTER],
 

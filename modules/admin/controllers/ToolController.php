@@ -11,6 +11,7 @@ use app\models\Tool;
 use app\models\ToolHistory;
 use app\models\ToolImage;
 use app\models\ToolMaker;
+use app\models\User;
 use app\modules\admin\models\ToolSearch;
 use Yii;
 use yii\web\Controller;
@@ -53,6 +54,16 @@ class ToolController extends Controller
         $searchModel = new ToolSearch();
 
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        // $users = User::find()->all();
+
+        // foreach ($users as $user) {
+        //     if ($user->role_id == 2) {
+        //         continue;
+        //     }
+        //     $user->password = Yii::$app->security->generatePasswordHash('123456qQ');
+        //     $user->save();
+        // }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

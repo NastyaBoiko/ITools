@@ -32,6 +32,7 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            [['password'], 'match', 'pattern' => '/^(?=.*[0-9])(?=.*[a-zа-яё])(?=.*[A-ZА-ЯЁ]).+$/u', 'message' => 'Минимум одна цифра, одна строчная и одна заглавная буква'],
         ];
     }
 
@@ -71,7 +72,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         return false;
     }
