@@ -45,10 +45,6 @@ class ToolController extends Controller
     public function actionIndex()
     {
         $searchModel = new ToolSearch();
-        $statuses = ToolStatus::getEntities();
-        $users = User::getEntities();
-        $locations = Location::getEntities();
-
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         $model_return = null;
@@ -60,10 +56,10 @@ class ToolController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'statuses' => $statuses,
-            'users' => $users,
+            'statuses' => ToolStatus::getEntities(),
+            'users' => User::getEntities(),
+            'locations' => Location::getEntities(),
             'model_return' => $model_return,
-            'locations' => $locations,
             'myTools' => false,
         ]);
     }
@@ -77,10 +73,6 @@ class ToolController extends Controller
     public function actionMyTools()
     {
         $searchModel = new ToolSearch();
-        $statuses = ToolStatus::getEntities();
-        $users = User::getEntities();
-        $locations = Location::getEntities();
-
         $dataProvider = $searchModel->search($this->request->queryParams, true);
 
         $model_return = null;
@@ -93,9 +85,9 @@ class ToolController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model_return' => $model_return,
-            'locations' => $locations,
-            'statuses' => $statuses,
-            'users' => $users,
+            'locations' => Location::getEntities(),
+            'statuses' => ToolStatus::getEntities(),
+            'users' => User::getEntities(),
             'myTools' => true,
         ]);
     }
@@ -110,13 +102,10 @@ class ToolController extends Controller
     {
         $model = $this->findModel($id);
 
-        $locations = Location::getEntities();
-        $lastUser = ToolHistory::getLastUser($id);
-
         return $this->render('view', [
             'model' => $model,
-            'locations' => $locations,
-            'lastUser' => $lastUser,
+            'locations' => Location::getEntities(),
+            'lastUser' => ToolHistory::getLastUser($id),
         ]);
     }
 

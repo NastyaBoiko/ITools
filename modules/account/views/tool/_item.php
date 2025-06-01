@@ -53,10 +53,10 @@ use yii\bootstrap5\Html;
         <div class="card custom-card border h-100" style="background-color: #f8f9fa;">
             <div class="card-body p-2 d-flex flex-column justify-content-between">
                 <div class="card-description">
+
                     <div class="product-info mx-2">
                         <h5 class="product-title mb-1"><?= Html::encode($model->id . '. ' . $model->toolMaker->title) ?></h5>
                         <p class="text-muted fs-14 mb-1"><i class="fas fa-folder"></i> <?= Html::encode($model->category->title) ?></p>
-
                     </div>
 
                     <div class="product-info mt-2">
@@ -67,7 +67,7 @@ use yii\bootstrap5\Html;
                         <p class="product-description mb-1 bg-light p-2 rounded">
                             <i class="fas fa-box"></i>
                             Из какого материала: <strong><span class="">
-                                    <?= Html::encode($model->materialMadeOf->title) ?></span></strong>
+                                    <?= Html::encode($model->materialMadeOf?->title) ?></span></strong>
                         </p>
                         <?php if ($model->materialsUseFors): ?>
                             <p class="product-description mb-1 bg-light p-2 rounded">
@@ -123,7 +123,5 @@ use yii\bootstrap5\Html;
                 </div>
             </div>
         </div>
-
-
     </div>
 </a>

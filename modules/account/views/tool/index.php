@@ -50,7 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php Pjax::end(); ?>
-
 </div>
 
 <?php
