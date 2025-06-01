@@ -3,6 +3,8 @@
 namespace app\modules\account\controllers;
 
 use app\models\Location;
+use app\models\MaterialMadeOf;
+use app\models\MaterialUseFor;
 use app\models\Tool;
 use app\models\ToolHistory;
 use app\models\ToolStatus;
@@ -59,6 +61,7 @@ class ToolController extends Controller
             'statuses' => ToolStatus::getEntities(),
             'users' => User::getEntities(),
             'locations' => Location::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
             'model_return' => $model_return,
             'myTools' => false,
         ]);
@@ -84,10 +87,11 @@ class ToolController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model_return' => $model_return,
             'locations' => Location::getEntities(),
             'statuses' => ToolStatus::getEntities(),
             'users' => User::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
+            'model_return' => $model_return,
             'myTools' => true,
         ]);
     }

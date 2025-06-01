@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'statuses' => $statuses,
             'users' => $users,
             'locations' => $locations,
+            'materialsMadeOf' => $materialsMadeOf,
         ]); ?>
 
         <div class="col-xl-9 col-lg-8 col-md-12">
@@ -68,5 +69,7 @@ if ($dataProvider->count) {
 }
 
 $this->registerJsFile('/js/pjax-reload-btns.js', ['depends' => JqueryAsset::class]);
+
+$this->registerJsFile('/js/tool-search.js', ['depends' => JqueryAsset::class]);
 
 ?>

@@ -15,6 +15,7 @@ use yii\bootstrap5\ActiveForm;
     <div class="card p-3 mb-3">
 
         <?php $form = ActiveForm::begin([
+            'id' => 'tool-search-form',
             'action' => ['index'],
             'method' => 'get',
         ]); ?>
@@ -41,6 +42,10 @@ use yii\bootstrap5\ActiveForm;
 
         <?= $form->field($model, 'location_id')->dropDownList($locations, [
             'prompt' => 'Выберите местоположение',
+        ]) ?>
+
+        <?= $form->field($model, 'material_made_of_id')->dropDownList($materialsMadeOf, [
+            'prompt' => 'Из какого материала',
         ]) ?>
 
         <?= $form->field($model, 'user_id')->dropDownList($users, [
@@ -81,9 +86,6 @@ use yii\bootstrap5\ActiveForm;
         ?>
 
         <div class="form-group d-flex flex-column gap-2">
-            <?= Html::submitButton('<i class="fas fa-search"></i> Поиск', [
-                'class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light',
-            ]) ?>
             <?= Html::a('<i class="fas fa-undo"></i> Сбросить', ['index'], [
                 'class' => 'btn btn-outline-secondary rounded-pill btn-wave waves-effect waves-light',
             ]) ?>
