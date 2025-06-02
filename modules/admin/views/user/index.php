@@ -76,6 +76,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 [
                                     'class' => ActionColumn::class,
                                     'urlCreator' => function ($action, User $model, $key, $index, $column) {
+                                        if ($action === 'view') {
+                                            return Url::toRoute(['/common/profile/view', 'id' => $model->id]);
+                                        }
+
                                         return Url::toRoute([$action, 'id' => $model->id]);
                                     }
                                 ],
