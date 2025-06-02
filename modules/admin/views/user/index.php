@@ -1,14 +1,13 @@
 <?php
 
-use app\models\Tool;
-use yii\bootstrap5\LinkPager;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
-use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use app\models\User;
+use yii\bootstrap5\Modal;
+use yii\web\YiiAsset;
 
 /** @var yii\web\View $this */
 /** @var app\modules\admin\models\ToolSearch $searchModel */
@@ -22,8 +21,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<i class="fas fa-plus"></i> Создать пользователя', ['/site/register'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3']) ?>
+        <?= Html::a(
+            '<i class="fas fa-plus"></i> Создать пользователя',
+            ['/site/register'],
+            ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3 create-user-modal-btn']
+        ) ?>
     </p>
+
+    <?php
+    Modal::begin([
+        'id' => 'user-index-modal',
+        'title' => '<h3>Регистрация пользователя</h3>',
+        'size' => Modal::SIZE_LARGE,
+    ]);
+
+    echo 'Say hello...';
+
+    Modal::end();
+    ?>
 
     <?php Pjax::begin(); ?>
     <div class="row">
@@ -50,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'format' => 'raw', // Разрешаем вывод HTML
                                     'value' => function ($model) {
                                         return Html::a(
-                                            Html::encode($model->name . ' ' . $model->surname), 
+                                            Html::encode($model->name . ' ' . $model->surname),
                                             ['/common/profile/view', 'id' => $model->id],
                                             ['class' => 'text-decoration-none text-hover-primary']
                                         );
@@ -76,3 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+
+<?php
+$this->registerJsFile('/js/admin/user-index-modal.js', ['depends' => YiiAsset::class]);
+?>

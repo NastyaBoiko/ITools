@@ -4,6 +4,7 @@ namespace app\modules\admin\controllers;
 
 use app\models\User;
 use app\modules\admin\models\UserSearch;
+use Yii;
 use yii\bootstrap5\ActiveForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -24,7 +25,7 @@ class UserController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -63,6 +64,31 @@ class UserController extends Controller
     }
 
 
+    public function actionRegisterAjax()
+    {
+        $model = new User();
+
+        $model->scenario = User::SCENARIO_REGISTER;
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            // Ajax-валидация
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+
+            if ($model->register()) {
+                Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировали пользователя');
+                return $this->redirect('/admin/user');
+            }
+        }
+
+        return $this->renderAjax('register-ajax', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -85,7 +111,6 @@ class UserController extends Controller
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-
         }
 
         return $this->render('update', [
@@ -120,6 +145,6 @@ class UserController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Запрашиваемая страница не найдена');
     }
 }
