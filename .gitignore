@@ -44,4 +44,5 @@ error.log
 .vscode-server
 
 /web/img
+/web/avatars
 config/db.php
