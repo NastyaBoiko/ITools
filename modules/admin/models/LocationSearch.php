@@ -50,6 +50,11 @@ class LocationSearch extends Location
             'pagination' => [
                 'pageSize' => 6,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);
@@ -62,10 +67,10 @@ class LocationSearch extends Location
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'created_at' => $this->created_at,
         ]);
 
+        $query->andFilterWhere(['like', 'id', $this->id]);
         $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;

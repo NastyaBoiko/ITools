@@ -11,6 +11,7 @@ use app\models\Tool;
 use app\models\ToolHistory;
 use app\models\ToolImage;
 use app\models\ToolMaker;
+use app\models\ToolStatus;
 use app\models\User;
 use app\modules\admin\models\ToolSearch;
 use Yii;
@@ -52,7 +53,6 @@ class ToolController extends Controller
     public function actionIndex()
     {
         $searchModel = new ToolSearch();
-
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         // $users = User::find()->all();
@@ -68,6 +68,10 @@ class ToolController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statuses' => ToolStatus::getEntities(),
+            'users' => User::getEntities(),
+            'locations' => Location::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
         ]);
     }
 
@@ -83,12 +87,7 @@ class ToolController extends Controller
 
         $lastUser = ToolHistory::getLastUser($id);
         $lastStatus = ToolHistory::getLastStatus($id);
-
-        $toolHistories = ToolHistory::find()
-            ->where(['tool_id' => $id])
-            ->with(['user', 'toolStatus'])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->all();
+        $toolHistories = $model->getFullToolHistory();
 
         return $this->render('view', [
             'model' => $model,
@@ -110,19 +109,20 @@ class ToolController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                if ($model->tool_maker_id == -1) {
-                    $model->tool_maker_id = $model->addNewToolMaker();
-                }
-
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
                 $transaction = Yii::$app->db->beginTransaction();
+
                 if ($model->saveToolData()) {
                     if ($model->addToolMaterialUseFors($model->materialsUseFor)) {
                         $transaction->commit();
+
+                        Yii::$app->session->setFlash('success', 'Вы успешно создали инструмент');
+
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
                 }
+
                 $transaction->rollback();
             }
         } else {
@@ -156,17 +156,20 @@ class ToolController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                if ($model->tool_maker_id == -1) {
-                    $model->tool_maker_id = $model->addNewToolMaker();
-                }
-
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+
+                $transaction = Yii::$app->db->beginTransaction();
 
                 if ($model->saveToolData()) {
                     $model->updateToolMaterialUseFors($materialsUseForCurrent);
 
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Вы успешно изменили инструмент');
+
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
+
+                $transaction->rollback();
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -260,7 +263,7 @@ class ToolController extends Controller
             $pdf->Output('D', $model->id . '_' . $model->toolMaker->title . '.pdf'); // D - для загрузки
 
         } else {
-            throw new NotFoundHttpException('Файл не найден.');
+            throw new NotFoundHttpException('Файл не найден');
         }
     }
 }

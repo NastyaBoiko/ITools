@@ -8,6 +8,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * LocationController implements the CRUD actions for Location model.
@@ -64,46 +65,53 @@ class LocationController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Location model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
+    public function actionAjaxCreate()
     {
         $model = new Location();
 
+        // Проверяем, что запрос является AJAX
+        if (!$this->request->isAjax) {
+            throw new \yii\web\NotFoundHttpException('Страница не найдена');
+        }
+
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
+                Yii::$app->session->setFlash('success', 'Вы успешно создали местоположение');
+
+                return $this->asJson([
+                    'success' => true,
+                    'redirect' => Url::toRoute(['/admin/location/index'])
+                ]);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
-            'model' => $model,
+        return $this->asJson([
+            'form' => $this->renderAjax('modal-create', ['model' => $model])
         ]);
     }
 
-    /**
-     * Updates an existing Location model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
+    public function actionAjaxUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Вы успешно изменили название местоположения');
-            return $this->redirect($this->request->referrer ?: ['index']);
+        // Проверяем, что запрос является AJAX
+        if (!$this->request->isAjax) {
+            throw new \yii\web\NotFoundHttpException('Страница не найдена');
         }
 
-        return $this->renderAjax('modal-update', [
-            'model' => $model,
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Вы успешно изменили местоположение');
+
+            return $this->asJson([
+                'success' => true,
+                'redirect' => Url::toRoute(['/admin/location/index'])
+            ]);
+        }
+
+        return $this->asJson([
+            'form' => $this->renderAjax('modal-update', ['model' => $model])
         ]);
     }
 

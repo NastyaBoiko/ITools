@@ -73,6 +73,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <span>Телефон</span> <a href="tel:<?= Html::encode($model->phoneHref) ?>" class="text-primary"><?= Html::encode($model->phone) ?></a>
                                     </div>
                                 </div>
+                                <div class="media">
+                                    <div class="media-icon bg-warning-transparent text-warning">
+                                        <i class="fa-solid fa-square-envelope"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Почта</span> <a href="mailto:<?= Html::encode(Yii::$app->user->identity->email) ?>" class="text-primary"><?= Html::encode(Yii::$app->user->identity->email) ?></a>
+                                    </div>
+                                </div>
                             </div>
                         </div><!-- main-profile-overview -->
                     </div>
@@ -93,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="tab-content border border-top-0 p-3 br-dark">
                         <div class="tab-pane border-0 p-0 active show" id="home" role="tabpanel">
                             <h4 class="fs-15 text-uppercase mb-3">Биография</h4>
-                            <?= $model->userExtras->about ?? 'Биография не заполнена' ?>
+                            <?= Html::encode($model->userExtras->about ?? 'Биография не заполнена...')  ?>
                         </div>
                     </div>
                 </div>

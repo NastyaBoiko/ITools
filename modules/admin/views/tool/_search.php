@@ -11,59 +11,152 @@ use yii\widgets\ActiveForm;
 ?>
 
 
-    <div class="col-xl-3 col-lg-4 col-md-12 mb-3 mb-md-0">
-        <div class="card p-3 mb-3">
+<div class="col-xl-3 col-lg-4 col-md-12 mb-3 mb-md-0">
+    <div class="card p-3 mb-3">
 
-            <?php $form = ActiveForm::begin([
-                'action' => ['index'],
-                'method' => 'get',
-            ]); ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'tool-search-form',
+            'action' => ['index'],
+            'method' => 'get',
+        ]); ?>
 
-            <?= $form->field($model, 'id') ?>
+        <?= $form->field($model, 'id') ?>
 
-            <?= $form->field($model, 'created_at') ?>
+        <?php # $form->field($model, 'created_at') 
+        ?>
 
-            <?= $form->field($model, 'updated_at') ?>
+        <?php # $form->field($model, 'updated_at') 
+        ?>
 
-            <?= $form->field($model, 'tool_maker_id')->dropDownList(ToolMaker::getEntities(), [
-                    'prompt' => 'Выберите производителя',
-                ]) ?>
+        <?= $form->field($model, 'tool_maker_id')->dropDownList(ToolMaker::getEntities(), [
+            'prompt' => 'Выберите производителя',
+        ]) ?>
 
-            <?= $form->field($model, 'category_id')->dropDownList(Category::getEntities(), [
-                    'prompt' => 'Выберите категорию',
-                ]) ?>
+        <?= $form->field($model, 'category_id')->dropDownList(Category::getEntities(), [
+            'prompt' => 'Выберите категорию',
+        ]) ?>
 
-            <?php // echo $form->field($model, 'diameter') ?>
+        <?= $form->field($model, 'status_id')->dropDownList($statuses, [
+            'prompt' => 'Выберите статус',
+        ]) ?>
 
-            <?php // echo $form->field($model, 'full_length') ?>
+        <?= $form->field($model, 'location_id')->dropDownList($locations, [
+            'prompt' => 'Выберите местоположение',
+        ]) ?>
 
-            <?php // echo $form->field($model, 'work_length') ?>
+        <?= $form->field($model, 'material_made_of_id')->dropDownList($materialsMadeOf, [
+            'prompt' => 'Из какого материала',
+        ]) ?>
 
-            <?php // echo $form->field($model, 'material_made_of_id') ?>
+        <?= $form->field($model, 'user_id')->dropDownList($users, [
+            'prompt' => 'Выберите ответственного',
+        ]) ?>
 
-            <?php // echo $form->field($model, 'min_amount') ?>
-
-            <?php // echo $form->field($model, 'location_id') ?>
-
-            <?php // echo $form->field($model, 'cell') ?>
-
-            <?php // echo $form->field($model, 'project_id') ?>
-
-            <?php // echo $form->field($model, 'inventory_time') ?>
-
-            <?php // echo $form->field($model, 'delete_status') ?>
-
-            <?php // echo $form->field($model, 'qr') ?>
-
-            <div class="form-group d-flex flex-column gap-2">
-                <?= Html::submitButton('<i class="fas fa-search"></i> Поиск', [
-                    'class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light',
-                ]) ?>
-                <?= Html::a('<i class="fas fa-undo"></i> Сбросить', ['index'], [
-                    'class' => 'btn btn-outline-secondary rounded-pill btn-wave waves-effect waves-light',
-                ]) ?>
+        Диаметр
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'diameter_start', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'От'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
             </div>
 
-            <?php ActiveForm::end(); ?>
+            <span class="text-muted">—</span> <!-- Разделитель -->
+
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'diameter_end', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'До'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
         </div>
+
+        Общая длина
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'full_length_start', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'От'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+
+            <span class="text-muted">—</span> <!-- Разделитель -->
+
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'full_length_end', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'До'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+        </div>
+
+        Рабочая длина
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'work_length_start', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'От'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+
+            <span class="text-muted">—</span> <!-- Разделитель -->
+
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'work_length_end', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'До'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+        </div>
+
+        <?php // echo $form->field($model, 'full_length') 
+        ?>
+
+        <?php // echo $form->field($model, 'work_length') 
+        ?>
+
+        <?php // echo $form->field($model, 'material_made_of_id') 
+        ?>
+
+        <?php // echo $form->field($model, 'min_amount') 
+        ?>
+
+        <?php // echo $form->field($model, 'location_id') 
+        ?>
+
+        <?php // echo $form->field($model, 'cell') 
+        ?>
+
+        <?php // echo $form->field($model, 'project_id') 
+        ?>
+
+        <?php // echo $form->field($model, 'inventory_time') 
+        ?>
+
+        <?php // echo $form->field($model, 'delete_status') 
+        ?>
+
+        <?php // echo $form->field($model, 'qr') 
+        ?>
+
+        <div class="form-group d-flex flex-column gap-2">
+            <?= Html::a('<i class="fas fa-undo"></i> Сбросить', ['index'], [
+                'class' => 'btn btn-outline-secondary rounded-pill btn-wave waves-effect waves-light',
+            ]) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
+</div>

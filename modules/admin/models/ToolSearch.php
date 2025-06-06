@@ -5,21 +5,68 @@ namespace app\modules\admin\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Tool;
+use app\models\ToolHistory;
+use Yii;
 
 /**
  * Tool2Search represents the model behind the search form of `app\models\Tool`.
  */
 class ToolSearch extends Tool
 {
+    public $status_id;
+    public $user_id;
+    public $diameter_start;
+    public $diameter_end;
+    public $full_length_start;
+    public $full_length_end;
+    public $work_length_start;
+    public $work_length_end;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status'], 'integer'],
+            [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status', 'status_id', 'user_id'], 'integer'],
             [['created_at', 'updated_at', 'cell', 'inventory_time', 'qr'], 'safe'],
-            [['diameter', 'full_length', 'work_length'], 'number'],
+            [[
+                'diameter', 'diameter_start', 'diameter_end', 
+                'full_length', 'full_length_start', 'full_length_end', 
+                'work_length', 'work_length_start', 'work_length_end', 
+            ], 'number'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'Номер',
+            'created_at' => 'Дата и время создания',
+            'updated_at' => 'Дата последнего изменения',
+            'tool_maker_id' => 'Производитель',
+            'category_id' => 'Категория',
+            'diameter' => 'Диаметр',
+            'diameter_start' => 'Диаметр от ',
+            'diameter_end' => 'Диаметр до ',
+            'full_length' => 'Общая длина',
+            'diameter_start' => 'Общая длина от ',
+            'diameter_end' => 'Общая длина до ',
+            'work_length' => 'Рабочая длина',
+            'work_length_start' => 'Рабочая длина',
+            'work_length_end' => 'Рабочая длина',
+            'material_made_of_id' => 'Материал из чего',
+            'materialsUseFor' => 'Материал для чего',
+            'min_amount' => 'Минимально необходимое количество',
+            'location_id' => 'Месторасположение',
+            'status_id' => 'Статус',
+            'user_id' => 'Последнее использование',
+            'cell' => 'Полка или ячейка',
+            'project_id' => 'Проект',
+            'inventory_time' => 'Дата и время инвентаризации',
+            'delete_status' => 'Delete Status',
+            'qr' => 'Qr-код',
+            'imageFiles' => 'Изображения',
         ];
     }
 
@@ -41,7 +88,8 @@ class ToolSearch extends Tool
      */
     public function search($params)
     {
-        $query = Tool::find();
+        $query = Tool::find()
+            ->with(['toolHistories', 'toolHistories.toolStatus', 'toolHistories.user']);
 
         // add conditions that should always apply here
 
@@ -85,6 +133,67 @@ class ToolSearch extends Tool
 
         $query->andFilterWhere(['like', 'cell', $this->cell])
             ->andFilterWhere(['like', 'qr', $this->qr]);
+
+        if ($this->status_id) {
+            $toolWithNeededStatusIds = ToolHistory::toolWithNeededParameterIds('tool_status_id', $this->status_id);
+
+            $query->andFilterWhere(['id' => $toolWithNeededStatusIds]);
+        }
+
+        if ($this->user_id) {
+            $toolWithNeededUserIds = ToolHistory::toolWithNeededParameterIds('user_id', $this->user_id);
+
+            $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
+        }
+
+
+        if ($this->diameter_start) {
+            $query->andFilterWhere([
+                '>=',
+                'diameter',
+                $this->diameter_start
+            ]);
+        }
+
+        if ($this->diameter_end) {
+            $query->andFilterWhere([
+                '<=',
+                'diameter',
+                $this->diameter_end
+            ]);
+        }
+
+        if ($this->full_length_start) {
+            $query->andFilterWhere([
+                '>=',
+                'full_length',
+                $this->full_length_start
+            ]);
+        }
+
+        if ($this->full_length_end) {
+            $query->andFilterWhere([
+                '<=',
+                'full_length',
+                $this->full_length_end
+            ]);
+        }
+
+        if ($this->work_length_start) {
+            $query->andFilterWhere([
+                '>=',
+                'work_length',
+                $this->work_length_start
+            ]);
+        }
+
+        if ($this->work_length_end) {
+            $query->andFilterWhere([
+                '<=',
+                'work_length',
+                $this->work_length_end
+            ]);
+        }
 
         return $dataProvider;
     }

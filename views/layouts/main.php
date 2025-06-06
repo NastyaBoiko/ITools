@@ -148,14 +148,14 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <!-- End::slide__category -->
 
                             <!-- Start::slide -->
-                            <li class="slide">
+                            <!-- <li class="slide">
                                 <a href="/site/register" class="side-menu__item d-flex align-items-center">
                                     <div class="side-menu__icon">
                                         <i class="fe fe-user-plus"></i>
                                     </div>
                                     <span class="side-menu__label text-wrap lh-sm">Регистрация нового</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End::slide__category -->
                             <!-- Start::slide -->
                             <li class="slide">

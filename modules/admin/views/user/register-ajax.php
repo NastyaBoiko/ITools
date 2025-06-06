@@ -8,11 +8,12 @@ use yii\widgets\MaskedInput;
 /** @var app\models\User $model */
 /** @var ActiveForm $form */
 ?>
-<h2 class="my-3">Регистрация нового пользователя</h2>
 
-<div class="site-register col-8">
+<div class="site-register">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'form-register-ajax'
+    ]); ?>
 
     <?= $form->field($model, 'name')->textInput(['placeholder' => 'Введите имя']) ?>
     <?= $form->field($model, 'surname')->textInput(['placeholder' => 'Введите фамилию']) ?>
@@ -24,10 +25,10 @@ use yii\widgets\MaskedInput;
         'mask' => '+7-999-999-99-99'
     ])->textInput(['placeholder' => 'Введите номер телефона']) ?>
 
-    <div class="form-group">
+    <div class="form-group d-flex justify-content-end mb-0 mt-4">
         <?= Html::submitButton(
             '<i class="fa-solid fa-address-card"></i> Зарегистрировать',
-            ['class' => 'btn btn-outline-primary rounded-pill btn-wave']
+            ['class' => 'btn btn-outline-primary rounded-pill btn-wave btn-register-ajax']
         ) ?>
     </div>
     <?php ActiveForm::end(); ?>

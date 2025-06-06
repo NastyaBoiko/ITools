@@ -220,6 +220,15 @@ class Tool extends \yii\db\ActiveRecord
         return $this->hasMany(ToolImage::class, ['tool_id' => 'id']);
     }
 
+    public function getFullToolHistory()
+    {
+        return ToolHistory::find()
+            ->where(['tool_id' => $this->id])
+            ->with(['user', 'toolStatus'])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
+    }
+
     public function countSame()
     {
         return self::find()
@@ -234,7 +243,7 @@ class Tool extends \yii\db\ActiveRecord
     }
 
 
-    public function addToolMaterialUseFors($materialsToAdd)
+    public function addToolMaterialUseFors($materialsToAdd): bool
     {
         foreach ($materialsToAdd as $key => $materialUseForId) {
             $toolMaterialUseFor = new ToolMaterialUseFor();
@@ -292,9 +301,14 @@ class Tool extends \yii\db\ActiveRecord
 
     public function saveToolData()
     {
+        if ($this->tool_maker_id == -1) {
+            $this->tool_maker_id = $this->addNewToolMaker();
+        }
+
         $validation = $this->imageFiles ? false : true;
 
         if ($this->save($validation)) {
+
             $imgUrls = [];
 
             if ($this->imageFiles) {
@@ -323,6 +337,10 @@ class Tool extends \yii\db\ActiveRecord
 
     public function saveFirstStatus()
     {
+        if (!empty($this->toolHistories)) {
+            return true;
+        }
+
         $firstToolStatus = new ToolHistory();
         $firstToolStatus->tool_id = $this->id;
         $firstToolStatus->tool_status_id = ToolStatus::getEntityId('Доступен');

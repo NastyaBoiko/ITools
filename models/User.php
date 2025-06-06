@@ -224,12 +224,13 @@ class User extends ActiveRecord implements IdentityInterface
             $user->password = Yii::$app->security->generatePasswordHash($this->password);
 
             if (!$user->save(false)) {
-                dd($user->errors);
-            } else {
-                $userExtras = new UserExtras();
-                $userExtras->user_id = $user->id;
-                $userExtras->save();
+                Yii::$app->session->setFlash('error', 'Произошла ошибка при сохранении данных');
+                return Yii::$app->response->redirect('/admin');
             }
+
+            $userExtras = new UserExtras();
+            $userExtras->user_id = $user->id;
+            $userExtras->save();
         }
 
         return $user ?? false;
