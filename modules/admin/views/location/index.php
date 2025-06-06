@@ -59,9 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
 
     $this->registerJsFile('/js/location.js', ['depends' => JqueryAsset::class]);
-    ?>
 
-    <?php
     Modal::begin([
         'id' => 'location-modal-update',
         'title' => '<h2>Изменение местоположения</h2>',
