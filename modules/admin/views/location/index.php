@@ -25,7 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<i class="fas fa-plus"></i> Создать местоположение', ['create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3 open-location-modal']) ?>
     </p>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+        'id' => 'admin-location-pjax',
+    ]); ?>
     <div class="row">
         <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -76,3 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::end(); ?>
 </div>
+
+<?php
+$this->registerJsFile('/js/admin/location-search.js', ['depends' => JqueryAsset::class]);
+?>

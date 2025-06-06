@@ -102,7 +102,7 @@ class CategoryController extends Controller
 
         // Проверяем, что запрос является AJAX
         if (!$this->request->isAjax) {
-            throw new \yii\web\NotFoundHttpException('Страница не найденаааа');
+            throw new \yii\web\NotFoundHttpException('Страница не найдена');
         }
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {

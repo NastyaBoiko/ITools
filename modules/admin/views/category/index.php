@@ -25,7 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<i class="fas fa-plus"></i> Создать категорию', ['ajax-create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3 create-category-btn']) ?>
     </p>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+        'id' => 'admin-category-pjax',
+    ]); ?>
     <div class="row">
         <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -59,4 +61,5 @@ echo 'Hello world';
 Modal::end();
 
 $this->registerJsFile('/js/admin/category-index-modal.js', ['depends' => JqueryAsset::class]);
+$this->registerJsFile('/js/admin/category-search.js', ['depends' => JqueryAsset::class]);
 ?>

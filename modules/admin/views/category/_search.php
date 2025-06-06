@@ -12,6 +12,7 @@ use yii\widgets\ActiveForm;
     <div class="card p-3 mb-3">
 
         <?php $form = ActiveForm::begin([
+            'id' => 'category-search-form',
             'action' => ['index'],
             'method' => 'get',
             'options' => [
@@ -23,12 +24,7 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'title') ?>
 
-        <?= $form->field($model, 'created_at') ?>
-
         <div class="form-group d-flex flex-column gap-2">
-            <?= Html::submitButton('<i class="fas fa-search"></i> Поиск', [
-                'class' => 'btn btn-outline-primary rounded-pill btn-wave waves-effect waves-light',
-            ]) ?>
             <?= Html::a('<i class="fas fa-undo"></i> Сбросить', ['index'], [
                 'class' => 'btn btn-outline-secondary rounded-pill btn-wave waves-effect waves-light',
             ]) ?>

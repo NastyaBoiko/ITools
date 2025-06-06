@@ -62,10 +62,10 @@ class LocationSearch extends Location
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'created_at' => $this->created_at,
         ]);
 
+        $query->andFilterWhere(['like', 'id', $this->id]);
         $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
