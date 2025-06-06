@@ -50,6 +50,11 @@ class LocationSearch extends Location
             'pagination' => [
                 'pageSize' => 6,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);
