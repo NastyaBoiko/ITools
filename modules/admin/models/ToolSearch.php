@@ -17,6 +17,10 @@ class ToolSearch extends Tool
     public $user_id;
     public $diameter_start;
     public $diameter_end;
+    public $full_length_start;
+    public $full_length_end;
+    public $work_length_start;
+    public $work_length_end;
 
     /**
      * {@inheritdoc}
@@ -26,7 +30,11 @@ class ToolSearch extends Tool
         return [
             [['id', 'tool_maker_id', 'category_id', 'material_made_of_id', 'min_amount', 'location_id', 'project_id', 'delete_status', 'status_id', 'user_id'], 'integer'],
             [['created_at', 'updated_at', 'cell', 'inventory_time', 'qr'], 'safe'],
-            [['diameter', 'diameter_start', 'diameter_end', 'full_length', 'work_length'], 'number'],
+            [[
+                'diameter', 'diameter_start', 'diameter_end', 
+                'full_length', 'full_length_start', 'full_length_end', 
+                'work_length', 'work_length_start', 'work_length_end', 
+            ], 'number'],
         ];
     }
 
@@ -42,7 +50,11 @@ class ToolSearch extends Tool
             'diameter_start' => 'Диаметр от ',
             'diameter_end' => 'Диаметр до ',
             'full_length' => 'Общая длина',
+            'diameter_start' => 'Общая длина от ',
+            'diameter_end' => 'Общая длина до ',
             'work_length' => 'Рабочая длина',
+            'work_length_start' => 'Рабочая длина',
+            'work_length_end' => 'Рабочая длина',
             'material_made_of_id' => 'Материал из чего',
             'materialsUseFor' => 'Материал для чего',
             'min_amount' => 'Минимально необходимое количество',
@@ -77,8 +89,7 @@ class ToolSearch extends Tool
     public function search($params)
     {
         $query = Tool::find()
-                ->with(['toolHistories', 'toolHistories.toolStatus', 'toolHistories.user'])
-                ;
+            ->with(['toolHistories', 'toolHistories.toolStatus', 'toolHistories.user']);
 
         // add conditions that should always apply here
 
@@ -89,7 +100,7 @@ class ToolSearch extends Tool
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC, 
+                    'id' => SORT_DESC,
                 ]
             ],
         ]);
@@ -125,13 +136,13 @@ class ToolSearch extends Tool
 
         if ($this->status_id) {
             $toolWithNeededStatusIds = ToolHistory::toolWithNeededParameterIds('tool_status_id', $this->status_id);
-            
+
             $query->andFilterWhere(['id' => $toolWithNeededStatusIds]);
         }
 
         if ($this->user_id) {
             $toolWithNeededUserIds = ToolHistory::toolWithNeededParameterIds('user_id', $this->user_id);
-            
+
             $query->andFilterWhere(['id' => $toolWithNeededUserIds]);
         }
 
@@ -149,6 +160,38 @@ class ToolSearch extends Tool
                 '<=',
                 'diameter',
                 $this->diameter_end
+            ]);
+        }
+
+        if ($this->full_length_start) {
+            $query->andFilterWhere([
+                '>=',
+                'full_length',
+                $this->full_length_start
+            ]);
+        }
+
+        if ($this->full_length_end) {
+            $query->andFilterWhere([
+                '<=',
+                'full_length',
+                $this->full_length_end
+            ]);
+        }
+
+        if ($this->work_length_start) {
+            $query->andFilterWhere([
+                '>=',
+                'work_length',
+                $this->work_length_start
+            ]);
+        }
+
+        if ($this->work_length_end) {
+            $query->andFilterWhere([
+                '<=',
+                'work_length',
+                $this->work_length_end
             ]);
         }
 

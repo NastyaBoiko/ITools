@@ -46,8 +46,74 @@ use yii\bootstrap5\ActiveForm;
             'prompt' => 'Выберите ответственного',
         ]) ?>
 
-        <?= $form->field($model, 'diameter_start') ?>
-        <?= $form->field($model, 'diameter_end') ?>
+        Диаметр
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'diameter_start', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'От'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+
+            <span class="text-muted">—</span> <!-- Разделитель -->
+
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'diameter_end', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'До'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+        </div>
+
+        Общая длина
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'full_length_start', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'От'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+
+            <span class="text-muted">—</span> <!-- Разделитель -->
+
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'full_length_end', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'До'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+        </div>
+
+        Рабочая длина
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'work_length_start', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'От'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+
+            <span class="text-muted">—</span> <!-- Разделитель -->
+
+            <div class="flex-grow-1">
+                <?= $form->field($model, 'work_length_end', [
+                    'options' => ['class' => 'mb-0'], // Убираем отступы под полем
+                    'inputOptions' => ['placeholder' => 'До'],
+                ])->textInput([
+                    'class' => 'form-control form-control-lg', // Увеличиваем размер поля
+                ])->label(false) ?>
+            </div>
+        </div>
 
         <?php // echo $form->field($model, 'full_length') 
         ?>
