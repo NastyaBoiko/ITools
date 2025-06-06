@@ -70,6 +70,6 @@ if ($dataProvider->count) {
 
 $this->registerJsFile('/js/pjax-reload-btns.js', ['depends' => JqueryAsset::class]);
 
-$this->registerJsFile('/js/tool-search.js', ['depends' => JqueryAsset::class]);
+$this->registerJsFile('/js/account/tool-search.js', ['depends' => JqueryAsset::class]);
 
 ?>

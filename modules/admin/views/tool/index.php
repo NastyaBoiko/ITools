@@ -5,6 +5,7 @@ use yii\bootstrap5\LinkPager;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
+use yii\web\JqueryAsset;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
@@ -23,9 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<i class="fas fa-plus"></i> Создать инструмент', ['create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3']) ?>
     </p>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+        'id' => 'admin-tool-pjax',
+    ]); ?>
     <div class="row">
-        <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php echo $this->render('_search', [
+            'model' => $searchModel,
+            'statuses' => $statuses,
+            'users' => $users,
+            'locations' => $locations,
+            'materialsMadeOf' => $materialsMadeOf,
+        ]); ?>
 
         <div class="col-xl-9 col-lg-8 col-md-12">
             <?= ListView::widget([
@@ -47,3 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end(); ?>
 
 </div>
+
+<?php
+$this->registerJsFile('/js/admin/tool-search.js', ['depends' => JqueryAsset::class]);
+?>

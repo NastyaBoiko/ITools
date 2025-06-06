@@ -11,6 +11,7 @@ use app\models\Tool;
 use app\models\ToolHistory;
 use app\models\ToolImage;
 use app\models\ToolMaker;
+use app\models\ToolStatus;
 use app\models\User;
 use app\modules\admin\models\ToolSearch;
 use Yii;
@@ -52,7 +53,6 @@ class ToolController extends Controller
     public function actionIndex()
     {
         $searchModel = new ToolSearch();
-
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         // $users = User::find()->all();
@@ -68,6 +68,10 @@ class ToolController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statuses' => ToolStatus::getEntities(),
+            'users' => User::getEntities(),
+            'locations' => Location::getEntities(),
+            'materialsMadeOf' => MaterialMadeOf::getEntities(),
         ]);
     }
 
@@ -108,7 +112,7 @@ class ToolController extends Controller
                 $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 
                 $transaction = Yii::$app->db->beginTransaction();
-                
+
                 if ($model->saveToolData()) {
                     if ($model->addToolMaterialUseFors($model->materialsUseFor)) {
                         $transaction->commit();
