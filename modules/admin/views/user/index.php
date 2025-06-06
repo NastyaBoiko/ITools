@@ -7,6 +7,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\models\User;
 use yii\bootstrap5\Modal;
+use yii\web\JqueryAsset;
 use yii\web\YiiAsset;
 
 /** @var yii\web\View $this */
@@ -40,7 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
     ?>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin([
+        'id' => 'admin-user-pjax',
+    ]); ?>
     <div class="row">
         <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -98,4 +101,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 $this->registerJsFile('/js/admin/user-index-modal.js', ['depends' => YiiAsset::class]);
+$this->registerJsFile('/js/admin/user-search.js', ['depends' => JqueryAsset::class]);
+
 ?>

@@ -81,11 +81,11 @@ class UserSearch extends User
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'created_at' => $this->created_at,
             'role_id' => $this->role_id,
         ]);
 
+        $query->andFilterWhere(['like', 'id', $this->id]);
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'surname', $this->surname])
             ->andFilterWhere(['like', 'patronymic', $this->patronymic])

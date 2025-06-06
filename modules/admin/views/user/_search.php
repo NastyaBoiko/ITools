@@ -13,6 +13,7 @@ use yii\widgets\ActiveForm;
     <div class="card p-3 mb-3">
 
         <?php $form = ActiveForm::begin([
+            'id' => 'user-search-form',
             'action' => ['index'],
             'method' => 'get',
             'options' => [
