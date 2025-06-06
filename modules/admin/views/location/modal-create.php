@@ -10,7 +10,10 @@ use yii\bootstrap5\ActiveForm;
 
 <div class="location-form">
 
-    <?php $form = ActiveForm::begin(['action' => ['create']]); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'create-location-form',
+        'action' => ['ajax-create']
+    ]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

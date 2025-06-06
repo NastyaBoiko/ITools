@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<i class="fas fa-plus"></i> Создать местоположение', ['create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3 open-location-modal']) ?>
+        <?= Html::a('<i class="fas fa-plus"></i> Создать местоположение', ['ajax-create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3 create-location-btn']) ?>
     </p>
 
     <?php Pjax::begin([
@@ -48,37 +48,19 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php
-    Modal::begin([
-        'id' => 'location-modal',
-        'title' => '<h2>Создание местоположения</h2>',
-    ]);
-
-    echo $this->render('modal-create', [
-        'model' => $modelLocation,
-    ]);
-
-    Modal::end();
-
-    $this->registerJsFile('/js/location.js', ['depends' => JqueryAsset::class]);
-
-    Modal::begin([
-        'id' => 'location-modal-update',
-        'title' => '<h2>Изменение местоположения</h2>',
-    ]);
-
-    echo $this->render('modal-update', [
-        'model' => $modelLocation,
-    ]);
-
-    Modal::end();
-
-    $this->registerJsFile('/js/location-update.js', ['depends' => JqueryAsset::class]);
-    ?>
-
     <?php Pjax::end(); ?>
 </div>
 
 <?php
+Modal::begin([
+    'id' => 'location-modal',
+    'title' => '<h2></h2>',
+]);
+
+echo 'Hello world';
+
+Modal::end();
+
+$this->registerJsFile('/js/admin/location-index-modal.js', ['depends' => JqueryAsset::class]);
 $this->registerJsFile('/js/admin/location-search.js', ['depends' => JqueryAsset::class]);
 ?>
