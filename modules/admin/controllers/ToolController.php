@@ -291,10 +291,12 @@ class ToolController extends Controller
 
         // Создаем новый PDF документ
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8'); // Параметры: ориентация, единицы измерения, формат, UTF-8
+        $name = 'QR_codes_' . date('d_m_Y') . '_' . count($models);
+
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('ITools');
         $pdf->SetTitle('Tool QR Codes PDF');
-        $pdf->SetSubject('QR Codes');
+        $pdf->SetSubject($name);
         $pdf->SetKeywords('TCPDF, QR Code, PDF');
 
         $pdf->setPrintHeader(false);
@@ -350,6 +352,6 @@ class ToolController extends Controller
         $pdf->writeHTML($html, true, false, true, false, '');
 
         // Отправляем PDF на загрузку
-        $pdf->Output('QR_Codes.pdf', 'D'); // D - для загрузки
+        $pdf->Output($name . '.pdf', 'D'); // D - для загрузки
     }
 }
