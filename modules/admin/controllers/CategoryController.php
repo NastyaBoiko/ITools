@@ -49,19 +49,6 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Category model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
     public function actionAjaxCreate()
     {
         $model = new Category();
@@ -91,7 +78,6 @@ class CategoryController extends Controller
 
     /**
      * Updates an existing Category model.
-     * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
