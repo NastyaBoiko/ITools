@@ -46,5 +46,7 @@ $(() => {
         window.location.href = url;
 
         selectedCheckboxes.prop('checked', false);
+        $('.mass_check_btn').removeClass('d-none');
+        $('.mass_uncheck_btn').addClass('d-none');
     });
 })

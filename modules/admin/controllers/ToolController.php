@@ -353,7 +353,5 @@ class ToolController extends Controller
 
         // Отправляем PDF на загрузку
         $pdf->Output($name . '.pdf', 'D'); // D - для загрузки
-
-        return $this->redirect(['index']);
     }
 }
