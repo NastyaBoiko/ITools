@@ -22,6 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('<i class="fas fa-plus"></i> Создать инструмент', ['create'], ['class' => 'btn btn-outline-success rounded-pill btn-wave mt-3']) ?>
+        <?= Html::a('<i class="fas fa-download"></i> Скачать qr-коды', ['download-qrs'], ['class' => 'btn btn-outline-primary rounded-pill btn-wave mt-3 mass_download_qr_btn']) ?>
+        <?= Html::a('<i class="fas fa-check"></i> Выбрать все', ['download-qrs'], ['class' => 'btn btn-outline-primary rounded-pill btn-wave mt-3 mass_check_btn']) ?>
     </p>
 
     <?php Pjax::begin([
@@ -59,4 +61,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 $this->registerJsFile('/js/admin/tool-search.js', ['depends' => JqueryAsset::class]);
+$this->registerJsFile('/js/admin/mass-upload-qr.js', ['depends' => JqueryAsset::class]);
 ?>

@@ -11,6 +11,11 @@ $status = '';
 <a href="/admin/tool/view?id=<?= $model->id ?>">
     <div class="card custom-card h-100">
         <div class="col-lg-12 col-md-12">
+
+            <label>
+                <input type="checkbox" name="mass_download_qr" value="1" class="mass_download_qr_checkbox" data-id="<?= $model->id ?>">
+            </label>
+
             <div class="status-badge mb-1 badge rounded-pill bg-outline-<?= Html::encode(ToolHistory::getLastStatus($model->id)?->getStatusColor()) ?>">
                 <?= Html::encode($status = ToolHistory::getLastStatus($model->id)?->title) ?>
             </div>
