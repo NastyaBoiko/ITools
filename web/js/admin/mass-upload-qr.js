@@ -29,6 +29,11 @@ $(() => {
         $('.mass_uncheck_btn').addClass('d-none');
     });
 
+    $(document).on('click', '.mass_download_refresh_btns', function (e) {
+        $('.mass_check_btn').removeClass('d-none');
+        $('.mass_uncheck_btn').addClass('d-none');
+    });
+
     $(document).on('click', '.mass_download_qr_btn', function (e) {
         e.preventDefault();
         const selectedCheckboxes = $('.mass_download_qr_checkbox:checked');

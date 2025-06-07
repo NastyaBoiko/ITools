@@ -153,7 +153,7 @@ use yii\widgets\ActiveForm;
 
         <div class="form-group d-flex flex-column gap-2">
             <?= Html::a('<i class="fas fa-undo"></i> Сбросить', ['index'], [
-                'class' => 'btn btn-outline-secondary rounded-pill btn-wave waves-effect waves-light',
+                'class' => 'btn btn-outline-secondary rounded-pill btn-wave waves-effect waves-light mass_download_refresh_btns',
             ]) ?>
         </div>
 
