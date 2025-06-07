@@ -19,7 +19,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use FPDF;
+use TCPDF;
 
 /**
  * ToolController implements the CRUD actions for Tool model.
@@ -241,8 +241,20 @@ class ToolController extends Controller
 
         if (file_exists($imagePath)) {
             // Создаем новый PDF документ
-            $pdf = new FPDF();
+            $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8'); // Параметры: ориентация, единицы измерения, формат, UTF-8
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor('ITools');
+            $pdf->SetSubject('QR Code');
+            $pdf->SetKeywords('TCPDF, QR Code, PDF');
+
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(false);
+
+            // Добавляем страницу
             $pdf->AddPage();
+
+            // Устанавливаем шрифт с поддержкой кириллицы
+            $pdf->SetFont('dejavusans', '', 8); // Шрифт DejaVuSans поддерживает кириллицу
 
             // Получаем размеры изображения
             list($width, $height) = getimagesize($imagePath);
@@ -252,18 +264,92 @@ class ToolController extends Controller
             $height_mm = 20;
 
             // Добавляем текст (подпись) над изображением
-            $pdf->SetFont('Arial', 'B', 8); // Устанавливаем шрифт и размер
             $pdf->SetXY(3, 22); // Устанавливаем позицию текста (X, Y)
-            $pdf->Cell(0, 10, $model->id . '. ' . $model->toolMaker->title, 0, 1); // Параметры: ширина, высота, текст, рамка, переход на новую строку, выравнивание
+            $pdf->Cell(0, 10, $model->id . '. ' . $model->toolMaker->title, 0, 1); // Параметры: ширина, высота, текст, рамка=0, переход на новую строку
 
             // Добавляем изображение в PDF
             $pdf->Image($imagePath, 3, 3, $width_mm, $height_mm);
 
             // Отправляем PDF на загрузку
-            $pdf->Output('D', $model->id . '_' . $model->toolMaker->title . '.pdf'); // D - для загрузки
-
+            $pdf->Output($model->id . '_' . $model->toolMaker->title . '.pdf', 'D'); // D - для загрузки
         } else {
             throw new NotFoundHttpException('Файл не найден');
         }
+    }
+
+    public function actionDownloadQrs($ids)
+    {
+        // Преобразуем строку или массив ID в массив
+        $ids = is_array($ids) ? $ids : explode(',', $ids);
+
+        // Находим все модели по переданным ID
+        $models = Tool::find()->where(['id' => $ids])->all();
+
+        if (empty($models)) {
+            throw new NotFoundHttpException('Модели с указанными ID не найдены');
+        }
+
+        // Создаем новый PDF документ
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8'); // Параметры: ориентация, единицы измерения, формат, UTF-8
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('ITools');
+        $pdf->SetTitle('Tool QR Codes PDF');
+        $pdf->SetSubject('QR Codes');
+        $pdf->SetKeywords('TCPDF, QR Code, PDF');
+
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        // Добавляем первую страницу
+        $pdf->AddPage();
+
+        // Устанавливаем шрифт с поддержкой кириллицы
+        $pdf->SetFont('dejavusans', '', 8); // Шрифт DejaVuSans поддерживает кириллицу
+
+        // Генерируем HTML-разметку
+        $html = '<style>
+            table {
+                width: 100%;
+                border-collapse: collapse; /* Убирает пробелы между границами */
+            }
+            td {
+                height: 90px;
+                text-align: center;
+                vertical-align: middle;
+                border: 1px solid black; /* Добавляет границу вокруг каждой ячейки */
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        </style>';
+
+        // Создаем HTML-таблицу для QR-кодов
+        $html .= '<table>';
+        $html .= '<tr>';
+
+        foreach ($models as $index => $model) {
+            // Перевод строки
+            if (($index !== 0) && ($index % 6 === 0)) {
+                $html .= '</tr><tr>';
+            }
+
+            $imagePath = 'img/qr/' . $model->qr;
+
+            if (file_exists($imagePath)) {
+                $html .= '<td>';
+                $html .= '<img src="' . $imagePath . '" alt="QR Code" style="width: 50px; height: auto;">';
+                $html .= '<p>' . $model->id . '. ' . $model->toolMaker->title . '</p>';
+                $html .= '</td>';
+            }
+        }
+
+        $html .= '</tr></table>';
+
+        // Добавляем HTML в PDF
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Отправляем PDF на загрузку
+        $pdf->Output('QR_Codes.pdf', 'D'); // D - для загрузки
     }
 }
