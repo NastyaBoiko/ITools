@@ -58,7 +58,8 @@ class ValexAsset extends AssetBundle
         // <!-- Color Picker JS -->
         "/valex/assets/libs/@simonwep/pickr/pickr.es5.min.js",
         // <!-- Apex Charts JS -->
-        "/valex/assets/libs/apexcharts/apexcharts.min.js",
+        "/valex/assets/libs/apex/apexcharts.min.js",
+        // "/valex/assets/libs/apexcharts/apexcharts.min.js",
         // <!-- JSVector Maps JS -->
         "/valex/assets/libs/jsvectormap/js/jsvectormap.min.js",
         // <!-- JSVector Maps MapsJS -->

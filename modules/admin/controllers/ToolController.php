@@ -200,6 +200,75 @@ class ToolController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionStatistics()
+    {
+        // Получаем статистику из модели
+        $statistics = ToolHistory::getMonthlyStatistics();
+
+        // Группируем данные для графика
+        $chartData = [];
+        foreach ($statistics as $row) {
+            $yearMonth = $row['year'] . '-' . str_pad($row['month'], 2, '0', STR_PAD_LEFT); // Формат: YYYY-MM
+            $chartData[$yearMonth][$row['tool_status_id']] = $row['count'];
+        }
+
+        // Массив с названиями месяцев на русском языке
+        $monthsRu = [
+            'January' => 'Январь',
+            'February' => 'Февраль',
+            'March' => 'Март',
+            'April' => 'Апрель',
+            'May' => 'Май',
+            'June' => 'Июнь',
+            'July' => 'Июль',
+            'August' => 'Август',
+            'September' => 'Сентябрь',
+            'October' => 'Октябрь',
+            'November' => 'Ноябрь',
+            'December' => 'Декабрь',
+        ];
+
+        // Преобразуем даты в формат "Месяц Год" с локализацией
+        $categories = array_map(function ($yearMonth) use ($monthsRu) {
+            $date = \DateTime::createFromFormat('Y-m', $yearMonth);
+            $monthEn = $date->format('F'); // Месяц на английском
+            $monthRu = $monthsRu[$monthEn]; // Месяц на русском
+            return $monthRu . ' ' . $date->format('Y'); // Например, "Март 2025"
+        }, array_keys($chartData));
+
+        // Определяем уникальные статусы
+        $statuses = array_unique(array_column($statistics, 'tool_status_id'));
+
+        // Формируем данные для series
+        $series = [];
+        foreach ($statuses as $status) {
+            // Находим название статуса
+            $statusTitle = '';
+            foreach ($statistics as $row) {
+                if ($row['tool_status_id'] === $status) {
+                    $statusTitle = $row['status_title'];
+                    break;
+                }
+            }
+
+            // Формируем данные для серии
+            $data = [];
+            foreach ($chartData as $yearMonth => $counts) {
+                $data[] = $counts[$status] ?? 0; // Если данных нет, используем 0
+            }
+            $series[] = [
+                'name' => $statusTitle, // Используем название статуса
+                'data' => $data,
+            ];
+        }
+
+        // Передаем данные в представление
+        return $this->render('statistics', [
+            'categories' => $categories, // Месяцы в формате "Месяц Год"
+            'series' => $series, // Данные для графика
+        ]);
+    }
+
     public function actionDeleteToolImage($id, $filename)
     {
         $imageModel = ToolImage::findOne(['tool_id' => $id, 'image' => $filename]);
