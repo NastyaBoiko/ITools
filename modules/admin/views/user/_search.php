@@ -29,6 +29,10 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'surname') ?>
 
+        <?= $form->field($model, 'email') ?>
+
+        <?= $form->field($model, 'phone') ?>
+
         <?= $form->field($model, 'register_start')->textInput(['type' => 'date', 'max' => date('Y-m-d', strtotime('-1 day'))]) ?>
         <?= $form->field($model, 'register_end')->textInput(['type' => 'date', 'max' => date('Y-m-d')]) ?>
 
@@ -36,13 +40,8 @@ use yii\widgets\ActiveForm;
         <?php // $form->field($model, 'patronymic') 
         ?>
 
-        <?php // echo $form->field($model, 'email') 
-        ?>
 
         <?php // echo $form->field($model, 'password') 
-        ?>
-
-        <?php // echo $form->field($model, 'phone') 
         ?>
 
 

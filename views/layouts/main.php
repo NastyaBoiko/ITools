@@ -250,7 +250,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
         <!-- Start::app-content -->
         <main class="main-content app-content">
-            <div class="container-fluid py-3">
+            <div class="container-fluid p-4">
                 <?php if (!empty($this->params['breadcrumbs'])): ?>
                     <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
                 <?php endif ?>
@@ -260,12 +260,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         </main>
         <!-- End::app-content -->
 
-        <footer class="footer mt-auto py-3 bg-white text-center">
-            <div class="container">
-                <span class="text-muted"> Copyright © <span id="year"></span>
-                    <a href="javascript:void(0);" class="text-dark fw-semibold">ITools</a>.
-                    All rights reserved
-                </span>
+        <footer class="footer mt-auto bg-white text-center">
+            <div class="text-center p-2 text-dark">
+                Разработано с ❤️ командой <a href="javascript:void(0);" class="fw-semibold">ITools</a>
+                <div id="year"><?= date('Y') ?></div>
             </div>
         </footer>
     </div>
