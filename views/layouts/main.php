@@ -144,6 +144,33 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
                         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin): ?>
                             <!-- Start::slide__category -->
+                            <li class="slide__category"><span class="category-name">Статистика</span></li>
+                            <!-- End::slide__category -->
+
+                            <!-- Start::slide -->
+                            <li class="slide">
+                                <a href="/admin/tool/user-tool-statistics" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fe fe-user-check"></i> <!-- Иконка "Пользователь" с акцентом на статистику -->
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">По пользователям</span>
+                                </a>
+                            </li>
+                            <!-- End::slide -->
+
+                            <!-- Start::slide -->
+                            <li class="slide">
+                                <a href="/admin/tool/statistics" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fe fe-bar-chart-2"></i> <!-- Иконка "Статистика" или "График" -->
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">По статусам</span>
+                                </a>
+                            </li>
+                            <!-- End::slide -->
+
+
+                            <!-- Start::slide__category -->
                             <li class="slide__category"><span class="category-name">Пользователи</span></li>
                             <!-- End::slide__category -->
 

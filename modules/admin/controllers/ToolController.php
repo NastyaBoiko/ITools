@@ -26,6 +26,20 @@ use TCPDF;
  */
 class ToolController extends Controller
 {
+    public array $monthRu = [
+        'January' => 'Январь',
+        'February' => 'Февраль',
+        'March' => 'Март',
+        'April' => 'Апрель',
+        'May' => 'Май',
+        'June' => 'Июнь',
+        'July' => 'Июль',
+        'August' => 'Август',
+        'September' => 'Сентябрь',
+        'October' => 'Октябрь',
+        'November' => 'Ноябрь',
+        'December' => 'Декабрь',
+    ];
 
     /**
      * @inheritDoc
@@ -213,20 +227,7 @@ class ToolController extends Controller
         }
 
         // Массив с названиями месяцев на русском языке
-        $monthsRu = [
-            'January' => 'Январь',
-            'February' => 'Февраль',
-            'March' => 'Март',
-            'April' => 'Апрель',
-            'May' => 'Май',
-            'June' => 'Июнь',
-            'July' => 'Июль',
-            'August' => 'Август',
-            'September' => 'Сентябрь',
-            'October' => 'Октябрь',
-            'November' => 'Ноябрь',
-            'December' => 'Декабрь',
-        ];
+        $monthsRu = $this->monthRu;
 
         // Преобразуем даты в формат "Месяц Год" с локализацией
         $categories = array_map(function ($yearMonth) use ($monthsRu) {
@@ -271,8 +272,16 @@ class ToolController extends Controller
 
     public function actionUserToolStatistics()
     {
-        // Получаем статистику из модели
-        $statistics = ToolHistory::getUserToolStatistics();
+        // Получаем текущий месяц и год из GET-параметров
+        $year = Yii::$app->request->get('year', date('Y'));
+        $month = Yii::$app->request->get('month', date('m'));
+
+        // Начало и конец выбранного месяца
+        $startDate = date('Y-m-01', strtotime("$year-$month-01"));
+        $endDate = date('Y-m-t', strtotime("$year-$month-01"));
+
+        // Получаем статистику за выбранный месяц
+        $statistics = ToolHistory::getUserToolStatistics($startDate, $endDate);
 
         // Формируем данные для диаграммы
         $chartData = [];
@@ -284,9 +293,17 @@ class ToolController extends Controller
             ];
         }
 
+        // Форматируем название месяца на русском языке
+        $monthsRu = $this->monthRu;
+        $monthNameEn = date('F', strtotime("$year-$month-01"));
+        $monthNameRu = $monthsRu[$monthNameEn];
+
         // Передаем данные в представление
         return $this->render('user-tool-statistics', [
             'chartData' => $chartData,
+            'currentYear' => $year,
+            'currentMonth' => $month,
+            'formattedMonth' => $monthNameRu . ' ' . $year, // Форматированный месяц на русском
         ]);
     }
 

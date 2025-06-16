@@ -144,7 +144,7 @@ class ToolHistory extends \yii\db\ActiveRecord
             ->all();
     }
 
-    public static function getUserToolStatistics()
+    public static function getUserToolStatistics($startDate, $endDate)
     {
         return self::find()
             ->alias('th') // Добавляем алиас th
@@ -153,10 +153,10 @@ class ToolHistory extends \yii\db\ActiveRecord
                 'u.surname',
                 'u.name',
                 'u.patronymic',
-                'COUNT(th.tool_id) AS tool_count', // Убедитесь, что столбец tool_id существует
+                'COUNT(th.tool_id) AS tool_count',
             ])
-            ->joinWith('user u') // Присоединяем таблицу user
-            ->where(['>=', 'th.created_at', new \yii\db\Expression('DATE_SUB(CURDATE(), INTERVAL 1 MONTH)')])
+            ->joinWith('user u')
+            ->where(['between', 'th.created_at', $startDate, $endDate])
             ->groupBy('u.id')
             ->orderBy(['tool_count' => SORT_DESC])
             ->asArray()

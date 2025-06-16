@@ -23,6 +23,33 @@
     z-index: 1;
 }
 
+.arrow-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.arrow-button:hover {
+    transform: scale(1.2);
+}
+
+.arrow-button svg {
+    width: 20px;
+    height: 20px;
+    color: #007bff; /* Цвет стрелок */
+}
+
+.arrow-button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 @media (max-width: 767px) {
     .main-signup-header {
         padding: 0;
