@@ -269,6 +269,27 @@ class ToolController extends Controller
         ]);
     }
 
+    public function actionUserToolStatistics()
+    {
+        // Получаем статистику из модели
+        $statistics = ToolHistory::getUserToolStatistics();
+
+        // Формируем данные для диаграммы
+        $chartData = [];
+        foreach ($statistics as $row) {
+            $fio = trim($row['surname'] . ' ' . $row['name'] . ' ' . $row['patronymic']); // Формируем FIO
+            $chartData[] = [
+                'name' => $fio,
+                'count' => $row['tool_count'],
+            ];
+        }
+
+        // Передаем данные в представление
+        return $this->render('user-tool-statistics', [
+            'chartData' => $chartData,
+        ]);
+    }
+
     public function actionDeleteToolImage($id, $filename)
     {
         $imageModel = ToolImage::findOne(['tool_id' => $id, 'image' => $filename]);

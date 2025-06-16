@@ -143,4 +143,23 @@ class ToolHistory extends \yii\db\ActiveRecord
             ->asArray()
             ->all();
     }
+
+    public static function getUserToolStatistics()
+    {
+        return self::find()
+            ->alias('th') // Добавляем алиас th
+            ->select([
+                'u.id AS user_id',
+                'u.surname',
+                'u.name',
+                'u.patronymic',
+                'COUNT(th.tool_id) AS tool_count', // Убедитесь, что столбец tool_id существует
+            ])
+            ->joinWith('user u') // Присоединяем таблицу user
+            ->where(['>=', 'th.created_at', new \yii\db\Expression('DATE_SUB(CURDATE(), INTERVAL 1 MONTH)')])
+            ->groupBy('u.id')
+            ->orderBy(['tool_count' => SORT_DESC])
+            ->asArray()
+            ->all();
+    }
 }
