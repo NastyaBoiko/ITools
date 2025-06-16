@@ -10,7 +10,7 @@ use yii\web\JqueryAsset;
 
 ?>
 
-<div class="tool-form col-8">
+<div class="tool-form col-md-8 col-lg-6">
 
     <?php $form = ActiveForm::begin(); ?>
 

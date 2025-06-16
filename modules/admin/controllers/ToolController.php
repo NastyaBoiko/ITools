@@ -26,6 +26,20 @@ use TCPDF;
  */
 class ToolController extends Controller
 {
+    public array $monthRu = [
+        'January' => 'Январь',
+        'February' => 'Февраль',
+        'March' => 'Март',
+        'April' => 'Апрель',
+        'May' => 'Май',
+        'June' => 'Июнь',
+        'July' => 'Июль',
+        'August' => 'Август',
+        'September' => 'Сентябрь',
+        'October' => 'Октябрь',
+        'November' => 'Ноябрь',
+        'December' => 'Декабрь',
+    ];
 
     /**
      * @inheritDoc
@@ -198,6 +212,99 @@ class ToolController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionStatistics()
+    {
+        // Получаем статистику из модели
+        $statistics = ToolHistory::getMonthlyStatistics();
+
+        // Группируем данные для графика
+        $chartData = [];
+        foreach ($statistics as $row) {
+            $yearMonth = $row['year'] . '-' . str_pad($row['month'], 2, '0', STR_PAD_LEFT); // Формат: YYYY-MM
+            $chartData[$yearMonth][$row['tool_status_id']] = $row['count'];
+        }
+
+        // Массив с названиями месяцев на русском языке
+        $monthsRu = $this->monthRu;
+
+        // Преобразуем даты в формат "Месяц Год" с локализацией
+        $categories = array_map(function ($yearMonth) use ($monthsRu) {
+            $date = \DateTime::createFromFormat('Y-m', $yearMonth);
+            $monthEn = $date->format('F'); // Месяц на английском
+            $monthRu = $monthsRu[$monthEn]; // Месяц на русском
+            return $monthRu . ' ' . $date->format('Y'); // Например, "Март 2025"
+        }, array_keys($chartData));
+
+        // Определяем уникальные статусы
+        $statuses = array_unique(array_column($statistics, 'tool_status_id'));
+
+        // Формируем данные для series
+        $series = [];
+        foreach ($statuses as $status) {
+            // Находим название статуса
+            $statusTitle = '';
+            foreach ($statistics as $row) {
+                if ($row['tool_status_id'] === $status) {
+                    $statusTitle = $row['status_title'];
+                    break;
+                }
+            }
+
+            // Формируем данные для серии
+            $data = [];
+            foreach ($chartData as $yearMonth => $counts) {
+                $data[] = $counts[$status] ?? 0; // Если данных нет, используем 0
+            }
+            $series[] = [
+                'name' => $statusTitle, // Используем название статуса
+                'data' => $data,
+            ];
+        }
+
+        // Передаем данные в представление
+        return $this->render('statistics', [
+            'categories' => $categories, // Месяцы в формате "Месяц Год"
+            'series' => $series, // Данные для графика
+        ]);
+    }
+
+    public function actionUserToolStatistics()
+    {
+        // Получаем текущий месяц и год из GET-параметров
+        $year = Yii::$app->request->get('year', date('Y'));
+        $month = Yii::$app->request->get('month', date('m'));
+
+        // Начало и конец выбранного месяца
+        $startDate = date('Y-m-01', strtotime("$year-$month-01"));
+        $endDate = date('Y-m-t', strtotime("$year-$month-01"));
+
+        // Получаем статистику за выбранный месяц
+        $statistics = ToolHistory::getUserToolStatistics($startDate, $endDate);
+
+        // Формируем данные для диаграммы
+        $chartData = [];
+        foreach ($statistics as $row) {
+            $fio = trim($row['surname'] . ' ' . $row['name'] . ' ' . $row['patronymic']); // Формируем FIO
+            $chartData[] = [
+                'name' => $fio,
+                'count' => $row['tool_count'],
+            ];
+        }
+
+        // Форматируем название месяца на русском языке
+        $monthsRu = $this->monthRu;
+        $monthNameEn = date('F', strtotime("$year-$month-01"));
+        $monthNameRu = $monthsRu[$monthNameEn];
+
+        // Передаем данные в представление
+        return $this->render('user-tool-statistics', [
+            'chartData' => $chartData,
+            'currentYear' => $year,
+            'currentMonth' => $month,
+            'formattedMonth' => $monthNameRu . ' ' . $year, // Форматированный месяц на русском
+        ]);
     }
 
     public function actionDeleteToolImage($id, $filename)

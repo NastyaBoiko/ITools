@@ -19,19 +19,23 @@ use yii\widgets\MaskedInput;
 
     <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email'
-    , ['enableAjaxValidation' => true]
+    <?= $form->field(
+        $model,
+        'email',
+        ['enableAjaxValidation' => true]
     ) ?>
 
-    <?= $form->field($model, 'phone'
-    , ['enableAjaxValidation' => true]
+    <?= $form->field(
+        $model,
+        'phone',
+        ['enableAjaxValidation' => true]
     )->widget(MaskedInput::class, [
-            'mask' => '+7-999-999-99-99'
-        ]) ?>
+        'mask' => '+7-999-999-99-99'
+    ]) ?>
 
     <div class="form-group">
         <?= Html::a('<i class="fas fa-arrow-left"></i> Назад', ['index'], ['class' => 'btn btn-outline-info rounded-pill btn-wave waves-effect waves-light']) ?>
-        <?= Html::submitButton('Изменить', ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
+        <?= Html::submitButton('<i class="fas fa-edit"></i> Изменить', ['class' => 'btn btn-outline-success rounded-pill btn-wave my-3']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

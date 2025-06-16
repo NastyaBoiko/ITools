@@ -144,6 +144,33 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
                         <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin): ?>
                             <!-- Start::slide__category -->
+                            <li class="slide__category"><span class="category-name">Статистика</span></li>
+                            <!-- End::slide__category -->
+
+                            <!-- Start::slide -->
+                            <li class="slide">
+                                <a href="/admin/tool/user-tool-statistics" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fe fe-user-check"></i> <!-- Иконка "Пользователь" с акцентом на статистику -->
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">По пользователям</span>
+                                </a>
+                            </li>
+                            <!-- End::slide -->
+
+                            <!-- Start::slide -->
+                            <li class="slide">
+                                <a href="/admin/tool/statistics" class="side-menu__item d-flex align-items-center">
+                                    <div class="side-menu__icon">
+                                        <i class="fe fe-bar-chart-2"></i> <!-- Иконка "Статистика" или "График" -->
+                                    </div>
+                                    <span class="side-menu__label text-wrap lh-sm">По статусам</span>
+                                </a>
+                            </li>
+                            <!-- End::slide -->
+
+
+                            <!-- Start::slide__category -->
                             <li class="slide__category"><span class="category-name">Пользователи</span></li>
                             <!-- End::slide__category -->
 
@@ -250,7 +277,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
         <!-- Start::app-content -->
         <main class="main-content app-content">
-            <div class="container-fluid py-3">
+            <div class="container-fluid p-4">
                 <?php if (!empty($this->params['breadcrumbs'])): ?>
                     <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
                 <?php endif ?>
@@ -260,12 +287,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         </main>
         <!-- End::app-content -->
 
-        <footer class="footer mt-auto py-3 bg-white text-center">
-            <div class="container">
-                <span class="text-muted"> Copyright © <span id="year"></span>
-                    <a href="javascript:void(0);" class="text-dark fw-semibold">ITools</a>.
-                    All rights reserved
-                </span>
+        <footer class="footer mt-auto bg-white text-center">
+            <div class="text-center p-2 text-dark">
+                Разработано с ❤️ командой <a href="javascript:void(0);" class="fw-semibold">ITools</a>
+                <div id="year"><?= date('Y') ?></div>
             </div>
         </footer>
     </div>

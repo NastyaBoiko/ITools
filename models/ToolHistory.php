@@ -126,4 +126,40 @@ class ToolHistory extends \yii\db\ActiveRecord
 
         return $toolHistory?->toolStatus ?? null;
     }
+
+    public static function getMonthlyStatistics()
+    {
+        return self::find()
+            ->select([
+                'YEAR(created_at) AS year',
+                'MONTH(created_at) AS month',
+                'tool_status_id',
+                'ts.title AS status_title', // Добавляем название статуса
+                'COUNT(*) AS count',
+            ])
+            ->joinWith('toolStatus ts') // Присоединяем таблицу tool_status
+            ->groupBy(['YEAR(created_at)', 'MONTH(created_at)', 'tool_status_id', 'ts.title'])
+            ->orderBy(['year' => SORT_ASC, 'month' => SORT_ASC, 'tool_status_id' => SORT_ASC])
+            ->asArray()
+            ->all();
+    }
+
+    public static function getUserToolStatistics($startDate, $endDate)
+    {
+        return self::find()
+            ->alias('th') // Добавляем алиас th
+            ->select([
+                'u.id AS user_id',
+                'u.surname',
+                'u.name',
+                'u.patronymic',
+                'COUNT(th.tool_id) AS tool_count',
+            ])
+            ->joinWith('user u')
+            ->where(['between', 'th.created_at', $startDate, $endDate])
+            ->groupBy('u.id')
+            ->orderBy(['tool_count' => SORT_DESC])
+            ->asArray()
+            ->all();
+    }
 }
