@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <?= Html::img('/' . $model::IMG_PATH . $toolImage->image, [
                                                     'alt' => 'Фото инструмента',
                                                     'class' => 'd-block w-100',
-                                                    'style' => 'height: 300px; width: 100%; object-fit: cover;' // Задаем высоту и ширину
+                                                    'style' => 'height: 300px; width: 100%; object-fit: contain;' // Задаем высоту и ширину
                                                 ]) ?>
                                             </div>
                                         <?php endforeach ?>

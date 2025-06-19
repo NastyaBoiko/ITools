@@ -20,7 +20,7 @@ use yii\bootstrap5\Html;
                                 <?= Html::img('/' . $model::IMG_PATH . $toolImage->image, [
                                     'alt' => 'Фото инструмента',
                                     'class' => 'd-block w-100',
-                                    'style' => 'height: 240px; width: 100%; object-fit: cover;' // Задаем высоту и ширину
+                                    'style' => 'height: 240px; width: 100%; object-fit: contain;' // Задаем высоту и ширину
                                 ]) ?>
                             </div>
                         <?php endforeach ?>
@@ -42,7 +42,7 @@ use yii\bootstrap5\Html;
                             <?= Html::img('/img/' . Tool::NO_IMAGE, [
                                 'alt' => 'Фото инструмента',
                                 'class' => 'd-block w-100',
-                                'style' => 'height: 240px; width: 100%; object-fit: cover;' // Задаем высоту и ширину
+                                'style' => 'height: 240px; width: 100%; object-fit: contain;' // Задаем высоту и ширину
                             ]) ?>
                         </div>
                     </div>
