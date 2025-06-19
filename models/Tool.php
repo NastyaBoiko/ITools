@@ -225,7 +225,6 @@ class Tool extends \yii\db\ActiveRecord
         return ToolHistory::find()
             ->where(['tool_id' => $this->id])
             ->with(['user', 'toolStatus'])
-            ->orderBy(['created_at' => SORT_DESC])
             ->all();
     }
 
