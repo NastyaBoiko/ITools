@@ -253,6 +253,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
                         <?php endif ?>
 
+                        <li class="slide__category"><span class="category-name">Настройки</span></li>
+
                         <li class="slide">
                             <a href="/common/profile" class="side-menu__item d-flex align-items-center">
                                 <div class="side-menu__icon">
